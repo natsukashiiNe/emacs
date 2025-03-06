@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/evil-collection/modes/citre/evil-collection-citre.el

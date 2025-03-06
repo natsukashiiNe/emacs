@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/evil-collection/modes/info/evil-collection-info.el

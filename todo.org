@@ -1,0 +1,63 @@
+#+title: Todo
+
+Todo
+* nvim Plugins
+** [ ] Telescope
+** [] treesitter
+** [x] noice / wilder
+** [ ] Trouble: buffer to output there diagnostics and stuff
+** [ ] Notify
+** [x] Which-key
+** [ ] Session manager
+** [ ] git integration
+** [ ] proper folds
+** [ ] quick-fix list
+** [ ] floating terminal
+** [ ] diff view
+** Avante-like ai support
+** auto-pairs
+** tree on the side
+** oil
+** harpoon
+
+* Appearance
+- indent lines
+- icons in the linenr columns
+- colorizer (highlight entrance of the object under the cursor)
+- output search numbers on the same line (like virtual text in nvim)
+** Configure bars
+*** tabline
+*** status bar
+*** session bar (tmux alike)
+*** winbar
+
+* text manipulation:
+ - mini.ai ('a' 'i' extensible functionality)
+ - better f/t (with sequences of characters)
+ - surround
+ - proper inc/dec of number
+   so 11 will be incremted to 12
+   and so i can select a column of number 11111 and make them 12345
+* lsp-support
+- [ ] java
+- [ ] cpp
+- [ ] python
+** auto-suggestion tool
+** conform
+** formatter
+** mason (package manager)
+** snippets
+
+* Org mode
+* Issues currently:
+1. [ ] tabs in the session are not saved
+when i save my session in doom emacs, my workspaces in the session are saved, but every workspace only have 1 tab - the first one. all the other tabs and custom names on the disappears
+1. [ ] some options are not loaded on start-up from my config for some reason
+
+
+* Buffer manipulation
+** projectile
+
+** eyebrowse
+*** bind to sessions
+*** preview window conf

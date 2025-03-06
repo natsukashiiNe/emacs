@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/seq/seq.el

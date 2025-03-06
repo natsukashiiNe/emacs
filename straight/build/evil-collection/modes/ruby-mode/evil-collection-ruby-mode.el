@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/evil-collection/modes/ruby-mode/evil-collection-ruby-mode.el

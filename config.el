@@ -1,0 +1,721 @@
+(defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name
+          "straight/repos/straight.el/bootstrap.el"
+          (or (bound-and-true-p straight-base-dir)
+              user-emacs-directory)))
+        (bootstrap-version 7))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  ;; use-package
+  (straight-use-package 'use-package)
+  (setq straight-use-package-by-default t)
+
+  ;; some strange stuff idk that seems to make my config work
+  (setq straight-check-for-modifications '(find-when-checking))
+  (require 'org) ;; Ensure built-in Org is loaded first
+  (setq straight-built-in-pseudo-packages '(org))
+
+  ;; melpa sync or whatever
+  (require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org"   . "https://orgmode.org/elpa/")
+                         ("gnu"   . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+
+;; ----------------------------
+;; UI Customizations
+;; ----------------------------
+(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/") 
+(menu-bar-mode 0)    ;; Disable the menu bar
+(tool-bar-mode 0)    ;; Disable the toolbar
+(scroll-bar-mode 0)  ;; Disable visible scrollbar
+(tooltip-mode 0)     ;; Disable tooltips
+(set-fringe-mode 10) ;; Give some breathing room
+
+(setq inhibit-startup-message t) ;; Do not show startup screen
+(setq visible-bell nil) ;; No visual bell
+
+;; Load theme
+(use-package doom-themes)
+
+;; ----------------------------
+;; Line Numbers & Cursor Settings
+;; ----------------------------
+
+(global-hl-line-mode 1)  ;; Highlight the current line globally
+(setq display-line-numbers-type 'visual) ;; Do not count folds
+(global-display-line-numbers-mode 1)
+
+(setq-default display-line-numbers-current-absolute nil) ;; Don't make the current line absolute
+
+(show-paren-mode 1) ;; Highlight matching parentheses
+(global-visual-line-mode 1) ;; Enable word wrapping
+(column-number-mode 1) ;; Show column number in modeline
+
+(setq visible-cursor nil) ;; Hide the cursor when inactive
+(blink-cursor-mode 0)  ;; Completely disable cursor blinking
+
+;; ----------------------------
+;; Scrolling & Navigation
+;; ----------------------------
+(setq scroll-margin 5
+      scroll-conservatively 101
+      scroll-step 1)
+
+;; ----------------------------
+;; Editing & Interaction
+;; ----------------------------
+(fset 'yes-or-no-p 'y-or-n-p) ;; Make `y` and `n` confirm instead of `yes` and `no`
+
+(setq undo-limit 80000000
+      undo-strong-limit 120000000) ;; Better undo system
+
+;; Adaptive Wrap Mode for better text wrapping
+(use-package adaptive-wrap
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+
+;; ----------------------------
+;; Session & Persistence
+;; ----------------------------
+(desktop-save-mode 1) ;; Save session automatically
+
+(load-theme 'leuven t)
+;;(set-face-background 'child-frame-border "#3F444A")
+(set-face-background 'child-frame-border "#335EA8")
+
+;; font
+(set-face-attribute 'default nil :font "GoMono Nerd Font-20")
+(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-20")
+
+(setq package--init-file-ensured t) ;; Workaround for package.el trying to autoload
+(setq load-prefer-newer t) ;; Always prefer newer built-in files
+(setq org-modules nil) ;; Don't autoload extra Org modules
+;; (add-hook 'org-mode-hook #'hide-mode-line-mode) ;; disable status line in org mode TODO make it just different
+
+(setq org-startup-indented t)        ;; Pretty indentation
+(setq org-pretty-entities t)         ;; Display symbols (like LaTeX-style)
+(setq org-ellipsis " ▾")             ;; Make collapsible sections look better
+(setq org-hide-leading-stars t)      ;; Hide extra stars in headlines
+(setq org-special-ctrl-a/e t)        ;; More predictable movement in lists
+(setq org-use-speed-commands t)      ;; Speed commands (useful for large org files)
+(add-hook 'org-mode-hook #'visual-line-mode)
+(add-hook 'org-mode-hook #'adaptive-wrap-prefix-mode) ;; Indent wrapped lines nicely
+
+
+;; Enable persistent todo states tracking
+(setq org-log-done 'time)
+(setq org-log-into-drawer t)  ;; Store logs in a drawer for a cleaner view
+;; bullets instead of asteriks
+;; (add-hook 'org-mode-hook 'org-indent-mode)
+
+(custom-set-faces
+ '(org-level-1 ((t (:inherit outline-1 :height 1.3))))  ;; Largest
+ '(org-level-2 ((t (:inherit outline-2 :height 1.2))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+ '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+ '(org-level-6 ((t (:inherit outline-6 :height 1.0))))
+ '(org-level-7 ((t (:inherit outline-7 :height 1.0))))
+ '(org-level-8 ((t (:inherit outline-8 :height 1.0)))))
+
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '(" " "◉" "●" "󰧂" "󰘍")
+        org-superstar-item-bullet-alist '((?* . ?•) (?+ . ?•) (?- . ?➤))))
+
+;; dictionary
+(use-package flyspell
+  :hook (org-mode . flyspell-mode)  ;; Enable spell checking in Org mode
+  :config
+  (setq ispell-program-name "aspell") ;; Use Aspell (or set it to "hunspell" if you prefer)
+  (setq ispell-extra-args '("--sug-mode=ultra")) ;; Faster suggestions
+  (setq flyspell-issue-message-flag nil)) ;; Prevent annoying messages
+
+;; integration with vertigo
+(use-package flyspell-correct
+:after flyspell
+:bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+(defun my/org-meta-return-no-split ()
+  "Insert a new heading/item without splitting the current line."
+  (interactive)
+  (end-of-line)  ;; Move to the end of the line
+  (org-meta-return))  ;; Then create a new item
+
+(defun my/fix-all-spelling-mistakes ()
+  "Iterate over all spelling mistakes in the buffer and correct them interactively."
+  (interactive)
+  (goto-char (point-min))  ;; Start from the beginning of the buffer
+  (while (progn
+           (flyspell-goto-next-error)  ;; Jump to next mistake
+           (if (not (eobp))  ;; If we're not at the end, correct it
+               (progn
+                 (ispell-word)  ;; Open interactive correction (z=)
+                 t)  ;; Continue looping
+             nil))))  ;; Stop at the end of the buffer
+(defun my/flyspell-correct ()
+  "Use Consult to choose spelling corrections in a fuzzy-search popup."
+  (interactive)
+  (if (not (flyspell-get-word))
+      (message "No spelling errors!")
+    (let* ((word (car (flyspell-get-word)))
+           (corrections (if word (ispell-lookup-words word)))
+           (selection (consult--read corrections
+                                     :prompt (format "Fix \"%s\": " word)
+                                     :sort t)))
+      (when selection
+        (flyspell-do-correct 'save selection word
+                             (point) (flyspell-word))))))
+
+
+;; Bind it to a key (optional)
+(global-set-key (kbd "C-c z") 'my/fix-all-spelling-mistakes)
+;; Rebind M-RET in Org Mode
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "M-RET") #'my/org-meta-return-no-split))
+
+(setq evil-want-keybinding nil)  ;; Avoid conflicts with evil-collection
+ (setq evil-want-C-u-scroll t)    ;; Enable `C-u` for scrolling
+ (setq evil-shift-width 4)        ;; Set default indentation width
+
+ (use-package evil
+   :config
+   (evil-mode 1)
+   (setq-default indent-tabs-mode nil) ;; Use spaces instead of tabs
+   (setq-default tab-width 4)          ;; Set tab width
+   (setq-default evil-shift-width 4)   ;; Match Doom’s default indentation width
+ )
+ 
+
+(use-package evil-escape
+ :after evil
+ :config
+ (setq-default evil-escape-key-sequence "fj")
+ (evil-escape-mode 1))
+ 
+
+ (use-package evil-org
+   :after org
+   :hook (org-mode . evil-org-mode)
+   :config
+   (evil-org-set-key-theme '(navigation insert textobjects additional shift todo heading)))
+
+ (with-eval-after-load 'org
+   (require 'org-tempo))  ;; Enable tempo-based expansion
+
+ (use-package evil-collection
+   :after evil
+   :ensure t
+   :config
+   (evil-collection-init))
+
+;; (use-package ivy
+;;   :init
+;;   (ivy-mode 1)
+;;   :bind
+;;   (("C-x b" . ivy-switch-buffer) ;; Replace consult-buffer
+;;    ("M-x" . counsel-M-x)         ;; Replace vertico's default M-x
+;;    ("C-s" . swiper))             ;; Replace consult-line
+;;   :config
+;;   (setq ivy-use-virtual-buffers t
+;;         ivy-count-format "(%d/%d) "
+;;         enable-recursive-minibuffers t))
+;; 
+;; (use-package counsel
+;;   :after ivy
+;;   :config
+;;   (counsel-mode 1))
+;; 
+;; (use-package swiper
+;;   :after ivy
+;;   :bind (("C-s" . swiper)))  ;; This replaces consult-line
+
+(use-package vertico
+  :init
+  (vertico-mode)
+  :bind
+  (:map vertico-map
+        ("C-j" . vertico-next)
+        ("C-k" . vertico-previous)
+        ("C-S-j" . vertico-last)
+        ("C-S-k" . vertico-first)
+        ("M-j" . vertico-scroll-down)
+        ("M-k" . vertico-scroll-up))
+  )
+(setq vertico-count 20)
+(setq vertico-resize t) 
+
+;; TODO
+;; (keymap-set vertico-map "C-j" #'vertico-next)
+;; (keymap-set vertico-map "C-k" #'vertico-previous)
+;; (keymap-set vertico-map "C-S-j" #'vertico-last)
+;; (keymap-set vertico-map "C-S-k" #'vertico-first)
+;; (keymap-set vertico-map "M-j" #'vertico-scroll-down)
+;; (keymap-set vertico-map "M-k" #'vertico-scroll-up)
+
+(use-package posframe
+  :ensure t)
+
+(use-package vertico-posframe
+  :ensure t
+  :after vertico
+  :custom
+  ;; Set posframe position handler
+  (vertico-posframe-poshandler 'posframe-poshandler-frame-center)
+  (vertico-posframe-border-width 10)
+  (vertico-posframe-border-color "#FF0000")
+  ;; (vertico-posframe-height (floor (* 0.2 (frame-height))))
+  ;; (vertico-posframe-min-height (floor (* 0.15 (frame-height))))
+
+  ;; Define the parameters directly
+  (vertico-posframe-parameters '((left-fringe . 8)
+                                 (right-fringe . 8)
+                                (border-color . "#FF0000")))
+  :config
+  (vertico-posframe-mode 1))
+
+(use-package consult
+   :bind (("C-s" . consult-line)
+          ("C-x b" . consult-buffer)
+          ("M-g g" . consult-goto-line))
+  :config
+  (setq consult-project-root-function #'vc-root-dir))
+
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)   ;; Act on the current candidate
+   ("C-;" . embark-dwim)) ;; Context-sensitive do-what-I-mean
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+(use-package embark-consult
+  :ensure t
+  :after (embark consult))
+
+(use-package marginalia
+  :config
+  (marginalia-mode))
+
+(use-package orderless
+  :straight t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package corfu
+  :straight t
+  :custom
+  (corfu-auto t)                 ;; Enable auto-completion
+  (corfu-cycle t)                ;; Enable cycling through candidates
+  (corfu-auto-prefix 2)          ;; Minimum prefix length before auto-complete triggers
+  (corfu-auto-delay 0.0)         ;; No delay before suggestions appear
+  (corfu-preview-current nil)    ;; Disable inline preview
+  (corfu-quit-no-match 'separator) ;; Quit when input does not match
+  :init
+  (global-corfu-mode)) 
+
+(use-package corfu-popupinfo
+:straight (:type git :host github :repo "minad/corfu")
+:after corfu
+:init
+(corfu-popupinfo-mode))
+
+(use-package popper
+  :ensure t
+  :bind (("M-t" . popper-toggle)         ; Toggle the most recent popup.
+         ("M-f" . popper-cycle))         ; Cycle through your defined popups.
+  :config
+  ;; Define which buffers should be treated as popups.
+  (setq popper-reference-buffers
+        '("^\\*vterm"      ; vterm buffers (or multi-vterm buffers)
+          "^\\*ielm\\*"))  ; ielm for Emacs Lisp evaluation.
+  (popper-mode +1)
+  (popper-echo-mode +1))
+
+(with-eval-after-load 'vterm
+  (define-key vterm-mode-map (kbd "M-t") #'popper-toggle)
+  (define-key vterm-mode-map (kbd "M-f") #'popper-cycle))
+
+;; (use-package mini-frame
+;;   :ensure t
+;;   :config
+;;   (mini-frame-mode t))
+
+;; (defun my/show-messages-in-minibuffer ()
+;;   "Display messages temporarily in the minibuffer."
+;;   (interactive)
+;;   (let ((msg (with-current-buffer "*Messages*"
+;;                (buffer-substring-no-properties (point-min) (point-max)))))
+;;     (message "%s" msg)))
+
+;; (global-set-key (kbd "C-c m") #'my/show-messages-in-minibuffer)
+
+(use-package vterm)
+(use-package multi-vterm
+  :ensure t
+  :bind (("C-c t" . multi-vterm)))  ; Use this binding to spawn a new terminal instance.
+
+;; (use-package treesit
+;;   :ensure nil  ;; Built-in Emacs 29+
+;;   :config
+;;   (setq treesit-font-lock-level 4) ;; Maximum syntax highlighting
+;;   (setq major-mode-remap-alist
+;;         '((c-mode          . c-ts-mode)
+;;           (c++-mode        . c++-ts-mode)
+;;           (python-mode     . python-ts-mode)
+;;           (java-mode       . java-ts-mode)
+;;           (json-mode       . json-ts-mode)
+;;           (js-mode         . js-ts-mode)
+;;           (typescript-mode . tsx-ts-mode)
+;;           (bash-mode       . bash-ts-mode)
+;;           (yaml-mode       . yaml-ts-mode)
+;;           (toml-mode       . toml-ts-mode)))
+;;   (global-tree-sitter-mode))
+
+  
+;;  (use-package ts-fold
+;;    :ensure t
+;;    :hook
+;;    ((prog-mode . ts-fold-mode)  ;; Enable for all programming languages
+;;     (json-ts-mode . ts-fold-mode)
+;;     (python-ts-mode . ts-fold-mode))
+;;    :bind
+;;    (("C-c f o" . ts-fold-toggle) ;; Toggle current fold
+;;     ("C-c f O" . ts-fold-toggle-all) ;; Toggle all folds
+;;     ("C-c f n" . ts-fold-next) ;; Go to next fold
+;;     ("C-c f p" . ts-fold-previous))) ;; Go to previous fold
+;;
+;;(use-package evil-vimish-fold
+;;:ensure t
+;;:hook (prog-mode . evil-vimish-fold-mode))
+
+;; LSP setup
+  (use-package lsp-mode
+    :ensure t
+    :commands (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")   ;; Set keybinding prefix
+    (setq lsp-auto-configure t)        ;; Auto-detect project root
+    (setq lsp-enable-snippet nil)      ;; Disable snippet support
+    (setq lsp-session-file "~/.emacs.d/lsp-session-v1") ;; Store session
+    (setq lsp-prefer-flymake nil)      ;; Use `flycheck` instead of `flymake`
+    :hook
+    ((prog-mode . lsp)
+     (python-mode . lsp)
+     (c++-mode . lsp)
+     (java-mode . lsp))
+    :config
+    ;; Set clangd custom arguments
+    (setq lsp-clients-clangd-executable "/usr/bin/clangd")
+    (setq lsp-clients-clangd-args
+          '("--background-index"
+            "--pch-storage=memory"
+            "--clang-tidy"
+            "--suggest-missing-includes"
+            "--header-insertion=iwyu"
+            "--index-file=global"
+            "--compile-commands-dir=/path/to/compile_commands"))
+    
+    ;; Keybindings for LSP actions
+    :bind
+    (("C-c l d" . lsp-find-definition)
+     ("C-c l r" . lsp-find-references)
+     ("C-c l f" . lsp-format-buffer)
+     ("C-c l a" . lsp-execute-code-action)))
+
+;; Disable semantic-mode (CEDET)
+(when (bound-and-true-p semantic-mode)
+  (semantic-mode -1))
+
+;; Ensure xref uses LSP for finding references
+(setq xref-search-program 'ripgrep) ;; Use ripgrep for project-wide searches
+(setq xref-prompt-for-identifier nil) ;; Do not prompt for identifier in references
+
+;; Use LSP-mode for xref-find-references
+(setq xref-backend-functions '(lsp--xref-backend))
+
+;; LSP UI enhancements
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable t          ; Enable documentation on hover
+        lsp-ui-doc-position 'at-point ; Show docs at point
+        lsp-ui-sideline-enable t     ; Enable sideline diagnostics
+        lsp-ui-peek-enable t))       ; Enable peek definitions
+
+(setq lsp-clients-python-library-directories '("~/.local/share/nvim/mason/bin/"))
+(setq lsp-clients-clangd-executable "~/.local/share/nvim/mason/bin/clangd")
+(setq lsp-clients-jdtls-executable "~/.local/share/nvim/mason/bin/jdtls")
+
+;; Auto-completion
+(use-package company
+  :ensure t
+  :init
+  (global-company-mode)
+  :config
+  (setq company-idle-delay 0.2
+        company-minimum-prefix-length 1
+        company-tooltip-limit 10
+        company-tooltip-align-annotations t
+        company-show-numbers t
+        company-dabbrev-downcase nil))
+
+;; LSP integration with company
+(use-package company-lsp
+  :ensure t
+  :after (company lsp-mode)
+  :config
+  (push 'company-lsp company-backends))
+
+;; Project Management (Doom-like)
+(use-package projectile
+  :ensure t
+  :init
+  (setq projectile-project-search-path '("~/projects/" "~/dev/"))
+  (projectile-mode +1)
+  :bind-keymap
+  ("C-c p" . projectile-command-map))
+
+(use-package which-key
+  :init
+  (which-key-mode 1) ;; Enable Which-Key globally
+  :config
+  (setq which-key-side-window-location 'bottom
+        which-key-sort-order #'which-key-key-order-alpha
+        which-key-allow-imprecise-window-fit nil
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-min-display-lines 10
+        which-key-side-window-slot -10
+        which-key-side-window-max-height 0.25
+        which-key-idle-delay 0.01
+        which-key-max-description-length 25
+        which-key-separator " → "))
+
+(define-prefix-command 'my-tmux-map)
+(keymap-set global-map "C-n" 'my-tmux-map)
+
+(setq tab-bar-mode nil) ;; Disable global tab-bar-mode
+;; (add-hook 'persp-switch-hook #'tab-bar-mode) ;; Enable tabs only inside a workspace
+
+(use-package eyebrowse
+  :init
+  (eyebrowse-mode t)
+  :config
+  (setq eyebrowse-new-workspace t)  ;; Always create new empty workspaces
+  (setq eyebrowse-wrap-around t)    ;; Cycle when reaching the end
+  (setq eyebrowse-mode-line-separator " | ")
+  (setq eyebrowse-mode-line-style 'always)
+  (setq eyebrowse-keymap-prefix (kbd "C-c w"))) ;; TODO
+
+;; Keybindings for Eyebrowse under C-n
+(keymap-set my-tmux-map "k" #'eyebrowse-prev-window-config)
+(keymap-set my-tmux-map "j" #'eyebrowse-next-window-config)
+(keymap-set my-tmux-map "e" #'eyebrowse-last-window-config)
+(keymap-set my-tmux-map "r" #'eyebrowse-rename-window-config)
+
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)
+  :custom
+  (persp-mode-prefix-key (kbd "C-c n")) 
+  (persp-state-default-file "~/.emacs.d/perspective-session")
+  (persp-suppress-no-prefix-key-warning t)
+  :init
+  (persp-mode)
+  (persp-state-load persp-state-default-file)) ;; Load the session on startup
+
+;; Automatically save perspectives on exit
+(defun my-persp-save-state ()
+  "Save `perspective.el` state before Emacs exits."
+  (persp-state-save persp-state-default-file))
+
+(add-hook 'kill-emacs-hook #'my-persp-save-state)
+
+;; TODO
+;; Integrates perspective.el with consult for fuzzy workspace search.
+;; (use-package consult-persp
+;;   :after (consult perspective)
+;;   :bind ("C-x C-p" . consult-persp)) ;; Search and switch workspaces
+
+;; (keymap-set my-tmux-map "q" #'persp-kill-buffer*)
+;; (keymap-set my-tmux-map "b" #'persp-switch-to-buffer*)
+;; (keymap-set my-tmux-map "C-b" #'persp-list-buffers)
+;; (keymap-set my-tmux-map "K" #'persp-switch)
+;; (keymap-set my-tmux-map "J" #'persp-next)
+;; (keymap-set my-tmux-map "n" #'persp-switch)  ;; Switch workspace
+;; (keymap-set my-tmux-map "R" #'persp-rename)  ;; Rename workspace
+;; (keymap-set my-tmux-map "d" #'persp-kill)    ;; Kill workspace
+
+(use-package tabspaces
+  :hook (after-init . tabspaces-mode)
+  :config
+  (setq tabspaces-use-filtered-buffers-as-default t)
+  (setq tabspaces-default-tab "default")
+  (setq tabspaces-remove-to-default t)
+  (setq tabspaces-include-buffers '("*scratch*")))
+
+(keymap-set my-tmux-map "s" #'tabspaces-switch-or-create-workspace)
+(keymap-set my-tmux-map "o" #'tabspaces-next-or-new)
+(keymap-set my-tmux-map "O" #'tabspaces-previous)
+
+(use-package projectile 
+  ;; :bind-keymap ("C-c p" . projectile-command-map)
+  :config (projectile-mode +1))
+;; Fuzzy find projects
+;; (global-set-key (kbd "C-c p f") 'projectile-find-file)
+;; (global-set-key (kbd "C-c p s") 'projectile-switch-project)
+
+;; save eyebrowse session every time before switching perspectives  
+(defun my-persp-before-switch-hook ()
+    "Store eyebrowse state before switching perspectives."
+     (when (bound-and-true-p eyebrowse-mode)
+         (persp-set-local "eyebrowse-last-slot" eyebrowse-last-slot)
+         (persp-set-local "eyebrowse-window-configs" eyebrowse-window-configs))) 
+
+ ;; and restore after
+ (defun my-persp-switch-hook ()
+     "Restore eyebrowse state after switching perspectives."
+          (when (bound-and-true-p eyebrowse-mode)
+              (setq eyebrowse-last-slot (or (persp-get-local "eyebrowse-last-slot") 1))
+              (setq eyebrowse-window-configs (or (persp-get-local "eyebrowse-window-configs") nil))
+              (eyebrowse-mode 1))) ;; Ensure eyebrowse is enabled
+
+ ;; and also create win layout for every session start
+(defun my-persp-create-eyebrowse ()
+    "Create a new eyebrowse window configuration when a new perspective is created."
+    (when (bound-and-true-p eyebrowse-mode)
+        (eyebrowse-create-window-config)
+        (message "Created a new eyebrowse workspace for the perspective.")))
+
+;; + save + load it on emacs exit
+(defun my-save-session ()
+    "Save both `perspective.el` and `eyebrowse` sessions."
+    (interactive)
+    (persp-state-save persp-state-default-file)
+    (message "Workspace and window configurations saved.")) 
+(defun my-load-session ()
+    "Load both `perspective.el` and `eyebrowse` sessions."
+     (interactive)
+     (persp-state-load persp-state-default-file)
+     (eyebrowse-mode 1)
+     (message "Workspace and window configurations restored."))
+
+ ;; hooking together
+(add-hook 'persp-before-switch-functions #'my-persp-before-switch-hook)
+(add-hook 'persp-switch-functions #'my-persp-switch-hook)
+(add-hook 'persp-created-hook #'my-persp-create-eyebrowse)
+(add-hook 'kill-emacs-hook #'my-save-session)
+(add-hook 'after-init-hook #'my-load-session)
+
+(defmacro keymap-set-with-desc (&rest args)
+  "Bind a key in a keymap and add a which-key description.
+Keyword arguments:
+  :map     -- the keymap to use
+  :key     -- the key sequence 
+  :command -- the command to bind (can be nil)
+  :desc    -- the description (for which-key)
+"
+  (let ((map     (plist-get args :map))
+        (key     (plist-get args :key))
+        (command (plist-get args :command))
+        (desc    (plist-get args :desc)))
+    `(progn
+       (keymap-set ,map ,key ,command)
+       (which-key-add-key-based-replacements ,key ,desc))))
+
+(defun my/exec-with-prefix (prefix)
+(interactive)
+  (minibuffer-with-setup-hook
+      (lambda () (insert prefix))
+    (command-execute #'execute-extended-command)))
+  
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t"
+ :command nil ;; prefix
+ :desc "get completions")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t c"
+ :command (lambda () (interactive) (my/exec-with-prefix "projectile- "))
+ :desc "consult commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t p"
+ :command (lambda () (interactive) (my/exec-with-prefix "projectile- "))
+ :desc "projectile commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t e"
+ :command (lambda () (interactive) (my/exec-with-prefix "eyebrowse- "))
+ :desc "eyebrowse commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t d"
+ :command (lambda () (interactive) (my/exec-with-prefix "dired- "))
+ :desc "dired commands")
+
+;; TODO:  probably that will be needed to count only for "pesp-session" buffer
+  (keymap-set evil-normal-state-map "C-O" 'previous-buffer) 
+  (keymap-set evil-normal-state-map "C-I" 'next-buffer)
+
+  (keymap-set evil-normal-state-map "SPC f" nil) ;; Searches prefix
+  (keymap-set evil-normal-state-map "SPC f f" 'project-find-file) 
+  (keymap-set evil-normal-state-map "SPC f j" 'consult-project-buffer) 
+
+  
+;; (keymap-set-with-decs
+;;   :map evil-normal-state-map
+;;   :key "SPC f"
+;;   :command nil   ;; Prefix key
+;;   :desc "Searches prefix")
+
+;; (define-key evil-insert-state-map (kbd "f j") nil)
+
+(define-key evil-insert-state-map (kbd "C-c C-c") 'evil-normal-state)
+
+(defun my/toggle-messages-window ()
+  "Toggle the *Messages* buffer in a selectable bottom window."
+  (interactive)
+  (let ((buffer (get-buffer "*Messages*")))
+    (if (and buffer (get-buffer-window buffer))
+        (delete-window (get-buffer-window buffer))  ;; Close if open
+      (display-buffer buffer
+                      '((display-buffer-in-side-window)
+                        (side . bottom)
+                        (window-height . 0.3)
+                        (window-parameters . ((no-other-window . nil) ;; Allow selection
+                                              (no-delete-other-windows . nil))))))))
+(global-set-key (kbd "C-c m") #'my/toggle-messages-window)
+
+(add-to-list 'load-path "~/.config/emacs/")
+(require 'elastic)
+(global-set-key (kbd "C-c t") 'elastic-vterm)
+
+(defun my-highlight-only-comments ()
+  "Enable syntax highlighting only for comments."
+  (setq font-lock-defaults
+        '((nil t) ;; Disable normal syntax highlighting
+          nil nil nil
+          (font-lock-comment-face . font-lock-keyword-face)))
+  (font-lock-refresh-defaults))

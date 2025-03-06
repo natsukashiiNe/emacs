@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/vertico-posframe/vertico-posframe.el

@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/themes/doom-themes-base.el

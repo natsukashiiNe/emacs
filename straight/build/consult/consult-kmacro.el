@@ -1,0 +1,1 @@
+/home/nane/.config/emacs/straight/repos/consult/consult-kmacro.el

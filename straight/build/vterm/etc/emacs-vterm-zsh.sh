@@ -1,1 +1,0 @@
-/home/nane/.config/emacs/straight/repos/emacs-libvterm/etc/emacs-vterm-zsh.sh

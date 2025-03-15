@@ -1,1 +1,0 @@
-/home/nane/.config/emacs/straight/repos/evil-collection/modes/csv/evil-collection-csv.el

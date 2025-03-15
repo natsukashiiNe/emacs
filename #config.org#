@@ -844,10 +844,10 @@ basic lsp setup using lsp-mode
        (select-window window)
        window))
 
-  
+
   ;; (setq xref-show-xrefs-function #'my/display-xref-in-bottom-window
   ;;    xref-show-definitions-function #'my/display-xref-in-bottom-window)
-  
+
     ;;   (defun consult-lsp-code-actions ()
     ;;   "Show LSP code actions using `consult' for a better UI."
     ;;   (interactive)

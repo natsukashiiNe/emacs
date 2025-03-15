@@ -1,1 +1,0 @@
-/home/nane/.config/emacs/straight/repos/evil-collection/modes/bm/evil-collection-bm.el

@@ -5,6 +5,7 @@
           (or (bound-and-true-p straight-base-dir)
               user-emacs-directory)))
         (bootstrap-version 7))
+
     (unless (file-exists-p bootstrap-file)
       (with-current-buffer
           (url-retrieve-synchronously
@@ -931,18 +932,6 @@ Keyword arguments:
  :key "SPC f j"
  :command 'consult-project-buffer
  :desc "consult-project-buffer")  
-
-(keymap-set-with-desc
- :map evil-normal-state-map
- :key "SPC f s"
- :command 'projectile-grep
- :desc "projectile grep")  
-
-(keymap-set-with-desc
- :map evil-normal-state-map
- :key "SPC f m"
- :command 'imenu
- :desc "imenu")
 
 (keymap-set-with-desc
  :map evil-normal-state-map

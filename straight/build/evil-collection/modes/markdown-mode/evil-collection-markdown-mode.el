@@ -1,1 +1,0 @@
-/home/nane/.config/emacs/straight/repos/evil-collection/modes/markdown-mode/evil-collection-markdown-mode.el

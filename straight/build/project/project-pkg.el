@@ -1,1 +1,0 @@
-/home/nane/.config/emacs/straight/repos/project/project-pkg.el

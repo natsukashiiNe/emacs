@@ -1,1 +1,0 @@
-/home/nane/.config/emacs/straight/repos/evil-collection/modes/cus-theme/evil-collection-cus-theme.el

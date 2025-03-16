@@ -1,5 +1,7 @@
 ;; TODO:
 ;; mini-frame
+
+
 ;; elastic / popper
 ;; vterm
 
@@ -58,7 +60,7 @@
 (load-config-file "core/session-manager.el")       ;; Perps + Projectile
 (load-config-file "core/posframe.el")
 
-(load-config-file "org/org-settings.el")  ;; Org-mode customizations
+;; TODO (load-config-file "org/org-settings.el")  ;; Org-mode customizations
 
 (load-config-file "lsp/lsp-config.el")
 (load-config-file "lsp/lsp-servers.el")
@@ -66,7 +68,6 @@
 ;; [?] TODO: ts
 
 ;; APPS
-(load-config-file "apps/telega.el")
 ;; TODO: Magit, imap, rss
 
 ;; CUSTOM

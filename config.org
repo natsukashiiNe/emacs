@@ -526,7 +526,6 @@ Use ~bootstrap.el~ to manage my packages
   :ensure t
   :after (embark consult))
 #+end_src
-
 **** Marginalia
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -1207,21 +1206,24 @@ to have sessions + windows of tmux
 
   (keymap-set-with-desc
    :map evil-normal-state-map
+   :key "SPC f s"
+   :command 'projectile-grep
+   :desc "projectile grep")  
+
+  (keymap-set-with-desc
+   :map evil-normal-state-map
    :key "SPC f m"
    :command 'imenu
    :desc "imenu")
-
+  
   (keymap-set-with-desc
    :map evil-normal-state-map
    :key "SPC f e"
-   :command 'next-error
-   :desc "next-error")  
+   :command 'projectile-dired
+   :desc "imenu")
 
-  (keymap-set-with-desc
-   :map evil-normal-state-map
-   :key "SPC f E"
-   :command 'previous-error
-   :desc "previous-error")  
+  ;; TODO compile errors
+   
 
   (keymap-set-with-desc
    :map evil-normal-state-map

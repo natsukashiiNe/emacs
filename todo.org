@@ -1,0 +1,32 @@
+#+TITLE: TODO for my org mode
+
+* Apps
+** Magit
+** Rss
+** Telega
+** IMAP
+* QOL:
+
+** [ ] Diagnostics
+inline + trouble (flymake / flycheck) + "show for the line"
+** [ ] Lsp features
+*** better code actions
+test on jdtls 
+*** + setup lsp servers:
+1. c++
+2. c
+3. python
+4. java
+5. bash
+6. rust - highlighting
+ 
+Think about 
+** [ ] line num Col. 
+*** git status
+*** better diagnostics showcase
+** keymaps
++ deselect seach result
+** theme
++ search results shuld be boxed
+
+* Fix lsp-find-reference and projectile grep

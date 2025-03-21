@@ -5,6 +5,11 @@
 (setenv "PATH" (concat (expand-file-name "~/src/pyenv/global/bin") ":" (getenv "PATH")))
 (setq exec-path (append '("~/src/pyenv/global/bin") exec-path))
 
+;; Optional: activate this env automatically (e.g. via pyvenv)
+(use-package pyvenv
+  :config
+  (pyvenv-activate "~/src/pyenv/global"))
+
 ;; ----------------------------
 ;; UI Customizations
 ;; ----------------------------

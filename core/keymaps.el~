@@ -5,6 +5,40 @@
  :command nil ;; prefix
  :desc "lsp commands")
 
+; no prefix
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-h"
+ :command #'evil-window-left
+ :desc "Focus right window")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-j"
+ :command #'evil-window-bottom
+ :desc "Focus right window")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-k"
+ :command #'evil-window-up
+ :desc "Focus right window")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-l"
+ :command #'evil-window-right
+ :desc "Focus right window")
+
+;; Keep capital "C-H" for help
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-S-h"
+ :command #'help-command
+ :desc "Help")
+
+
+
 ;; clang magic
 (keymap-set-with-desc
  :map evil-normal-state-map
@@ -99,6 +133,18 @@
 
 (keymap-set-with-desc
  :map evil-normal-state-map
+ :key "SPC t e"
+ :command nil ;; prefix
+ :desc "[e]vil")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t h"
+ :command (lambda () (interactive) (my/exec-with-prefix "describe- "))
+ :desc "describe")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
  :key "SPC t c"
  :command (lambda () (interactive) (my/exec-with-prefix "projectile- "))
  :desc "consult commands")
@@ -108,6 +154,12 @@
  :key "SPC t p"
  :command (lambda () (interactive) (my/exec-with-prefix "projectile- "))
  :desc "projectile commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC t n"
+ :command (lambda () (interactive) (my/exec-with-prefix "persp- "))
+ :desc "perspective commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
@@ -131,8 +183,8 @@
 ;; BUFFER / PROJECT NAVIGATON
 
 ;; TODO:  probably that will be needed to count only for "pesp-session" buffer
-(keymap-set evil-normal-state-map "C-O" 'previous-buffer) 
-(keymap-set evil-normal-state-map "C-I" 'next-buffer)
+(keymap-set evil-normal-state-map "C-O" 'projectile-previous-project-buffer)
+(keymap-set evil-normal-state-map "C-I" 'projectile-next-project-buffer)
 
 (keymap-set-with-desc
  :map evil-normal-state-map
@@ -231,3 +283,40 @@
  :key "C-a"
  :command 'move-beggining-of-line
  :desc "beggining of the line")
+
+
+;; operations on buffer
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC b"
+ :command nil
+ :desc "[b]uffer commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC b e"
+ :command 'eval-buffer
+ :desc "[b]uffer [e]val")
+
+;; SYSTEM
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC S"
+ :command nil
+ :desc "[s]ystem commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC S f"
+ :command 'list-faces-display
+ :desc "list [f]aces")
+
+;; (keymap-set-with-desc
+;;  :map evil-normal-state-map
+;;  :key "SPC S r"
+;;  :command '
+;;  :desc "reload config")
+
+;;  MINIBUFFER
+(keymap-set minibuffer-local-map "C-w" 'backward-kill-word)
+(keymap-set minibuffer-local-map "<escape>" 'abort-recursive-edit)

@@ -81,8 +81,8 @@ Each key is bound to its corresponding hex value."
   `(line-number-current-line        ((t (:foreground ,dim_pink :background ,bg_light))))
 
   ;; Mode line
-  `(mode-line                       ((t (:foreground ,fg :background ,bg_dark :box (:line-width 1 :color ,bg_dark)))))
-  `(mode-line-inactive              ((t (:foreground ,dim_purp :background ,bg :box (:line-width 1 :color ,bg)))))
+  `(mode-line                       ((t (:foreground ,fg :background ,bg_dark :box (:line-width -1 :color ,bg_dark)))))
+  `(mode-line-inactive              ((t (:foreground ,dim_purp :background ,bg :box (:line-width -1 :color ,bg)))))
 
   ;; Tab line (Emacs 27+)
   `(tab-line                        ((t (:foreground ,fg :background ,bg_dark))))

@@ -14,9 +14,13 @@
 ;; list of dirs
 
 ;; ----------------------------------------------------------------------
+(setq user-emacs-directory "~/.emacs.d/")
+(defvar my-config-dir "~/.config/emacs/"
+  "Directory that contains all the .el config files.")
+
 (defun load-config-file (file)
   "Load an Emacs Lisp FILE from `user-emacs-directory` and report errors with file and line number."
-  (let ((path (expand-file-name file user-emacs-directory)))
+  (let ((path (expand-file-name file my-config-dir)))
     (if (file-exists-p path)
         (condition-case err
             (progn
@@ -30,16 +34,16 @@
              (re-search-backward (format "Error in file %s" file) nil t)
              (message "💡 See error details above for file: %s" file))))
       (message "⚠️ Warning: Config file %s not found" file))))
-(setq user-emacs-directory "~/.config/emacs/") 
 
 ;; ----------------------------------------------------------------------
-(setq user-emacs-directory "~/.config/emacs/")
-(add-to-list 'load-path (expand-file-name "apps" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "core" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "lsp" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "org" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "theme" user-emacs-directory))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" my-config-dir))
+
+(add-to-list 'load-path (expand-file-name "apps" my-config-dir))
+(add-to-list 'load-path (expand-file-name "core" my-config-dir))
+(add-to-list 'load-path (expand-file-name "custom" my-config-dir))
+(add-to-list 'load-path (expand-file-name "lsp" my-config-dir))
+(add-to-list 'load-path (expand-file-name "org" my-config-dir))
+(add-to-list 'load-path (expand-file-name "themes" my-config-dir))
 ;; ----------------------------------------------------------------------
 
 
@@ -56,18 +60,24 @@
 (load-config-file "core/completion/embark.el")     ;; Actions & Selection
 (load-config-file "core/completion/orderless.el")  ;; Better Matching
 (load-config-file "core/session-manager.el")       ;; Perps + Projectile
+;; (load-config-file "core/centaur-tabs.el")
+(load-config-file "core/vterm.el")
 (load-config-file "core/posframe.el")
 
 (load-config-file "org/org-settings.el")  ;; Org-mode customizations
+(load-config-file "org/org-plugins.el")  ;; Org-mode customizations
 
 (load-config-file "lsp/lsp-config.el")
 (load-config-file "lsp/lsp-servers.el")
 (load-config-file "lsp/lsp-ui.el")
+(load-config-file "lsp/tree-sitter.el")
+(load-config-file "core/ftree.el")
+
 ;; [?] TODO: ts
 
 ;; APPS
 (load-config-file "apps/telega.el")
-;; TODO: Magit, imap, rss
+(load-config-file "apps/magit.el")
 
 ;; CUSTOM
 (load-config-file "custom/elastic.el")  ;; Floating Frames Controls
@@ -75,12 +85,22 @@
 ;; 
 (load-config-file "core/keymaps.el")  
 (load-config-file "core/which-key.el")
-(load-config-file "theme/parameters.el")
-(load-config-file "theme/modeline-options.el")
-(load-config-file "theme/eXu.el")
+(load-config-file "core/ui.el")
+(load-config-file "themes/parameters.el")
+(load-config-file "themes/modeline-options.el")
+;; (load-config-file "themes/eXu.el")
 
 ;; staff that for some reason get rewritten after eval of settings file
 (blink-cursor-mode 0)  ;; Completely disable cursor blinking
-(set-face-background 'child-frame-border "#335EA8")
+(set-face-background 'child-frame-border "#16202B")
 
 (message "🎉 Emacs startup complete!")
+
+;; ----------------------------------------------------------------------
+;; END OF CONFIG
+;; ----------------------------------------------------------------------
+(mapc #'disable-theme custom-enabled-themes)
+(load-theme 'test t)
+
+;; (load-theme 'leuven t)
+

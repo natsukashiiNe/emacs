@@ -12,6 +12,7 @@
 (setq org-use-speed-commands t)      ;; Speed commands (useful for large org files)
 (add-hook 'org-mode-hook #'visual-line-mode)
 (add-hook 'org-mode-hook #'adaptive-wrap-prefix-mode) ;; Indent wrapped lines nicely
+(setq org-export-preserve-breaks t) ;; new line = always breaks line
 
 (setq org-startup-with-inline-images t) ;; Show images when opening an Org file
 (setq org-image-actual-width nil)       ;; Scale images to their actual width
@@ -37,3 +38,22 @@
   :config
   (setq org-superstar-headline-bullets-list '(" " "◉" "●" "󰧂" "󰘍")
         org-superstar-item-bullet-alist '((?* . ?•) (?+ . ?•) (?- . ?➤))))
+
+(setq org-latex-compiler "xelatex")
+
+(setq org-latex-pdf-process
+      '("xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"))
+
+(with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-classes
+               '("article"
+                 "\\documentclass[12pt]{article}
+                  \\usepackage{fontspec}
+                  \\setmainfont{GoMono Nerd Font}
+                  \\newfontfamily\\cyrillicfont{GoMono Nerd Font}
+                  \\setmonofont{GoMono Nerd Font}
+                  \\usepackage[russian,english]{babel}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))

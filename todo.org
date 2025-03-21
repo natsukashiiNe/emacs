@@ -30,3 +30,39 @@ Think about
 + search results shuld be boxed
 
 * Fix lsp-find-reference and projectile grep
+* Navigation
+** Persp quick access to sessions
+- SPC n as mod
+  + n -> notes
+  + m -> main
+  + h -> herb
+  + t -> telega
+  + etc
+- if not created -> create + assign projectile there
+** Indication
+- Only current session name
+* TMUX
+Combine opening new persp session + starting new project. Every window should have a "root" of a terminal.
+when you leave the last opened buffer, instead of closing emacs, you open terminal in its root.
+** tabs: keep per session
+** windows setup (eyebrowse) 
+
+
+* THEME
+** LSP
+- macro to cyan
+- enum to macro
+- go over lsp in general
+- [ ] hover things (inof / help as reference + bars in vim)
+- [ ] corfu
+** Org
+** Autocomplet
+- better "matches" while searching by orderless
+ 
+* Terminal integration
+** Good fm
+prob just go open fm (yazi) in the termnal via wm
+** Tab integration:
+- magit
+- toggle-bable (fullscreen) zsh for each pesp session (in the root of the projectile)
+- two add. terminals: one for build one for git (toogleble)

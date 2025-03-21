@@ -1,0 +1,63 @@
+;; Settings for my tab-bar win-bar and mode-bar
+;; --- Ensure the tab bar is always visible ---
+;; (setq tab-bar-show 'always)
+(tab-bar-mode 1)
+
+;; --- Left segment: current persp session and projectile project ---
+(defun exu/tab-bar-left ()
+  "Return a formatted string with the current perspective and projectile project."
+  (let* ((persp (if (and (boundp 'persp-mode) persp-mode)
+                    (if (fboundp 'persp-name)
+                        (persp-name (get-current-persp))
+                      "NoPersp")
+                  "NoPersp"))
+         (proj (if (and (boundp 'projectile-mode) projectile-mode)
+                   (if (fboundp 'projectile-project-name)
+                       (projectile-project-name)
+                     "NoProj")
+                 "NoProj")))
+    (format "  %s |  %s " persp proj)))
+
+;; --- Right segment: diagnostics (via Flycheck) and Git branch ---
+(defun exu/diagnostics-string ()
+  "Return a formatted diagnostics string using Flycheck counts.
+Uses icons for errors (), warnings () and info ()."
+  (if (and (boundp 'flycheck-mode) flycheck-mode
+           (boundp 'flycheck-current-errors) flycheck-current-errors)
+      (let* ((counts (flycheck-count-errors flycheck-current-errors))
+             (err (or (cdr (assq 'error counts)) 0))
+             (warn (or (cdr (assq 'warning counts)) 0))
+             (info (or (cdr (assq 'info counts)) 0)))
+        (format "  %d   %d   %d " err warn info))
+    ""))
+
+(defun exu/git-branch-string ()
+  "Return a formatted Git branch string based on vc-mode info."
+  (when (and buffer-file-name vc-mode)
+    (let ((branch (if (string-match "[^:]+: \\(.*\\)" vc-mode)
+                      (match-string 1 vc-mode)
+                    vc-mode)))
+      (format "  %s " branch))))
+
+(defun exu/tab-bar-right ()
+  "Return the diagnostics and Git branch info as a combined string."
+  (let ((diag (exu/diagnostics-string))
+        (git (exu/git-branch-string)))
+    (concat diag git)))
+
+;; --- Set up the tab-bar format ---
+;; The format is:
+;; [Left: persp+project] | [tabs] | [space that pushes following text to the right] | [Right: diagnostics+git]
+;; (s;; etq tab-bar-format
+;; ;;       `((:eval (exu/tab-bar-left))
+;; ;;         tab-bar-tabs
+;; ;;         (:eval (propertize " " 'display
+;; ;;                            ;; align-to uses the width of the right string + 2 extra columns for spacing.
+;; ;;                            `(space :align-to (- right ,(+ 2 (length (exu/tab-bar-right)))))))
+;; ;;   
+(:eval (exu/tab-bar-right))))
+
+;; --- Doom Modeline: Ensure the major mode is shown prominently ---
+;; (setq doom-modeline-major-mode-icon t)
+;; (setq doom-modeline-major-mode-color-icon t)
+;; (You can further customize the doom-modeline segments if desired.)

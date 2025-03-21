@@ -55,13 +55,30 @@
   "Return the hex color string associated with NAME from `exu-colors'."
   (cdr (assoc name exu-colors)))
 
-(defmacro exu-with-all-colors (&rest body)
-  "Bind all colors from `exu-colors` as variables.
-Each key is bound to its corresponding hex value."
-  (let ((bindings (mapcar (lambda (pair)
-                            (list (car pair) `(exu-get ',(car pair))))
-                          exu-colors)))
-    `(let ,bindings ,@body)))
+;; Macro to bind color variables from the table.
+(defmacro exu-with-colors (&rest body)
+  "Bind color variables for use in theme definitions."
+  `(let ((bg              (exu-get 'bg_main))
+         (fg              (exu-get 'white))
+         (keyword         (exu-get 'exu_yellow))
+         (string          (exu-get 'exu_orange))
+         (comment         (exu-get 'dim_viol))
+         (fncolor         (exu-get 'exu_pink))
+         (typec           (exu-get 'exu_pink_accent2))
+         (dim_pink        (exu-get 'exu_dim_pink))
+         (constc          (exu-get 'cyan))
+         (borange         (exu-get 'exu_orange_accent2))
+         (bcyan           (exu-get 'bcyan))
+         (bg_dark         (exu-get 'bg_dark))
+         (bg_light        (exu-get 'bg_light))
+         (bg_dark_purple  (exu-get 'bg_dark_purple)) ;; Added binding
+         (lpurple         (exu-get 'lpurple))
+         (dim_purp        (exu-get 'dim_purple))
+         (red             (exu-get 'red))
+         (grey            (exu-get 'grey))
+         (black           (exu-get 'black))
+         (white           (exu-get 'white)))
+     ,@body))
 
 ;; Define the theme faces using our color bindings.
 (exu-with-colors
@@ -81,8 +98,8 @@ Each key is bound to its corresponding hex value."
   `(line-number-current-line        ((t (:foreground ,dim_pink :background ,bg_light))))
 
   ;; Mode line
-  `(mode-line                       ((t (:foreground ,fg :background ,bg_dark :box (:line-width 1 :color ,bg_dark)))))
-  `(mode-line-inactive              ((t (:foreground ,dim_purp :background ,bg :box (:line-width 1 :color ,bg)))))
+  `(mode-line                       ((t (:foreground ,fg :background ,bg_dark :box (:line-width -1 :color ,bg_dark)))))
+  `(mode-line-inactive              ((t (:foreground ,dim_purp :background ,bg :box (:line-width -1 :color ,bg)))))
 
   ;; Tab line (Emacs 27+)
   `(tab-line                        ((t (:foreground ,fg :background ,bg_dark))))

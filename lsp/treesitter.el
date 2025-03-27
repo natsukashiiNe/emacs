@@ -18,19 +18,20 @@
         (yaml        "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (defun my/treesit-install-all-languages ()
-"Install all Tree-sitter languages listed in `treesit-language-source-alist`."
-(interactive)
-(dolist (lang (mapcar #'car treesit-language-source-alist))
-  (unless (treesit-language-available-p lang)
-    (treesit-install-language-grammar lang))))
+  "Install all Tree-sitter languages listed in `treesit-language-source-alist`."
+  (interactive)
+  (dolist (lang (mapcar #'car treesit-language-source-alist))
+    (unless (treesit-language-available-p lang)
+      (treesit-install-language-grammar lang))))
 
 (setq major-mode-remap-alist
-    '((python-mode . python-ts-mode)
-      (js-mode . js-ts-mode)
-      (c-mode . c-ts-mode)
-      (c++-mode . c++-ts-mode)
-      ;; and so on...
-      ))
+      '((python-mode . python-ts-mode)
+        (js-mode . js-ts-mode)
+        (c-mode . c-ts-mode)
+        (c++-mode . c++-ts-mode)
+        (python-mode . python-ts-mode)
+        ;; and so on...
+        ))
 
 (use-package treesit-fold
   :straight (treesit-fold

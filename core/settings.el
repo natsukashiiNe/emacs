@@ -10,6 +10,13 @@
   :config
   (pyvenv-activate "~/src/pyenv/global"))
 
+;; encryption:
+(require 'epa-file)
+(epa-file-enable)
+
+(setq auth-sources '("~/.authinfo.gpg"))
+(setq epa-pinentry-mode 'loopback) ;; allows GPG passphrase prompts in Emacs
+
 ;; ----------------------------
 ;; UI Customizations
 ;; ----------------------------

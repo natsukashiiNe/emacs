@@ -126,70 +126,90 @@
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t"
+ :key "SPC h"
  :command nil ;; prefix
  :desc "get completions")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t e"
+ :key "SPC H"
+ :command nil ;; prefix
+ :desc "get help")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC h e"
  :command (lambda () (interactive) (my/exec-with-prefix "evil- "))
  :desc "[e]vil commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t h"
+ :key "SPC h h"
  :command (lambda () (interactive) (my/exec-with-prefix "describe- "))
  :desc "describe")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t c"
+ :key "SPC h c"
  :command (lambda () (interactive) (my/exec-with-prefix "projectile- "))
  :desc "[c]onsult commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t p"
+ :key "SPC h p"
  :command (lambda () (interactive) (my/exec-with-prefix "projectile- "))
  :desc "[p]rojectile commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t n"
+ :key "SPC h n"
  :command (lambda () (interactive) (my/exec-with-prefix "persp- "))
  :desc "perspective commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t b"
+ :key "SPC h b"
  :command (lambda () (interactive) (my/exec-with-prefix "eyebrowse- "))
  :desc "eye[b]rowse commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t d"
+ :key "SPC h d"
  :command (lambda () (interactive) (my/exec-with-prefix "dired- "))
  :desc "dired commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t l"
+ :key "SPC h l"
  :command (lambda () (interactive) (my/exec-with-prefix "lsp- "))
  :desc "[l]sp commands")
 
 (keymap-set-with-desc
  :map evil-normal-state-map
- :key "SPC t f"
+ :key "SPC h f"
  :command (lambda () (interactive) (my/exec-with-prefix "treemacs- "))
+ :desc "treemacs commands")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC h f"
+ :command 'describe-function
  :desc "treemacs commands")
 
 
 ;; BUFFER / PROJECT NAVIGATON
 
 ;; TODO:  probably that will be needed to count only for "pesp-session" buffer
-(keymap-set evil-normal-state-map "C-O" 'projectile-previous-project-buffer)
-(keymap-set evil-normal-state-map "C-I" 'projectile-next-project-buffer)
+(keymap-set global-map "C-O" 'projectile-previous-project-buffer)
+(keymap-set global-map "C-I" 'projectile-next-project-buffer)
+
+;; Tab Navigation
+;; magit-diff-mode
+
+;; (keymap-set magit-hunk-section-map "M-w" 'tab-bar-switch-to-next-tab)
+;; (keymap-set magit-hunk-section-map "M-W" 'tab-bar-switch-to-prev-tab)
+(keymap-set global-map "M-w" 'tab-bar-switch-to-next-tab)
+(keymap-set global-map "M-W" 'tab-bar-switch-to-prev-tab)
 
 (keymap-set-with-desc
  :map evil-normal-state-map
@@ -252,9 +272,34 @@
 
 (keymap-set-with-desc
  :map evil-normal-state-map
+ :key "C-n C-s"
+ :command 'persp-save
+ :desc "pesps save")  
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
  :key "C-n C-e"
  :command 'persp-switch-last
  :desc "pesps switch last")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-n e"
+ :command 'eyebrowse-last-window-config
+ :desc "eye last win conf")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-n n"
+ :command 'eyebrowse-switch-to-window-config
+ :desc "eye switch")
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "C-n w"
+ :command 'eyebrowse-rename-window-config
+ :desc "eye [w]rite config")
+
 
 ;; evil-snipe
 (keymap-set-with-desc
@@ -353,4 +398,5 @@
 
 ;;  MINIBUFFER
 (keymap-set minibuffer-local-map "C-w" 'backward-kill-word)
+(keymap-set minibuffer-local-map "C-S-v" 'evil-paste-before)
 (keymap-set minibuffer-local-map "<escape>" 'abort-recursive-edit)

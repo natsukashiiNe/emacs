@@ -30,6 +30,7 @@
 (defconst exu-bgreen2 "#60DC60")
 (defconst exu-bcyan "#1FCFF1")
 (defconst exu-cyan "#56b6c2")
+(defconst exu-green "#71AA71")
 (defconst exu-black "#000000")
 (defconst exu-white "#FFFFFF")
 (defconst exu-lpurple "#c895c8") ;; line numbers, indentation
@@ -49,6 +50,8 @@
 (defconst exu-bg-purple "#451020") ;; pop-ups
 (defconst exu-bg-dark-purple "#321932") ;; ?
 (defconst exu-bg-blue "#244561") ;; for visual mode
+(defconst bg_lred  "#442533")
+
 
 
 ;; grey
@@ -66,14 +69,14 @@
 
  ;; Basic Editor UI
  `(default ((t (:foreground ,exu-white :background ,exu-bg-main))))
- `(hl-line ((t (:background ,exu-bg-sec :foreground unspecified))))
+ `(hl-line ((t (:background ,exu-bg-light :foreground unspecified))))
  `(cursor  ((t (:background ,exu-orange-accent2))))
  `(fringe  ((t (:background ,exu-bg-main))))
  `(region  ((t (:background ,exu-bg-blue :foreground ,exu-white :extend t))))
  `(highlight ((t (:background ,exu-bg-light :foreground ,exu-white :extend t))))
  `(vertical-border ((t (:foreground ,exu-dim-pink :background nil))))
  `(match ((t ( :box (:line-width 2 :color "#FFFF00" :style released-button )))))
- `(link ((t (:foreground ,exu-orange))))
+ `(link ((t (:foreground ,exu-orange :box (:line-width 2 :color ,exu-grey :style flat-button)))))
 
 
  ;; line numbers
@@ -86,6 +89,7 @@
  `(font-lock-doc-face           ((t (:inherit font-lock-comment-face))))
  `(font-lock-string-face        ((t (:foreground ,exu-orange :slant italic))))
  `(font-lock-keyword-face       ((t (:foreground ,exu-yellow))))
+ ;;`(font-lock-builtin-face       ((t (:foreground ,exu-yellow :slant italic))))
  `(font-lock-builtin-face       ((t (:foreground ,exu-yellow :slant italic))))
  `(font-lock-type-face          ((t (:foreground ,exu-pink-accent2))))
  `(font-lock-function-name-face ((t (:foreground ,exu-pink))))
@@ -97,11 +101,11 @@
  ;; LSP
  ;;`(tree-sitter-hl-face:attribute                         
  `(tree-sitter-hl-face:comment                   ((t (:inherit font-lock-comment-face))))
- `(tree-sitter-hl-face:constant                  ((t (:inherit font-lock-variable-name-face))))
- `(tree-sitter-hl-face:constant.builtin          ((t (:inherit font-lock-variable-name-face))))
+ `(tree-sitter-hl-face:constant                  ((t (:inherit font-lock-constant-face))))
+ `(tree-sitter-hl-face:constant.builtin          ((t (:inherit font-lock-constant-face))))
  `(tree-sitter-hl-face:constructor               ((t (:inhert font-lock-function-name-face))))
  `(tree-sitter-hl-face:doc                       ((t (:inherit font-lock-doc-face))))
- `(tree-sitter-hl-face:embedded                  ((t (:foreground ,exu-bgreen))))
+ `(tree-sitter-hl-face:embedded                  ((t (:inherit font-lock-variable-name-face :slant italic))))
  `(tree-sitter-hl-face:escape                    ((t (:foreground ,exu-cyan :slant italic)) ))
  `(tree-sitter-hl-face:function                  ((t (:inherit font-lock-function-name-face))))
  `(tree-sitter-hl-face:function.builtin          ((t (:inherit font-lock-function-name-face))))
@@ -128,10 +132,11 @@
  `(tree-sitter-hl-face:type.builtin              ((t (:inherit font-lock-type-face))))                     
  `(tree-sitter-hl-face:type.parameter            ((t (:inherit font-lock-type-face))))
  `(tree-sitter-hl-face:type.supe                 ((t (:inherit font-lock-type-face))))
- `(tree-sitter-hl-face:variable ((t (:inherit font-lock-variable-name-face))))
- `(tree-sitter-hl-face:variable.builtin ((t (:inherit font-lock-variable-name-face))))
- `(tree-sitter-hl-face:variable.parameter ((t (:inherit font-lock-variable-name-face))))
- `(tree-sitter-hl-face:variable.special ((t (:inherit font-lock-variable-name-face))))
+ `(tree-sitter-hl-face:variable                  ((t (:inherit font-lock-variable-name-face))))
+ ;;`(tree-sitter-hl-face:variable                  ((t (:foreground ,exu-bgreen))))
+ `(tree-sitter-hl-face:variable.builtin          ((t (:inherit font-lock-variable-name-face))))
+ `(tree-sitter-hl-face:variable.parameter        ((t (:inherit font-lock-variable-name-face))))
+ `(tree-sitter-hl-face:variable.special          ((t (:inherit font-lock-variable-name-face))))
 
 
  `(lsp-face-highlight-textual   ((t (:background unspecified
@@ -186,8 +191,8 @@
    ((t (:foreground ,exu-white :background ,exu-bg-dark
                     :box (:line-width 2 :color ,exu-bg-dark)))))
  `(mode-line-inactive
-   ((t (:foreground ,exu-dim-purple :background ,exu-bg-main
-                    :box (:line-width 2 :color ,exu-bg-main)))))
+   ((t (:foreground ,exu-dim-viol  :background ,exu-bg-main
+                    :box (:line-width 1 :color ,exu-dim-viol)))))
 
  `(persp-selected-face
    ((t (:background ,exu-bg-light :foreground ,exu-pink-accent1))))
@@ -255,8 +260,8 @@
  `(corfu-default
    ((t (:background ,exu-bg-dark :foreground ,exu-white))))
  `(corfu-current
-   ((t (:background ,exu-bg-dark-purple :foreground ,exu-white
-                    :weight bold :underline t))))
+   ((t (:background ,bg_lred :foreground ,exu-white
+                    :slant italic :underline t))))
  `(corfu-border
    ((t (:background ,exu-bg-purple))))
  

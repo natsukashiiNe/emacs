@@ -9,3 +9,6 @@
     (interactive)
     (tab-new)
     (magit-status)))
+
+(use-package forge
+  :after magit)

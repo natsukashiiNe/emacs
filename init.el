@@ -59,7 +59,9 @@
 (load-config-file "core/completion/corfu.el")      ;; Auto-Completion
 (load-config-file "core/completion/embark.el")     ;; Actions & Selection
 (load-config-file "core/completion/orderless.el")  ;; Better Matching
-(load-config-file "core/session-manager.el")       ;; Perps + Projectile
+
+;; TMUX
+(load-config-file "session-manager/main.el")       ;; Perps + Projectile
 ;; (load-config-file "core/centaur-tabs.el")
 (load-config-file "core/vterm.el")
 (load-config-file "core/posframe.el")
@@ -100,7 +102,7 @@
 ;; END OF CONFIG
 ;; ----------------------------------------------------------------------
 (mapc #'disable-theme custom-enabled-themes)
-(load-theme 'test t)
+;; (load-theme 'test t)
 
-;; (load-theme 'leuven t)
+(load-theme 'leuven t)
 

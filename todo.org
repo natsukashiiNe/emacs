@@ -46,6 +46,7 @@ Combine opening new persp session + starting new project. Every window should ha
 when you leave the last opened buffer, instead of closing emacs, you open terminal in its root.
 ** tabs: keep per session
 ** windows setup (eyebrowse) 
+*** Main horizontal layout
 
 
 * THEME
@@ -66,3 +67,9 @@ prob just go open fm (yazi) in the termnal via wm
 - magit
 - toggle-bable (fullscreen) zsh for each pesp session (in the root of the projectile)
 - two add. terminals: one for build one for git (toogleble)
+
+* General Dotfiles
+- fix toggle-touchpad
+- laucnh python hc helper
+- have env for home/work
+- hace preset with that for home / work

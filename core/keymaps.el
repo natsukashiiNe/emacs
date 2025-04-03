@@ -200,7 +200,7 @@
 ;; BUFFER / PROJECT NAVIGATON
 
 ;; TODO:  probably that will be needed to count only for "pesp-session" buffer
-(keymap-set global-map "C-O" 'projectile-previous-project-buffer)
+(keymap-set global-map "C-o" 'projectile-previous-project-buffer)
 (keymap-set global-map "C-I" 'projectile-next-project-buffer)
 
 ;; Tab Navigation
@@ -308,6 +308,26 @@
  :command 'evil-snipe-f
  :desc "evil-snipe-f")  
 
+
+;; ORG mode hotkeys
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC s"
+ :command nil
+ :desc "[s]urrond commands")  
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC s b"
+ :command viWS*
+ :desc "surround [b]old")  
+
+(keymap-set-with-desc
+ :map evil-normal-state-map
+ :key "SPC s B"
+ :command vaWS*
+ :desc "surround [b]old (a)")  
+
 ;; QUICK FILE ACCESS
 (keymap-set-with-desc
  :map evil-normal-state-map
@@ -398,5 +418,6 @@
 
 ;;  MINIBUFFER
 (keymap-set minibuffer-local-map "C-w" 'backward-kill-word)
+(keymap-set minibuffer-local-map "C-h" 'evil-delete-backward-char)
 (keymap-set minibuffer-local-map "C-S-v" 'evil-paste-before)
 (keymap-set minibuffer-local-map "<escape>" 'abort-recursive-edit)

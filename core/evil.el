@@ -9,14 +9,19 @@
   (setq-default indent-tabs-mode nil) ;; Use spaces instead of tabs
   (setq-default tab-width 4)          ;; Set tab width
   (setq-default evil-shift-width 4)   ;; Match Doom’s default indentation width
-)
+  )
 
 
 (use-package evil-escape
-:after evil
-:config
-(setq-default evil-escape-key-sequence "fj")
-(evil-escape-mode 1))
+  :after evil
+  :config
+  (setq-default evil-escape-key-sequence "fj")
+  (evil-escape-mode 1))
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 
 (use-package evil-org

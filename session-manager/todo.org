@@ -1,0 +1,14 @@
+*Using projectile and perspective to emulate tmux-like workflow*
+
+* Per session:
+1. Always open a new session with a terminal (vterm)
+2. Session is always binded to the project and new buffers are always opened in the root of said project
+** Data to store:
+Persp name + projectile name
+*** Elastic:
+- Child frame
+- Terminals: {name, mode}
+*** Tmux:
+- Tablist
+* Elastic
+* Elux

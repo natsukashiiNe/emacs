@@ -17,16 +17,16 @@
   (vertico-posframe-mode 1))
 
 (defun my/disable-vertico-posframe ()
-"Disable vertico-posframe for certain commands."
-(when (or 
-          (eq this-command 'consult-line)
-          (eq this-command 'projectile-grep)
-          (eq this-command 'lsp-find-references)
-          ;;(eq this-command 'consult-ripgrep)
-          ;;(eq this-command 'consult-grep)
-          ;;(eq this-command 'project-find-regexp)
-          )
-  (vertico-posframe-mode -1)))
+  "Disable vertico-posframe for certain commands."
+  (when (or 
+         (eq this-command 'consult-line)
+         (eq this-command 'projectile-grep)
+         (eq this-command 'lsp-find-references)
+         ;;(eq this-command 'consult-ripgrep)
+         ;;(eq this-command 'consult-grep)
+         ;;(eq this-command 'project-find-regexp)
+         )
+    (vertico-posframe-mode -1)))
 
 (defun my/enable-vertico-posframe ()
   "Re-enable vertico-posframe after minibuffer exits."

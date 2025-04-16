@@ -1,23 +1,4 @@
 ;; ----------------------------
-;; System Dependencies
-;; ----------------------------
-(setq python-shell-interpreter "~/src/pyenv/global/bin/python")
-(setenv "PATH" (concat (expand-file-name "~/src/pyenv/global/bin") ":" (getenv "PATH")))
-(setq exec-path (append '("~/src/pyenv/global/bin") exec-path))
-
-;; Optional: activate this env automatically (e.g. via pyvenv)
-(use-package pyvenv
-  :config
-  (pyvenv-activate "~/src/pyenv/global"))
-
-;; encryption:
-(require 'epa-file)
-(epa-file-enable)
-
-(setq auth-sources '("~/.authinfo.gpg"))
-(setq epa-pinentry-mode 'loopback) ;; allows GPG passphrase prompts in Emacs
-
-;; ----------------------------
 ;; UI Customizations
 ;; ----------------------------
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/") 
@@ -36,11 +17,11 @@
 ;; ----------------------------
 ;; Line Numbers & Cursor Settings
 ;; ----------------------------
-(global-hl-line-mode 1)  ;; Highlight the current line globally
-(setq display-line-numbers-type 'visual) ;; Do not count folds
+(global-hl-line-mode 1)                      ;; Highlight the current line globally
+(setq display-line-numbers-type t)           ;; Use actual lines, not visual wrapped lines
 (global-display-line-numbers-mode 1)
-(setq-default display-line-numbers-current-absolute nil) ;; Don't make the current line absolute
-(show-paren-mode 1) ;; Highlight matching
+(setq-default display-line-numbers-current-absolute nil)
+(show-paren-mode 1)                          ;; Highlight matching
 
 ;; parentheses
 (global-visual-line-mode 1) ;; Enable word wrapping

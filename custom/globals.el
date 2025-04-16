@@ -4,22 +4,33 @@
 ;; - (define-key input-decode-map [?\C-у] [?\C-h])
 
 (defmacro keymap-set-with-desc (&rest args)
-  "Bind a key in a keymap and add a which-key description.
+  "Bind a key in multiple keymaps and add a which-key description.
+
 Keyword arguments:
-  :map     -- the keymap to use
-  :key     -- the key sequence 
-  :ru_key  -- russian key
-  :command -- the command to bind (can be nil)
-  :desc    -- the description (for which-key)"
-  (let ((map     (plist-get args :map))
+  :maps    -- a list of keymaps (symbols or actual keymap objects)
+  :key     -- the primary key sequence
+  :ru_key  -- an alternate “Russian” key (defaults to :key if omitted)
+  :command -- the command to bind (can be nil for prefix)
+  :desc    -- the which-key label"
+  (let ((maps    (plist-get args :maps))
         (key     (plist-get args :key))
-        (ru_key  (or (plist-get args :ru_key) (plist-get args :key)))
+        (ru-key  (or (plist-get args :ru_key) (plist-get args :key)))
         (command (plist-get args :command))
         (desc    (plist-get args :desc)))
-    `(progn
-       (keymap-set ,map ,key ,command)
-       (keymap-set ,map ,ru_key ,command)
-       (which-key-add-key-based-replacements ,key ,desc))))
+    ;; Generate a dolist for run-time binding
+    `(dolist (m ,maps)
+       ;; If M is a symbol, look up its value (the actual keymap).
+       (let ((km (if (symbolp m)
+                     (symbol-value m)
+                   m)))
+         (unless (keymapp km)
+           (error "Not a keymap: %S" km))
+         ;; Bind both the normal key and the `ru-key`.
+         (keymap-set km ,key ,command)
+         (keymap-set km ,ru-key ,command)
+         ;; Assign a which-key description.
+         (which-key-add-key-based-replacements ,key ,desc)))))
+
 
 
 
@@ -37,3 +48,10 @@ Keyword arguments:
                                               (no-delete-other-windows . nil))))))))
 
 (global-set-key (kbd "C-c m") #'my/toggle-messages-window)
+
+(defun show-buffer-and-file ()
+  "Show current buffer name and file path."
+  (interactive)
+  (if buffer-file-name
+      (message "Buffer: %s\nFile: %s" (buffer-name) buffer-file-name)
+    (message "Buffer: %s (not visiting a file)" (buffer-name))))

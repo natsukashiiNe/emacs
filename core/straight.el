@@ -2,7 +2,7 @@
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir)) ;; ⬅️ Uses `straight-base-dir`
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir)) 
       (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer

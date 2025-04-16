@@ -1,17 +1,4 @@
-;; TODO:
-;; mini-frame
-;; elastic / popper
-;; vterm
-
-;; TODO: treesitter
-
-
-
-;; TODO: custom xref: in dynamic consult / slide-down window from below
-
-;; TODO: Custom function
-;; TODO: ORG
-;; list of dirs
+;; TODO custom xref: in dynamic consult / slide-down window from below
 
 ;; ----------------------------------------------------------------------
 (setq user-emacs-directory "~/.emacs.d/")
@@ -48,6 +35,7 @@
 
 
 (load-config-file "core/straight.el")   ;; Package Manager (straight.el)
+(load-config-file "core/env_settings.el")
 
 (load-config-file "custom/globals.el")
 (load-config-file "core/settings.el")
@@ -61,39 +49,42 @@
 (load-config-file "core/completion/orderless.el")  ;; Better Matching
 
 ;; TMUX
-(load-config-file "session-manager/main.el")       ;; Perps + Projectile
+(load-config-file "session-manager/main.el")       ;; Perps + Projectile (remaking this)
 ;; (load-config-file "core/centaur-tabs.el")
 (load-config-file "core/vterm.el")
 (load-config-file "core/posframe.el")
 
 (load-config-file "org/org-settings.el")  ;; Org-mode customizations
-(load-config-file "org/org-plugins.el")  ;; Org-mode customizations
+(load-config-file "org/org-plugins.el")   ;; Org-mode customizations
 
+;; TODO lsp configuration 
 (load-config-file "lsp/lsp-config.el")
 (load-config-file "lsp/lsp-servers.el")
 (load-config-file "lsp/lsp-ui.el")
-(load-config-file "lsp/tree-sitter.el")
-(load-config-file "core/ftree.el")
 
-;; [?] TODO: ts
+(load-config-file "lsp/tree-sitter.el")
+(load-config-file "core/ftree.el")         ;; why is this so bad
 
 ;; APPS
+(load-config-file "apps/decrypt-keys.el")
+
 (load-config-file "apps/telega.el")
 (load-config-file "apps/magit.el")
+(load-config-file "apps/gptel-setup.el")
 
 ;; CUSTOM
-(load-config-file "custom/elastic.el")  ;; Floating Frames Controls
+(load-config-file "custom/elastic.el")  ;; Floating Frames Controls (TODO)
 
-;; 
-(load-config-file "core/keymaps.el")  
+;; (load-config-file "core/keymaps.el")  
+(load-config-file "core/general-setup.el")  
 (load-config-file "core/which-key.el")
 (load-config-file "core/ui.el")
 (load-config-file "themes/parameters.el")
-(load-config-file "themes/modeline-options.el")
-;; (load-config-file "themes/eXu.el")
+(load-config-file "themes/modeline-options.el") ;; TODO
+;; (load-config-file "themes/eXu.el") ;; TODO
 
 ;; staff that for some reason get rewritten after eval of settings file
-(blink-cursor-mode 0)  ;; Completely disable cursor blinking
+(blink-cursor-mode 0)  ;; disable cursor blinking
 (set-face-background 'child-frame-border "#16202B")
 
 (message "🎉 Emacs startup complete!")
@@ -101,8 +92,8 @@
 ;; ----------------------------------------------------------------------
 ;; END OF CONFIG
 ;; ----------------------------------------------------------------------
-(mapc #'disable-theme custom-enabled-themes)
-;; (load-theme 'test t)
 
-(load-theme 'leuven t)
+(mapc #'disable-theme custom-enabled-themes)
+(load-theme 'test t)
+;; (load-theme 'leuven t)
 

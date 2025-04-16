@@ -13,5 +13,5 @@
         which-key-side-window-slot -10
         which-key-side-window-max-height 0.25
         which-key-idle-delay 0.01
-        which-key-max-description-length 25
+        which-key-max-description-length 50
         which-key-separator " → "))

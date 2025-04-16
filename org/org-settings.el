@@ -57,3 +57,8 @@
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+
+
+
+;; LATEX
+(setq org-latex-default-figure-position "H")

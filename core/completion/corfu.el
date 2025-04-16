@@ -1,3 +1,5 @@
+;; TODO make it not suck
+
 (use-package corfu
   :straight t
   :custom
@@ -11,7 +13,7 @@
   (global-corfu-mode)) 
 
 (use-package corfu-popupinfo
-:straight (:type git :host github :repo "minad/corfu")
-:after corfu
-:init
-(corfu-popupinfo-mode))
+  :straight (:type git :host github :repo "minad/corfu")
+  :after corfu
+  :init
+  (corfu-popupinfo-mode))

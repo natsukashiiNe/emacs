@@ -73,3 +73,5 @@ prob just go open fm (yazi) in the termnal via wm
 - laucnh python hc helper
 - have env for home/work
 - hace preset with that for home / work
+
+

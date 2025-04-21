@@ -1,0 +1,15 @@
+#+TITLE: DESCRIPTION OF MY ELACTIC MODE
+
+* General Idea
+Elastic tries to emulate several-session working flow like tmux provides, but fully in emacs.
+** Organization:
+Emacs server is constantly running in the background, maintaining an active *server*  /(alternative to tmux *server*)/.
+A server has several *sessions* - a collection of tmux /(alternatives to a session)/.
+Each session has several *workspaces* - an isolated emacs-environment with its own set of opened buffers, tabs, and proccesses attached to it /(alternative to tmux window)/.
+** Functionality:
+***  Running in the background.
+All proccess are in the background - even if all clients of emacs are closed, a server with all sessions is still running. So all the launched process are still active, unsaved buffers and files are still opened and the user can "reconnect" to it in any way - even from tty or remotely with all the progress not being lost (like tmux).
+*** Saving and restoring server.
+User can save and restore theirs state of the server - restoring all the sessions and workspaces in the state the were on the moment of saving. - an analogous action to "resurrect" behavior of tmux via plugin tmux-ressurect.
+*** Workspaces can contain bash-process
+Every workspace can have a terminal-process attacched to it, which should be alive until the rescpective workspace (or its session or the server itself) is terminated. This proccess should be "stored" in tmux separeta server, so any fkj:

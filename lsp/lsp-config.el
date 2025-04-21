@@ -10,7 +10,7 @@
         lsp-idle-delay 0.2
         lsp-log-io nil
         lsp-enable-symbol-highlighting t
-        ;; lsp-semantic-tokens-enable t
+        lsp-semantic-tokens-enable nil
         )
 
   :hook ((c-ts-mode . lsp)
@@ -20,7 +20,7 @@
          (prog-mode . (lambda ()
                         (unless (derived-mode-p 'emacs-lisp-mode)
                           (lsp)))))  ;; Disable LSP for Emacs Lisp
-  
+
   :config
   (setq lsp-auto-guess-root t)
   (setq xref-search-program 'ripgrep)

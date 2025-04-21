@@ -32,11 +32,10 @@
                          (require 'lsp-pyright)
                          (lsp)))  ;; or (lsp-deferred)
   :config
-  (setq lsp-pyright-venv-path "~/src/pyenv/"
-        lsp-pyright-venv-directory "global"
+  (setq lsp-pyright-venv-path "~/src/pyenv"
         lsp-pyright-python-executable-cmd "~/src/pyenv/global/bin/python3"
         lsp-pyright-use-library-code-for-types t
-        lsp-pyright-typechecking-mode "basic"))
+        lsp-pyright-typechecking-mode "workspace"))
 
 (use-package apheleia
   :ensure t
@@ -50,3 +49,11 @@
         '("~/.config/emacs/formatters/isort-wrapper"))
 
   (apheleia-global-mode +1))
+
+
+(use-package lsp-java
+  :ensure t
+  :config
+  (setq lsp-java-java-path "/usr/lib/jvm/java-23-openjdk/bin/java"
+        lsp-java-jdt-download-url "https://download.eclipse.org/jdtls/milestones/1.11.0/jdt-language-server-latest.tar.gz")
+  (add-hook 'java-mode-hook #'lsp))

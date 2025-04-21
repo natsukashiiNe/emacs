@@ -22,16 +22,39 @@
          (eq this-command 'consult-line)
          (eq this-command 'projectile-grep)
          (eq this-command 'lsp-find-references)
-         ;;(eq this-command 'consult-ripgrep)
-         ;;(eq this-command 'consult-grep)
-         ;;(eq this-command 'project-find-regexp)
+         (eq this-command 'consult-lsp-diagnostics)
+         (eq this-command 'consult-lsp-file-symbols)
+         (eq this-command 'consult-xref)
+         (eq this-command 'xref-find-references)
+         (eq this-command 'consult-ripgrep)
+         (eq this-command 'consult-grep)
+         (eq this-command 'project-find-regexp)
+         (eq this-command 'consult-project-buffer)
+         (eq this-command 'consult-imenu)
+         (eq this-command 'consult-outline)
          )
-    (vertico-posframe-mode -1)))
+    (shell-command "notify-send 'Hello from Emacs'")
+    (vertico-posframe-mode -1)
+    (setq vertico-count 12)
+    ))
 
 (defun my/enable-vertico-posframe ()
   "Re-enable vertico-posframe after minibuffer exits."
   (unless vertico-posframe-mode
-    (vertico-posframe-mode 1)))
+    (vertico-posframe-mode 1)
+    (setq vertico-count 20)
+    ))
 
 (add-hook 'minibuffer-setup-hook #'my/disable-vertico-posframe)
+
 (add-hook 'minibuffer-exit-hook #'my/enable-vertico-posframe)
+
+;; TESTING
+
+(defun my/log-every-command ()
+  (message "Command: %s" this-command))
+
+(add-hook 'pre-command-hook #'my/log-every-command)
+
+
+(remove-hook 'pre-command-hook #'my/log-every-command)

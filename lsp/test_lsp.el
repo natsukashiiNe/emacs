@@ -102,3 +102,46 @@
 
 (provide 'treesitter-setup)
 ;;; treesitter-setup.el ends here
+;;; lsp-setup.el --- LSP settings kept separate from treesitter  -*- lexical-binding: t; -*-
+;; Load *after* your completion framework but before language buffers open.
+;; -----------------------------------------------------------------------------
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :custom
+  ;; By default we turn semantic tokens *off* because you prefer Tree‑sitter’s
+  ;; colouring.  Toggle with \[lsp-semantic-tokens-mode] in any buffer.
+  (lsp-semantic-tokens-enable nil)
+  (lsp-enable-snippet t)
+  (lsp-idle-delay 0.2)
+  (lsp-prefer-capf t)
+  :config
+  ;; Standard per‑language hooks (only ts‑modes listed here).
+  (dolist (hook '(c-ts-mode-hook
+                  c++-ts-mode-hook
+                  python-ts-mode-hook
+                  rust-ts-mode-hook
+                  lua-ts-mode-hook
+                  js-ts-mode-hook
+                  tsx-ts-mode-hook))
+    (add-hook hook #'lsp-deferred))
+
+  ;; Optional: fine‑tune semantic token faces *if* you decide to turn them on.
+  (setq lsp-semantic-token-face-overrides
+        '((variable     . font-lock-variable-name-face)
+          (parameter    . font-lock-variable-name-face)
+          (property     . font-lock-variable-name-face)
+          (function     . font-lock-function-name-face)
+          (method       . font-lock-function-name-face)
+          (namespace    . font-lock-type-face))))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :custom
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-sideline-show-code-actions t))
+
+(provide 'lsp-setup)
+;;; lsp-setup.el ends here

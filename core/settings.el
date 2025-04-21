@@ -14,14 +14,31 @@
 ;; Load theme
 (use-package doom-themes)
 
+;; colorizer
+(use-package colorful-mode
+  :init
+  (setq colorful-use-prefix nil) ;; If non-nil, use prefix for preview color instead highlight them.)
+  )
+
 ;; ----------------------------
 ;; Line Numbers & Cursor Settings
 ;; ----------------------------
 (global-hl-line-mode 1)                      ;; Highlight the current line globally
-(setq display-line-numbers-type t)           ;; Use actual lines, not visual wrapped lines
-(global-display-line-numbers-mode 1)
-(setq-default display-line-numbers-current-absolute nil)
+;; (setq display-line-numbers-type t)           ;; Use actual lines, not visual wrapped lines
+;; (global-display-line-numbers-mode 1)
 (show-paren-mode 1)                          ;; Highlight matching
+
+;; ----------------------------
+;; Testing sector
+;; ----------------------------
+(global-display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-current-absolute nil)
+
+;; ----------------------------
+
+;; Ensure that wrapped lines are counted as a single line in the display
+(setq display-line-numbers-type 'visual)
 
 ;; parentheses
 (global-visual-line-mode 1) ;; Enable word wrapping
@@ -45,3 +62,8 @@
 ;; Adaptive Wrap Mode for better text wrapping
 (use-package adaptive-wrap
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+
+;; ----------------------------
+;; Editing & Interaction
+;; ----------------------------
+(use-package command-log-mode)

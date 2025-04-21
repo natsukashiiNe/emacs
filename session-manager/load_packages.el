@@ -20,24 +20,25 @@
   :init
   (persp-mode)
   
-  :config
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (persp-state-load persp-state-default-file)))
-  
-  (when (daemonp)
-    (add-hook 'server-after-make-frame-hook
-              (lambda ()
-                (persp-state-load persp-state-default-file))))
-  
-  (add-hook 'kill-emacs-hook
-            (lambda ()
-              (persp-state-save persp-state-default-file)))
-  
-  (add-hook 'delete-frame-functions
-            (lambda (_frame)
-              (when (<= (length (frame-list)) 1)
-                (persp-state-save persp-state-default-file)))))
+  ;; :config
+  ;; (add-hook 'emacs-startup-hook
+  ;;           (lambda ()
+  ;;             (persp-state-load persp-state-default-file)))
+  ;; 
+  ;; (when (daemonp)
+  ;;   (add-hook 'server-after-make-frame-hook
+  ;;             (lambda ()
+  ;;               (persp-state-load persp-state-default-file))))
+  ;; 
+  ;; (add-hook 'kill-emacs-hook
+  ;;           (lambda ()
+  ;;             (persp-state-save persp-state-default-file)))
+  ;; 
+  ;; (add-hook 'delete-frame-functions
+  ;;           (lambda (_frame)
+  ;;             (when (<= (length (frame-list)) 1)
+  ;;               (persp-state-save persp-state-default-file))))
+  )
 
 
 

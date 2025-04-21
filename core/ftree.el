@@ -38,3 +38,7 @@
 
 (use-package all-the-icons
   :if (display-graphic-p))
+
+(use-package treemacs-perspective
+  :after treemacs perspective
+  :config (treemacs-set-scope-type 'Perspectives))

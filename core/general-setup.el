@@ -15,10 +15,11 @@
    :keymaps 'override
    "M-C-h" 'tab-bar-switch-to-next-tab
    "M-C-l" 'tab-bar-switch-to-prev-tab
-   "C-h" 'evil-window-left
-   "C-j" 'evil-window-bottom
-   "C-k" 'evil-window-up
-   "C-l" 'evil-window-right)
+   "C-S-h" 'evil-window-left
+   "C-S-j" 'evil-window-bottom
+   "C-S-k" 'evil-window-up
+   "C-S-l" 'evil-window-right
+   )
 
   
   ;; C-n prefixed
@@ -33,7 +34,7 @@
     "C-s" '(persp-save   :which-key "save perspective")
     "C-e" '(persp-switch-last :which-key "switch last")
     "e"   '(eyebrowse-last-window-config :which-key "eyebrowse last config")
-    "n"   '(eyebrowse-switch-to-window-config :which-key "eyebrowse switch config")
+    "i"   '(eyebrowse-switch-to-window-config :which-key "eyebrowse switch config")
     "w"   '(eyebrowse-rename-window-config :which-key "rename config")
     "f"   '(:ignore t :which-key "projectile managment")
     "f o"   '(projectile-switch-project :which-key "projectle switch project"))
@@ -51,8 +52,10 @@
     "f"   '(:ignore t :which-key "search / files")
     "f f" '(projectile-find-file :which-key "projectile-find-file")
     "f j" '(consult-project-buffer :which-key "consult-project-buffer")
-    "f s" '(projectile-grep :which-key "projectile grep")
-    "f m" '(imenu :which-key "imenu")
+    "f g" '(consult-grep :which-key "projectile grep")
+    "f G" '(projectile-grep :which-key "projectile grep")
+    "f m" '(consult-imenu :which-key "imenu")
+    "f s" '(consult-lsp-file-symbols :which-key "lsp symbols")
     "f e" '(projectile-dired :which-key "dired in project")
     "f i" '(next-buffer     :which-key "next buffer")
     "f o" '(previous-buffer :which-key "previous buffer")
@@ -72,7 +75,7 @@
             :which-key "[e]vil commands")
     "h h" '((lambda () (interactive) (my/exec-with-prefix "describe- "))
             :which-key "describe")
-    "h c" '((lambda () (interactive) (my/exec-with-prefix "projectile- "))
+    "h c" '((lambda () (interactive) (my/exec-with-prefix "consult- "))
             :which-key "[c]onsult commands")
     "h p" '((lambda () (interactive) (my/exec-with-prefix "projectile- "))
             :which-key "[p]rojectile commands")

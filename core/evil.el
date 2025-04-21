@@ -13,6 +13,10 @@
   (setq-default tab-width 4)          ;; Set tab width
   (setq-default evil-shift-width 4)   ;; Match Doom’s default indentation width
 
+  ;; logival lines navigation
+  (setq evil-respect-visual-line-mode nil)
+  (setq evil-cross-lines t)
+
   :config
   (evil-mode 1)
   )   

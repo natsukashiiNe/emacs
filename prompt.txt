@@ -1,60 +1,87 @@
+* Emacs Folds and Treesitter
+** Overview of my current setup
+I am using emacs 30. I am trying to setup proper:
+1. Foling with tree-sitter. I am using tree-sitter.el,  because it has better highlight support - at least it "exports" faces for me to define. I did not find how do i do that with regular treesitter that was built into emacs. I need line numbering to satisfy this three conditions:
+   1. relative line numbering
+   2. folds should not break it (if i have a fold 2 lines above, it should be shown as "2"n not whatever all the lines it has inside, if that is folded)
+   3. "wrap" behaviur should also be considered as one line, i have this for now:
+   4. additionaly, my evil moveenta like 0, _ and $ should take me to the end and start of the actual line, not "visible".
+   my currect config for tree-sitter.el is:
+   #+begin_src elisp
+     (use-package tree-sitter
+       :ensure t
+       :hook ((c-mode         . tree-sitter-mode)
+              (c++-mode       . tree-sitter-mode)
+              (python-mode    . tree-sitter-mode)
+              (javascript-mode . tree-sitter-mode))
+       :config
+       ;; Enable highlighting once tree-sitter is on:
+       (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+     (use-package tree-sitter-langs
+       :ensure t)
+
+     ;; I also use ts-fold
+     
+   #+end_src 
+  Strangely, i am noticing that my c++ and python buffers still use:
+  Major mode c++-mode: The major mode is C++//l mode defined in cc-mode.el:
+  for c++, for exampel (for python the same, no treesitter mode). However, my highlighting works, i have a custom theme setup:
+  #+begin_src elisp
+
 ;;; exu-theme.el 
 
 (deftheme test
   "Exusia is the best girl")
 
 ;; exu def colors
-(defconst exu-pink             "#FF67AB") ;; functions
-(defconst exu-pink-accent1     "#D12F55") ;; alternate pink (e.g. for types)
-(defconst exu-pink-accent2     "#F00167") ;; an accent pink
-(defconst exu-yellow           "#FFDF40") ;; used for keywords/statements
+(defconst exu-pink           "#FF67AB") ;; functions
+(defconst exu-pink-accent1   "#D12F55") ;; alternate pink (e.g. for types)
+(defconst exu-pink-accent2   "#F00167") ;; an accent pink
+(defconst exu-yellow         "#FFDF40") ;; used for keywords/statements
 
 ;; rare exu
-(defconst exu-dim-pink         "#C83872") ;; used for cursor lines/bars
-(defconst exu-orange-light     "#D19A66") ;; used for some backgrounds
-(defconst exu-orange           "#ED997D") ;; used for strings, backgrounds
-(defconst exu-orange-accent1   "#FF8700") ;; bright orange accent
-(defconst exu-orange-accent2   "#FF8020") ;; used e.g. for MatchParen
+(defconst exu-dim-pink       "#C83872") ;; used for cursor lines/bars
+(defconst exu-orange-light   "#D19A66") ;; used for some backgrounds
+(defconst exu-orange         "#ED997D") ;; used for strings, backgrounds
+(defconst exu-orange-accent1 "#FF8700") ;; bright orange accent
+(defconst exu-orange-accent2 "#FF8020") ;; used e.g. for MatchParen
 
 ;; common colors
-(defconst exu-red              "#e86671")
-(defconst exu-bred             "#CC0C0C")
-(defconst exu-bgreen           "#10E010")
-(defconst exu-bgreen2          "#60DC60")
-(defconst exu-bcyan            "#1FCFF1")
-(defconst exu-cyan             "#56b6c2")
-(defconst exu-green            "#71AA71")
-(defconst exu-black            "#000000")
-(defconst exu-white            "#FFFFFF")
-(defconst exu-lpurple          "#c895c8") ;; line numbers, indentation
-(defconst exu-dim-purple       "#784f78") ;; inactive lines
-(defconst exu-dim-viol         "#a884e0") ;; comments
-(defconst exu-blue             "#65D1FF")
-(defconst exu-lblue            "#5788FF")
-(defconst exu-bg-lred          "#442533") ;; sometimes for current line
+(defconst exu-red             "#e86671")
+(defconst exu-bred            "#CC0C0C")
+(defconst exu-bgreen          "#10E010")
+(defconst exu-bgreen2         "#60DC60")
+(defconst exu-bcyan           "#1FCFF1")
+(defconst exu-cyan            "#56b6c2")
+(defconst exu-green           "#71AA71")
+(defconst exu-black           "#000000")
+(defconst exu-white           "#FFFFFF")
+(defconst exu-lpurple         "#c895c8") ;; line numbers, indentation
+(defconst exu-dim-purple      "#784f78") ;; inactive lines
+(defconst exu-dim-viol        "#a884e0") ;; comments
+(defconst exu-blue            "#65D1FF")
+(defconst exu-lblue           "#5788FF")
+(defconst exu-bg-lred         "#442533") ;; sometimes for current line
 
 ;; backgrounds
 ;; (defconst exu-bg-main "#020E16")  ;; main background
-(defconst exu-bg-main          "#000000") ;; main background
-(defconst exu-bg-dark          "#1E2836") ;; used for mode bars
-(defconst exu-bg-dark2         "#0e1621") ;; used for mode bars
+(defconst exu-bg-main         "#000000") ;; main background
+(defconst exu-bg-dark         "#1E2836") ;; used for mode bars
+(defconst exu-bg-light        "#181830") ;; used for current line
+(defconst exu-bg-hover        "#072337") ;; popups
+(defconst exu-bg-sec          "#16202B") ;; occasional backgrounds
+(defconst exu-bg-purple       "#451020") ;; pop-ups
+(defconst exu-bg-dark-purple  "#321932") ;; ?
+(defconst exu-bg-blue         "#244561") ;; for visual mode
+(defconst bg_lred             "#442533")
+(defconst tg-dark             "#101018")
 
-(defconst exu-bg-light         "#181830") ;; used for current line
-;;(defconst exu-bg-hover         "#072337") ;; popups
-(defconst exu-bg-hover         "#17212b") ;; used for mode bars
-(defconst exu-bg-sec           "#16202B") ;; occasional backgrounds
-(defconst exu-bg-purple        "#451020") ;; pop-ups
-(defconst exu-bg-dark-purple   "#321932") ;; ?
-(defconst exu-bg-blue          "#244561") ;; for visual mode
-(defconst bg_lred              "#442533")
-(defconst tg-dark              "#101018")
-
-;; gre
-(defconst exu-grey             "#909090")      ;; info
-(defconst exu-grey-text        "#64C4FF") ;; diag info
-;;(defconst exu-grey1            "#AAAAAA")
-(defconst exu-grey1            "#9D9D9D")
-(defconst exu-grey2            "#CACACA")
+;; grey
+(defconst exu-grey            "#909090")      ;; info
+(defconst exu-grey-text       "#64C4FF") ;; diag info
+(defconst exu-grey1           "#AAAAAA")
+(defconst exu-grey2           "#CACACA")
 
 ;;
 ;; 2) DEFINE THE FACES
@@ -64,30 +91,24 @@
  'test
 
  ;; Basic Editor UI
- `(default         ((t (:foreground ,exu-white    :background ,exu-bg-main))))
- ;; `(default         ((t (:foreground ,exu-white    :background nil))))
- `(hl-line         ((t (:background ,exu-bg-light :foreground unspecified :underline (:color ,exu-orange-accent2)))))
- `(cursor          ((t (:background ,exu-orange-accent2))))
- `(fringe          ((t (:background ,exu-bg-main))))
- `(region          ((t (:background ,exu-bg-blue :foreground ,exu-white :extend t))))
- `(highlight       ((t (:background ,exu-bg-light :foreground ,exu-white :extend t))))
- `(match           ((t ( :box (:line-width 2 :color "#FFFF00" :style released-button )))))
- `(link            ((t (:foreground ,exu-orange :box (:line-width 2 :color ,exu-grey :style flat-button)))))
+ `(default ((t (:foreground ,exu-white :background ,exu-bg-main))))
+ `(hl-line ((t (:background ,exu-bg-light :foreground unspecified :underline (:color ,exu-orange-accent2)))))
+ `(cursor  ((t (:background ,exu-orange-accent2))))
+ `(fringe  ((t (:background ,exu-bg-main))))
+ `(region  ((t (:background ,exu-bg-blue :foreground ,exu-white :extend t))))
+ `(highlight ((t (:background ,exu-bg-light :foreground ,exu-white :extend t))))
  `(vertical-border ((t (:foreground ,exu-dim-pink :background nil))))
- `(minibuffer-prompt ((t (:foreground ,exu-black :background ,exu-orange-accent2))))
-
- ;; `(child-frame-border ((t ( :foreground ,exu-dim-pink))))
+ `(match ((t ( :box (:line-width 2 :color "#FFFF00" :style released-button )))))
+ `(link ((t (:foreground ,exu-orange :box (:line-width 2 :color ,exu-grey :style flat-button)))))
 
  ;; line numbers
  `(line-number ((t (:foreground ,exu-lpurple :background ,exu-bg-main))))
- ;;`(line-number ((t (:foreground ,exu-lpurple :background nil))))
  `(line-number-current-line ((t (:foreground ,exu-dim-pink :background ,exu-bg-light))))
 
  ;; Syntax (font-lock)
  `(font-lock-comment-face       ((t (:foreground ,exu-dim-viol :slant italic))))
  `(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
- ;;`(font-lock-doc-face           ((t (:inherit font-lock-string-face))))
- `(font-lock-doc-face           ((t (:foreground ,exu-grey1))))
+ `(font-lock-doc-face           ((t (:inherit font-lock-comment-face))))
  `(font-lock-string-face        ((t (:foreground ,exu-orange :slant italic))))
  `(font-lock-keyword-face       ((t (:foreground ,exu-yellow))))
  ;;`(font-lock-builtin-face       ((t (:foreground ,exu-yellow :slant italic))))
@@ -114,11 +135,10 @@
  `(tree-sitter-hl-face:function.macro            ((t (:foreground ,exu-cyan :slant italic))))
  `(tree-sitter-hl-face:function.special          ((t (:inherit font-lock-function-name-face))))
  ;; `(tree-sitter-hl-face:keyword                            ;;
- `(tree-sitter-hl-face:label                     ((t (:inherit font-lock-variable-name-face))))
+ ;; `(tree-sitter-hl-face:label                              ;;
  `(tree-sitter-hl-face:method                    ((t (:inherit font-lock-function-name-face))))
  `(tree-sitter-hl-face:method.call               ((t (:inherit font-lock-function-name-face))))
  `(tree-sitter-hl-face:number                    ((t (:foreground ,exu-cyan :slant italic))))
- ;;`(tree-sitter-hl-face:operator                  ((t (:inherit font-lock-keyword-face))))
  `(tree-sitter-hl-face:operator                  ((t (:inherit font-lock-variable-name-face))))
  `(tree-sitter-hl-face:property                  ((t (:inherit font-lock-variable-name-face))))
  `(tree-sitter-hl-face:property.definition       ((t (:inherit font-lock-variable-name-face))))
@@ -199,10 +219,6 @@
  `(persp-selected-face
    ((t (:background ,exu-bg-light :foreground ,exu-pink-accent2))))
 
- ;; lines
-
- `(header-line                         ((t (:background ,exu-bg-dark2 ))))
- 
  ;; tabine
  `(tab-bar                         ((t (:foreground ,exu-white :background ,exu-bg-dark ))))
  `(tab-bar-tab                     ((t (:foreground ,exu-pink-accent2 :background ,exu-black) )))
@@ -260,11 +276,11 @@
    ((t (:foreground ,exu-pink :slant italic))))
 
  ;; Completion (Vertico, Corfu, Orderless, etc.)
- `(vertico-current ((t (:inherit hl-line))))
- `(vertico-group-title ((t (:foreground ,exu-orange-accent2))))
-
+ `(vertico-current
+   ((t (:background ,exu-bg-dark-purple :foreground ,exu-white
+                    :underline t :weight bold))))
  `(corfu-default
-   ((t (:background ,exu-bg-hover :foreground ,exu-white))))
+   ((t (:background ,exu-bg-dark :foreground ,exu-white))))
  `(corfu-current
    ((t (:background ,bg_lred :foreground ,exu-white
                     :slant italic :underline t))))
@@ -274,9 +290,9 @@
  `(orderless-match-face-0
    ((t (:foreground ,exu-pink-accent2 :weight bold))))
  `(orderless-match-face-1
-   ((t (:foreground ,exu-yellow :weight bold))))
+   ((t (:foreground ,exu-orange :weight bold))))
  `(orderless-match-face-2
-   ((t (:foreground ,exu-orange-accent2 :weight bold))))
+   ((t (:foreground ,exu-yellow :weight bold))))
  `(orderless-match-face-3
    ((t (:foreground ,exu-cyan :weight bold))))
 
@@ -290,15 +306,13 @@
  `(marginalia-type
    ((t (:foreground ,exu-pink-accent1))))
  `(marginalia-key
-   ((t (:foreground ,exu-orange :slant italic))))
+   ((t (:foreground ,exu-yellow :weight bold))))
 
  ;; Consult
  `(consult-preview-match
    ((t (:background ,exu-dim-pink :foreground ,exu-black :weight bold))))
  `(consult-line-number
    ((t (:foreground ,exu-lpurple))))
- `(consult-key
-   ((t (:foreground ,exu-orange))))
 
  ;; Org-mode or Neorg-like
  `(org-level-1
@@ -311,30 +325,102 @@
    ((t (:foreground ,exu-orange :weight bold))))
  `(org-document-title
    ((t (:foreground ,exu-pink-accent1 :weight bold :height 1.3))))
+ `(org-block
+   ((t (:background ,tg-dark :foreground ,exu-white))))
  `(org-code
    ((t (:background ,exu-bg-light :foreground ,exu-cyan :slant italic))))
 
  `(org-block-begin-line
-   ((t (:foreground ,exu-grey1 :background ,tg-dark :box (:line-width 2 :color ,exu-lpurple :style released-button ) :extend t ))))
- `(org-block
-   ((t (:background ,tg-dark :foreground ,exu-white))))
+   ((t ( :box (:line-width 2 :color ,exu-lpurple :style released-button ) :extend t ))))
  `(org-block-end-line
-   ((t (:foreground ,exu-grey1 :background ,tg-dark :box (:line-width 2 :color ,exu-lpurple :style released-button ) :extend t ))))
-
- ;; groups
- `(org-verbatim ((t ( :foreground ,exu-bgreen2 ))))
-
+   ((t ( :box (:line-width 2 :color ,exu-lpurple :style released-button ) :extend t ))))
 
 
  ;; Basic diff
- `(diff-added   ((t (:foreground ,exu-bgreen  :background unspecified))))
- `(diff-changed ((t (:foreground ,exu-yellow  :background unspecified))))
- `(diff-removed ((t (:foreground ,exu-red     :background unspecified))))
+ `(diff-added   ((t (:foreground ,exu-bgreen  :background nil))))
+ `(diff-changed ((t (:foreground ,exu-yellow  :background nil))))
+ `(diff-removed ((t (:foreground ,exu-red     :background nil))))
 
  ;; TELEGA
+
  `(telega-highlight-text-face ((t (:box (:line-width 2 :color "#00FF00" :style released-button)))))
  
  )
 
 (provide-theme 'test)
 ;;; exu-theme.el ends here
+    
+  #+end_src
+but my highlihgting based on tree sitter works even now, when i have "c++ mode" (no treesitter). Hovewer, that blocks me from using folds.  So, if i do "describe text" on some c++ code, i get:
+#+begin_src text
+
+Text content at position 2246:
+
+
+There are 2 overlays here:
+ From 2231 to 2275
+  face                 hl-line
+  priority             -50
+  window               #<window 49 on decoration.h>
+ From 2240 to 2254
+  face                 lsp-face-highlight-textual
+  lsp-highlight        t
+
+
+There are text properties here:
+  face                 (tree-sitter-hl-face:function tree-sitter-hl-face:property)
+  fontified            t
+  wrap-prefix          #("    " 0 4 (fontified t))
+#+end_src
+so for some reason there is still tree-sitter properties.
+Basically i want from my config the following:
+1. Good syntax highlighting (because even now some of my code tokens are defined really strange, for exapmle this code):
+   #+begin_src c++
+#ifndef __DECORATION_H_
+#define __DECORATION_H_
+   #+end_src
+   those are very clearly two identical things, but they are highlighted differently and their properties are:
+   1. for ~#ifndef __DECORATION_H_~:
+      #+begin_src text
+
+   Text content at position 16:
+
+
+   There is an overlay here:
+    From 1 to 25
+     face                 hl-line
+     priority             -50
+     window               #<window 49 on decoration.h>
+
+
+   There are text properties here:
+     c-in-sws             t
+     face                 tree-sitter-hl-face:constant
+     fontified            t
+     wrap-prefix          " "
+      #+end_src
+   2. for ~#define __DECORATION_H_~:
+     #+begin_src text
+
+   Text content at position 40:
+
+
+   There is an overlay here:
+    From 25 to 49
+     face                 hl-line
+     priority             -50
+     window               #<window 49 on decoration.h>
+
+
+   There are text properties here:
+     c-in-sws             t
+     face                 font-lock-variable-name-face
+     fontified            t
+     wrap-prefix          " "
+     #+end_src
+    So i do not sure how how my config even work currently
+2. Good folding based on treesitter.
+3. Good line numbering to properly hande folds, relative numbers and visible (wrapped) lines
+
+
+** ** Answer (o1)

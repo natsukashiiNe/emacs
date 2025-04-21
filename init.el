@@ -1,5 +1,3 @@
-;; TODO custom xref: in dynamic consult / slide-down window from below
-
 ;; ----------------------------------------------------------------------
 (setq user-emacs-directory "~/.emacs.d/")
 (defvar my-config-dir "~/.config/emacs/"
@@ -37,6 +35,7 @@
 (load-config-file "core/straight.el")   ;; Package Manager (straight.el)
 (load-config-file "core/env_settings.el")
 
+
 (load-config-file "custom/globals.el")
 (load-config-file "core/settings.el")
 (load-config-file "core/evil.el")
@@ -58,11 +57,15 @@
 (load-config-file "org/org-plugins.el")   ;; Org-mode customizations
 
 ;; TODO lsp configuration 
+(load-config-file "lsp/lsp-modes.el")
+
 (load-config-file "lsp/lsp-config.el")
+(load-config-file "lsp/tree-sitter.el")
 (load-config-file "lsp/lsp-servers.el")
 (load-config-file "lsp/lsp-ui.el")
 
-(load-config-file "lsp/tree-sitter.el")
+
+;; (load-config-file "lsp/treesitter.el")
 (load-config-file "core/ftree.el")         ;; why is this so bad
 
 ;; APPS
@@ -81,11 +84,14 @@
 (load-config-file "core/ui.el")
 (load-config-file "themes/parameters.el")
 (load-config-file "themes/modeline-options.el") ;; TODO
+
 ;; (load-config-file "themes/eXu.el") ;; TODO
 
 ;; staff that for some reason get rewritten after eval of settings file
 (blink-cursor-mode 0)  ;; disable cursor blinking
-(set-face-background 'child-frame-border "#16202B")
+;; "#FF8700"
+;; "#FF8020"
+(set-face-background 'child-frame-border "#FF8020")
 
 (message "🎉 Emacs startup complete!")
 
@@ -97,3 +103,7 @@
 (load-theme 'test t)
 ;; (load-theme 'leuven t)
 
+
+;; ----------------------------------------------------------------------
+;; TERMINAL OVERRIDE
+;; ----------------------------------------------------------------------

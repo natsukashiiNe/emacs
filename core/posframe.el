@@ -49,12 +49,3 @@
 
 (add-hook 'minibuffer-exit-hook #'my/enable-vertico-posframe)
 
-;; TESTING
-
-(defun my/log-every-command ()
-  (message "Command: %s" this-command))
-
-(add-hook 'pre-command-hook #'my/log-every-command)
-
-
-(remove-hook 'pre-command-hook #'my/log-every-command)

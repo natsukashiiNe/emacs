@@ -1,19 +1,22 @@
-;; font
-(use-package all-the-icons
-  :ensure t)
+;; FUNTION TO HOOK ON GUI FRAME
 
-(set-face-attribute 'default nil :font "GoMono Nerd Font-24")
-(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-24")
+;; Fonts
+(set-face-attribute 'default nil :font "GoMono Nerd Font-20")
+(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-20")
 
-;; transparency
-(add-to-list 'default-frame-alist '(alpha-background . 92)) ;; 0 = fully transparent, 100 = opaque
-
-(defun toggle-transparency ()
-  (interactive)
-  (let ((alpha (frame-parameter nil 'alpha-set)))
-    (background-frame-parameter nil 'alpha-background (if (= alpha 100) 92 100))))
-
+;; Transparency
+(add-to-list 'default-frame-alist '(alpha-background . 92))
 (set-frame-parameter nil 'alpha-background 92)
 
-
-;; mode-line
+;; Doom modeline
+(use-package all-the-icons :ensure t)
+(use-package doom-modeline
+  :straight t
+  :hook (after-init . doom-modeline-mode)
+  :custom
+  (doom-modeline-height 30)
+  (doom-modeline-enable-word-count t)
+  (doom-modeline-buffer-file-name-style 'truncate-upto-root)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon t)
+  (doom-modeline-modal-icon t))

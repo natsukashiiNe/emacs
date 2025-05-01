@@ -10,16 +10,18 @@
         lsp-idle-delay 0.2
         lsp-log-io nil
         lsp-enable-symbol-highlighting t
-        lsp-semantic-tokens-enable nil
-        )
+        lsp-semantic-tokens-apply-modifiers t)
 
-  :hook ((c-ts-mode . lsp)
-         (c++-ts-mode . lsp)
+  :hook ((c-mode . lsp)
+         (c++-mode . lsp)
          (java-mode . lsp)
          (python-mode . lsp)
          (prog-mode . (lambda ()
                         (unless (derived-mode-p 'emacs-lisp-mode)
                           (lsp)))))  ;; Disable LSP for Emacs Lisp
+
+  ;;:hook ((c-mode  . lsp-deferred)
+  ;;       (c++-mode . lsp-deferred))
 
   :config
   (setq lsp-auto-guess-root t)

@@ -13,8 +13,8 @@
   (general-define-key
    :states '(normal visual)
    :keymaps 'override
-   "M-C-h" 'tab-bar-switch-to-next-tab
-   "M-C-l" 'tab-bar-switch-to-prev-tab
+   "M-C-l" 'tab-bar-switch-to-next-tab
+   "M-C-h" 'tab-bar-switch-to-prev-tab
    "C-S-h" 'evil-window-left
    "C-S-j" 'evil-window-bottom
    "C-S-k" 'evil-window-up
@@ -26,10 +26,10 @@
   (general-create-definer my-c-n-leader
     :states '(normal visual)
     :keymaps 'override
-    :prefix "C-n")
+    :prefix "C-j")
   (my-c-n-leader
     "" '(:ignore t :which-key "perspectives")
-    "C-n" '(persp-switch :which-key "persp-switch")
+    "C-j" '(persp-switch :which-key "persp-switch")
     "t"   '(tab-switch   :which-key "switch tab")
     "C-s" '(persp-save   :which-key "save perspective")
     "C-e" '(persp-switch-last :which-key "switch last")
@@ -73,6 +73,8 @@
     "h"   '(:ignore t :which-key "help / completions")
     "h e" '((lambda () (interactive) (my/exec-with-prefix "evil- "))
             :which-key "[e]vil commands")
+    "h C" '((lambda () (interactive) (my/exec-with-prefix "evilnc- "))
+            :which-key "evil [c]omments commands")
     "h h" '((lambda () (interactive) (my/exec-with-prefix "describe- "))
             :which-key "describe")
     "h c" '((lambda () (interactive) (my/exec-with-prefix "consult- "))
@@ -81,12 +83,14 @@
             :which-key "[p]rojectile commands")
     "h b" '((lambda () (interactive) (my/exec-with-prefix "eyebrowse- "))
             :which-key "eye[b]rowse commands")
-    "h d" '((lambda () (interactive) (my/exec-with-prefix "eyebrowse- "))
+    "h d" '((lambda () (interactive) (my/exec-with-prefix "dired - "))
             :which-key "[d]ired commands")
-    "h l" '((lambda () (interactive) (my/exec-with-prefix "eyebrowse- "))
+    "h l" '((lambda () (interactive) (my/exec-with-prefix "lsp - "))
             :which-key "[l]sp commands")
-    "h l" '((lambda () (interactive) (my/exec-with-prefix "eyebrowse- "))
+    "h t" '((lambda () (interactive) (my/exec-with-prefix "treemacs - "))
             :which-key "treemacs commands")
+    "h n" '((lambda () (interactive) (my/exec-with-prefix "persp - "))
+            :which-key "persp commands")
 
     ;; “SPC j” for LSP / Flymake
     "j"   '(:ignore t :which-key "lsp / flymake")
@@ -126,6 +130,23 @@
 (keymap-set minibuffer-local-map "C-h" 'evil-delete-char)
 (keymap-set minibuffer-local-map "C-S-v" 'evil-paste-before)
 (keymap-set minibuffer-local-map "<escape>" 'abort-recursive-edit)
+(keymap-set minibuffer-local-map
+            "C-S-o"
+            (lambda ()
+              (interactive)
+              (my/set-vertico-count
+               (+ vertico-count 10))))
+
+(keymap-set minibuffer-local-map
+            "C-S-w"
+            (lambda ()
+              (interactive)
+              (my/set-vertico-count
+               (max 1 (- vertico-count 10)))))
 
 ;; evil insert
 (keymap-set evil-insert-state-map "C-h" 'evil-delete-backward-char)
+
+;; VTERM
+(keymap-set  vterm-mode "C-M-l" 'tab-bar-switch-to-next-tab)
+(keymap-set  vterm-mode "M-C-h" 'tab-bar-switch-to-prev-tab)

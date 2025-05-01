@@ -65,7 +65,7 @@
 
  ;; Basic Editor UI
  `(default         ((t (:foreground ,exu-white    :background ,exu-bg-main))))
- ;; `(default         ((t (:foreground ,exu-white    :background nil))))
+ ;;`(default         ((t (:foreground ,exu-white    :background nil))))
  `(hl-line         ((t (:background ,exu-bg-light :foreground unspecified :underline (:color ,exu-orange-accent2)))))
  `(cursor          ((t (:background ,exu-orange-accent2))))
  `(fringe          ((t (:background ,exu-bg-main))))
@@ -86,11 +86,9 @@
  ;; Syntax (font-lock)
  `(font-lock-comment-face       ((t (:foreground ,exu-dim-viol :slant italic))))
  `(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
- ;;`(font-lock-doc-face           ((t (:inherit font-lock-string-face))))
  `(font-lock-doc-face           ((t (:foreground ,exu-grey1))))
  `(font-lock-string-face        ((t (:foreground ,exu-orange :slant italic))))
  `(font-lock-keyword-face       ((t (:foreground ,exu-yellow))))
- ;;`(font-lock-builtin-face       ((t (:foreground ,exu-yellow :slant italic))))
  `(font-lock-builtin-face       ((t (:foreground ,exu-yellow :slant italic))))
  `(font-lock-type-face          ((t (:foreground ,exu-pink-accent1))))
  `(font-lock-function-name-face ((t (:foreground ,exu-pink))))
@@ -98,6 +96,8 @@
  `(font-lock-constant-face      ((t (:foreground ,exu-cyan :slant italic))))
  `(font-lock-operator-face      ((t (:foreground ,exu-white))))
  `(font-lock-warning-face       ((t (:foreground ,exu-orange-accent2 :weight bold))))
+ `(font-lock-preprocessor-face       ((t (:inherit font-lock-keyword-face))))
+ 
 
  ;; LSP
  ;;`(tree-sitter-hl-face:attribute                         
@@ -152,35 +152,35 @@
                                                :foreground unspecified
                                                :box (:line-width 2 :color ,exu-orange-accent2 :style released-button)))))
 
- ;; `(lsp-face-rename                  ((t () )))
- ;; `(lsp-face-semhl-class             ((t () )))
- ;; `(lsp-face-semhl-comment           ((t () )))
- ;; `(lsp-face-semhl-constant          ((t () )))
- ;; `(lsp-face-semhl-default-library   ((t () )))
- ;; `(lsp-face-semhl-definition        ((t (:background unspecified  :foreground unspecified))))
- ;; `(lsp-face-semhl-deprecated        ((t () )))
- ;; `(lsp-face-semhl-enum              ((t () )))
- ;; `(lsp-face-semhl-event             ((t () )))
- ;;`(lsp-face-semhl-function           ((t () )))
- ;; `(lsp-face-semhl-implementation    ((t () )))
- ;; `(lsp-face-semhl-interface         ((t () )))
- ;; `(lsp-face-semhl-keyword           ((t () )))
- ;; `(lsp-face-semhl-label             ((t () )))
- ;; `(lsp-face-semhl-macro             ((t (:inherit tree-sitter-hl-face:function.macro) )))
- ;; `(lsp-face-semhl-member            ((t () )))
- ;; `(lsp-face-semhl-method            ((t () )))
- ;; `(lsp-face-semhl-namespace         ((t () )))
- ;; `(lsp-face-semhl-number            ((t () )))
- ;; `(lsp-face-semhl-operator          ((t () )))
- ;; `(lsp-face-semhl-parameter         ((t (:inherit tree-sitter-hl-face:type.parameter) )))
- ;;`(lsp-face-semhl-parameter         ((t (:background "#FFFFFF") )))
- ;; `(lsp-face-semhl-property          ((t () )))
- ;; `(lsp-face-semhl-regexp            ((t () )))
- ;; `(lsp-face-semhl-static            ((t () )))
- ;; `(lsp-face-semhl-string            ((t () )))
- ;; `(lsp-face-semhl-struct            ((t () )))
- ;; `(lsp-face-semhl-type              ((t () )))
- ;; `(lsp-face-semhl-type-parameter    ((t ( :inherit tree-sitter-hl-face:type.parameter) )))
+ ;;`(lsp-face-rename                  ((t () )))
+ `(lsp-face-semhl-class             ((t (:inherit font-lock-type-face) )))
+ `(lsp-face-semhl-comment           ((t (:inherit font-lock-comment-face) )))
+ `(lsp-face-semhl-constant          ((t (:foreground nil :background nil) )))
+ `(lsp-face-semhl-default-library   ((t (:inherit font-lock-type-face) )))
+ `(lsp-face-semhl-definition        ((t (:foreground nil :background nil))))
+ ;;`(lsp-face-semhl-deprecated        ((t () )))
+ `(lsp-face-semhl-enum              ((t (:inherit font-lock-constant-face) )))
+ ;;`(lsp-face-semhl-event             ((t () )))
+ `(lsp-face-semhl-function           ((t (:inherit font-lock-function-name-face) )))
+ ;;`(lsp-face-semhl-implementation    ((t () )))
+ `(lsp-face-semhl-interface         ((t (:foreground nil :background nil) )))
+ `(lsp-face-semhl-keyword           ((t (:inherit font-lock-keyword-face) )))
+ ;;`(lsp-face-semhl-label             ((t () )))
+ `(lsp-face-semhl-macro             ((t (:inherit tree-sitter-hl-face:function.macro) )))
+ `(lsp-face-semhl-member            ((t (:inherit font-lock-variable-name-face) )))
+ `(lsp-face-semhl-method            ((t (:inherit font-lock-function-name-face) )))
+ `(lsp-face-semhl-namespace         ((t (:inherit font-lock-type-face) )))
+ `(lsp-face-semhl-number            ((t (:inherit font-lock-constant-face) )))
+ `(lsp-face-semhl-operator          ((t (:inherit font-lock-operator-face) )))
+ `(lsp-face-semhl-parameter         ((t (:inherit tree-sitter-hl-face:type.parameter) )))
+ `(lsp-face-semhl-parameter         ((t (:inherit font-lock-variable-name-face) )))
+ `(lsp-face-semhl-property          ((t (:inherit font-lock-function-name-face) )))
+ `(lsp-face-semhl-regexp            ((t () )))
+ `(lsp-face-semhl-static            ((t () )))
+ `(lsp-face-semhl-string            ((t (:inherit font-lock-string-face) )))
+ `(lsp-face-semhl-struct            ((t (:inherit font-lock-type-face) )))
+ `(lsp-face-semhl-type              ((t (:inherit font-lock-type-face) )))
+ `(lsp-face-semhl-type-parameter    ((t ( :inherit tree-sitter-hl-face:type.parameter) )))
 
  ;; `(lsp-face-semhl-variable
 
@@ -330,6 +330,9 @@
  `(diff-added   ((t (:foreground ,exu-bgreen  :background unspecified))))
  `(diff-changed ((t (:foreground ,exu-yellow  :background unspecified))))
  `(diff-removed ((t (:foreground ,exu-red     :background unspecified))))
+
+ ;; GIT
+
 
  ;; TELEGA
  `(telega-highlight-text-face ((t (:box (:line-width 2 :color "#00FF00" :style released-button)))))

@@ -7,3 +7,6 @@
   :config
   (pyvenv-activate "~/src/pyenv/global")
   (setq python-shell-interpreter "python"))
+
+
+(use-package sudo-edit)

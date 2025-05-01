@@ -1,3 +1,5 @@
+;; FUNTION TO HOOK ON GUI FRAME
+
 (use-package which-key
   :ensure t
   :init

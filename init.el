@@ -59,9 +59,11 @@
 ;; TODO lsp configuration 
 (load-config-file "lsp/lsp-modes.el")
 
-(load-config-file "lsp/lsp-config.el")
 (load-config-file "lsp/tree-sitter.el")
+(load-config-file "lsp/lsp-config.el")
 (load-config-file "lsp/lsp-servers.el")
+
+;; (load-config-file "lsp/test_lsp.el")
 (load-config-file "lsp/lsp-ui.el")
 
 
@@ -76,34 +78,43 @@
 (load-config-file "apps/gptel-setup.el")
 
 ;; CUSTOM
+(load-config-file "core/general-setup.el")  
 (load-config-file "custom/elastic.el")  ;; Floating Frames Controls (TODO)
 
-;; (load-config-file "core/keymaps.el")  
-(load-config-file "core/general-setup.el")  
+;; GUI: Apply after to the frame
 (load-config-file "core/which-key.el")
 (load-config-file "core/ui.el")
 (load-config-file "themes/parameters.el")
-(load-config-file "themes/modeline-options.el") ;; TODO
 
-;; (load-config-file "themes/eXu.el") ;; TODO
-
-;; staff that for some reason get rewritten after eval of settings file
-(blink-cursor-mode 0)  ;; disable cursor blinking
-;; "#FF8700"
-;; "#FF8020"
-(set-face-background 'child-frame-border "#FF8020")
-
-(message "🎉 Emacs startup complete!")
-
-;; ----------------------------------------------------------------------
-;; END OF CONFIG
-;; ----------------------------------------------------------------------
 
 (mapc #'disable-theme custom-enabled-themes)
 (load-theme 'test t)
-;; (load-theme 'leuven t)
+(blink-cursor-mode 0)
+(set-face-background 'child-frame-border "#FF8020")
+;; (load-config-file "themes/modeline-options.el") ;; TODO
 
 
+(message "🎉 Emacs startup complete!")
 ;; ----------------------------------------------------------------------
-;; TERMINAL OVERRIDE
+;; END OF CONFIG (DAEMON)
 ;; ----------------------------------------------------------------------
+
+;; ----------------------------------------------------------------------
+;; GUI 
+;; ----------------------------------------------------------------------
+;; (defun my/setup-gui-frame (frame)
+;;   "Apply GUI settings after a new FRAME is created."
+;;   (with-selected-frame frame
+;;     (message "⚡ Setting up GUI frame!")
+;;     (my/setup-ui)
+;;     (my/setup-theme-parameters)
+
+
+;;     (mapc #'disable-theme custom-enabled-themes)
+;;     (load-theme 'test t)
+;;     (blink-cursor-mode 0)
+;;     (set-face-background 'child-frame-border "#FF8020"))
+;;   (message "⚡ Setting up GUI frame [FINISHED]!")
+;;   )
+
+;; (add-hook 'after-make-frame-functions #'my/setup-gui-frame)

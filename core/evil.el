@@ -49,4 +49,16 @@
   :config
   (evil-collection-init))
 
-(use-package evil-snipe)
+(use-package evil-snipe
+  :after evil
+  :ensure t
+  :config
+  (evil-snipe-mode 1)
+  (evil-snipe-override-mode 1)) ;; enables s/S in ALL modes, not just visual
+
+(use-package evil-nerd-commenter
+  :after evil
+  :bind
+  (("M-/" . evilnc-comment-or-uncomment-lines))
+  :config
+  (evilnc-default-hotkeys))

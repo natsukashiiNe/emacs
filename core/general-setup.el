@@ -56,6 +56,7 @@
     "f G" '(projectile-grep :which-key "projectile grep")
     "f m" '(consult-imenu :which-key "imenu")
     "f s" '(consult-lsp-file-symbols :which-key "lsp symbols")
+    "f S" '(consult-lsp-symbols :which-key "lsp symbols")
     "f e" '(projectile-dired :which-key "dired in project")
     "f i" '(next-buffer     :which-key "next buffer")
     "f o" '(previous-buffer :which-key "previous buffer")

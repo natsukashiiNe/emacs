@@ -78,7 +78,7 @@
 
  ;; `(child-frame-border ((t ( :foreground ,exu-dim-pink))))
 
- ;; line numbers
+ ;;line numbers
  `(line-number ((t (:foreground ,exu-lpurple :background ,exu-bg-main))))
  ;;`(line-number ((t (:foreground ,exu-lpurple :background nil))))
  `(line-number-current-line ((t (:foreground ,exu-dim-pink :background ,exu-bg-light))))

@@ -88,9 +88,13 @@
 
 
 (mapc #'disable-theme custom-enabled-themes)
-(load-theme 'test t)
+
+;;(load-theme 'test t)
+;;(set-face-background 'child-frame-border "#FF8020")
+
+(load-theme 'leuven t)
+(set-face-background 'child-frame-border "#2F569B")
 (blink-cursor-mode 0)
-(set-face-background 'child-frame-border "#FF8020")
 ;; (load-config-file "themes/modeline-options.el") ;; TODO
 
 

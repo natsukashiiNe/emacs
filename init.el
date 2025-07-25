@@ -20,14 +20,14 @@
              (message "💡 See error details above for file: %s" file))))
       (message "⚠️ Warning: Config file %s not found" file))))
 
-;; ----------------------------------------------------------------------
+;; ------------------------------------------------------------------------------
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" my-config-dir))
 
-(add-to-list 'load-path (expand-file-name "apps" my-config-dir))
-(add-to-list 'load-path (expand-file-name "core" my-config-dir))
+(add-to-list 'load-path (expand-file-name "apps"   my-config-dir))
+(add-to-list 'load-path (expand-file-name "core"   my-config-dir))
 (add-to-list 'load-path (expand-file-name "custom" my-config-dir))
-(add-to-list 'load-path (expand-file-name "lsp" my-config-dir))
-(add-to-list 'load-path (expand-file-name "org" my-config-dir))
+(add-to-list 'load-path (expand-file-name "lsp"    my-config-dir))
+(add-to-list 'load-path (expand-file-name "org"    my-config-dir))
 (add-to-list 'load-path (expand-file-name "themes" my-config-dir))
 ;; ----------------------------------------------------------------------
 
@@ -70,12 +70,6 @@
 ;; (load-config-file "lsp/treesitter.el")
 (load-config-file "core/ftree.el")         ;; why is this so bad
 
-;; APPS
-(load-config-file "apps/decrypt-keys.el")
-
-(load-config-file "apps/telega.el")
-(load-config-file "apps/magit.el")
-(load-config-file "apps/gptel-setup.el")
 
 ;; CUSTOM
 (load-config-file "core/general-setup.el")  
@@ -89,13 +83,20 @@
 
 (mapc #'disable-theme custom-enabled-themes)
 
-;;(load-theme 'test t)
-;;(set-face-background 'child-frame-border "#FF8020")
+(load-theme 'test t)
+(set-face-background 'child-frame-border "#FF8020")
 
-(load-theme 'leuven t)
-(set-face-background 'child-frame-border "#2F569B")
+;; (load-theme 'leuven t)
+;; (set-face-background 'child-frame-border "#2F569B")
 (blink-cursor-mode 0)
 ;; (load-config-file "themes/modeline-options.el") ;; TODO
+
+;; APPS
+(load-config-file "apps/decrypt-keys.el")
+
+(load-config-file "apps/telega.el")
+(load-config-file "apps/magit.el")
+(load-config-file "apps/gptel-setup.el")
 
 
 (message "🎉 Emacs startup complete!")

@@ -5,7 +5,8 @@
 
 ;; exu def colors
 (defconst exu-pink             "#FF67AB") ;; functions
-(defconst exu-pink-accent1     "#D12F55") ;; alternate pink (e.g. for types)
+
+(defconst exu-pink-accent1     "#D12F55")  ;; alternate pink (e.g. for types)
 (defconst exu-pink-accent2     "#F00167") ;; an accent pink
 (defconst exu-yellow           "#FFDF40") ;; used for keywords/statements
 
@@ -65,7 +66,10 @@
 
  ;; Basic Editor UI
  `(default         ((t (:foreground ,exu-white    :background ,exu-bg-main))))
+ `(line-number ((t (:foreground ,exu-lpurple :background ,exu-bg-main))))
+ ;;`(line-number ((t (:foreground ,exu-lpurple :background nil))))
  ;;`(default         ((t (:foreground ,exu-white    :background nil))))
+
  `(hl-line         ((t (:background ,exu-bg-light :foreground unspecified :underline (:color ,exu-orange-accent2)))))
  `(cursor          ((t (:background ,exu-orange-accent2))))
  `(fringe          ((t (:background ,exu-bg-main))))
@@ -78,9 +82,7 @@
 
  ;; `(child-frame-border ((t ( :foreground ,exu-dim-pink))))
 
- ;;line numbers
- `(line-number ((t (:foreground ,exu-lpurple :background ,exu-bg-main))))
- ;;`(line-number ((t (:foreground ,exu-lpurple :background nil))))
+                                        ;line numbers
  `(line-number-current-line ((t (:foreground ,exu-dim-pink :background ,exu-bg-light))))
 
  ;; Syntax (font-lock)
@@ -320,6 +322,11 @@
    ((t (:background ,tg-dark :foreground ,exu-white))))
  `(org-block-end-line
    ((t (:foreground ,exu-grey1 :background ,tg-dark :box (:line-width 2 :color ,exu-lpurple :style released-button ) :extend t ))))
+
+ `(org-table
+   ((t (:foreground ,exu-white :background ,tg-dark ))))
+ `(org-table-row
+   ((t (:foreground ,exu-white :background ,tg-dark ))))
 
  ;; groups
  `(org-verbatim ((t ( :foreground ,exu-bgreen2 ))))

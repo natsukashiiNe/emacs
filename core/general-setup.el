@@ -149,5 +149,5 @@
 (keymap-set evil-insert-state-map "C-h" 'evil-delete-backward-char)
 
 ;; VTERM
-(keymap-set  vterm-mode "C-M-l" 'tab-bar-switch-to-next-tab)
-(keymap-set  vterm-mode "M-C-h" 'tab-bar-switch-to-prev-tab)
+;;(keymap-set  vterm-mode "C-M-l" 'tab-bar-switch-to-next-tab)
+;;(keymap-set  vterm-mode "M-C-h" 'tab-bar-switch-to-prev-tab)

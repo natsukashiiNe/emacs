@@ -7,12 +7,20 @@
 (scroll-bar-mode 0)  ;; Disable visible scrollbar
 (tooltip-mode 0)     ;; Disable tooltips
 (set-fringe-mode 10) ;; Give some breathing room
+(global-display-line-numbers-mode -1) ;; remove column number (use avy instead)
 
 (setq inhibit-startup-message t) ;; Do not show startup screen
 (setq visible-bell nil) ;; No visual bell
 
 ;; Load theme
 (use-package doom-themes)
+
+(blink-cursor-mode 0)
+;; enalble theme
+;; (load-theme 'test t)
+;; (set-face-background 'child-frame-border "#FF8020")
+
+;; (load-config-file "themes/modeline-options.el") ;; TODO
 
 ;; colorizer
 (use-package colorful-mode
@@ -28,12 +36,20 @@
 ;; (global-display-line-numbers-mode 1)
 (show-paren-mode 1)                          ;; Highlight matching
 
+
+
+(use-package hide-mode-line
+  :ensure t
+  ;;:hook (vdiff-mode . hide-mode-line-mode)
+  )
+
+
 ;; ----------------------------
 ;; Testing sector
 ;; ----------------------------
-(global-display-line-numbers-mode t)
-(setq display-line-numbers-type 'relative)
-(setq display-line-numbers-current-absolute nil)
+;; (global-display-line-numbers-mode t)
+;; (setq display-line-numbers-type 'relative)
+;; (setq display-line-numbers-current-absolute nil)
 
 ;; ----------------------------
 
@@ -67,3 +83,4 @@
 ;; Editing & Interaction
 ;; ----------------------------
 (use-package command-log-mode)
+

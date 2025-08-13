@@ -1,5 +1,9 @@
 (load (expand-file-name "load_packages.el" (file-name-directory (or load-file-name buffer-file-name))))
 
+;; Hooks to
+;; TODO: open a new projectile when starting persp session
+
+
 ;; DS to store info about my sessions
 (defvar elastic--sessions (make-hash-table :test 'equal)
   "Stores per-perspective elastic session data.

@@ -1,3 +1,4 @@
+
 ;; ----------------------------------------------------------------------
 (setq user-emacs-directory "~/.emacs.d/")
 (defvar my-config-dir "~/.config/emacs/"
@@ -31,15 +32,15 @@
 (add-to-list 'load-path (expand-file-name "themes" my-config-dir))
 ;; ----------------------------------------------------------------------
 
-
 (load-config-file "core/straight.el")   ;; Package Manager (straight.el)
 (load-config-file "core/env_settings.el")
 
-
 (load-config-file "custom/globals.el")
 (load-config-file "core/settings.el")
+(load-config-file "themes/parameters.el")
 (load-config-file "core/evil.el")
 
+(load-config-file "core/completion/avy.el")        ;; Minibuffer Navigation
 (load-config-file "core/completion/vertico.el")    ;; Minibuffer Navigation
 (load-config-file "core/completion/marginalia.el") ;; Metadata Display
 (load-config-file "core/completion/consult.el")    ;; Search & Navigation
@@ -51,7 +52,8 @@
 (load-config-file "session-manager/main.el")       ;; Perps + Projectile (remaking this)
 ;; (load-config-file "core/centaur-tabs.el")
 (load-config-file "core/vterm.el")
-(load-config-file "core/posframe.el")
+;; (load-config-file "core/posframe.el")
+(load-config-file "core/tab-bar.el")
 
 (load-config-file "org/org-settings.el")  ;; Org-mode customizations
 (load-config-file "org/org-plugins.el")   ;; Org-mode customizations
@@ -59,17 +61,15 @@
 ;; TODO lsp configuration 
 (load-config-file "lsp/lsp-modes.el")
 
-(load-config-file "lsp/tree-sitter.el")
+(load-config-file "lsp/treesitter.el")
 (load-config-file "lsp/lsp-config.el")
 (load-config-file "lsp/lsp-servers.el")
 
 ;; (load-config-file "lsp/test_lsp.el")
 (load-config-file "lsp/lsp-ui.el")
-
-
-;; (load-config-file "lsp/treesitter.el")
+(load-config-file "lsp/diagnostics.el")
+(load-config-file "lsp/treesitter.el")
 (load-config-file "core/ftree.el")         ;; why is this so bad
-
 
 ;; CUSTOM
 (load-config-file "core/general-setup.el")  
@@ -78,25 +78,20 @@
 ;; GUI: Apply after to the frame
 (load-config-file "core/which-key.el")
 (load-config-file "core/ui.el")
-(load-config-file "themes/parameters.el")
-
-
-(mapc #'disable-theme custom-enabled-themes)
-
-(load-theme 'test t)
-(set-face-background 'child-frame-border "#FF8020")
-
-;; (load-theme 'leuven t)
-;; (set-face-background 'child-frame-border "#2F569B")
-(blink-cursor-mode 0)
-;; (load-config-file "themes/modeline-options.el") ;; TODO
 
 ;; APPS
 (load-config-file "apps/decrypt-keys.el")
 
 (load-config-file "apps/telega.el")
 (load-config-file "apps/magit.el")
-(load-config-file "apps/gptel-setup.el")
+
+;; 
+
+
+;; Conditionally loaded files:
+(defun load-gptel-config ()
+  (interactive)
+  (load-config-file "apps/gptel-setup.el"))
 
 
 (message "🎉 Emacs startup complete!")

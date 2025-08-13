@@ -33,7 +33,7 @@
               )
   
   :config
-  (setq vertico-count 20
+  (setq vertico-count 15
         vertico-resize t))
 
 

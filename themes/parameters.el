@@ -1,12 +1,26 @@
 ;; FUNTION TO HOOK ON GUI FRAME
 
+;; cond settings
+;; (mapc #'disable-theme custom-enabled-themes)
+;; (load-theme 'modus-operandi-tinted)
+;; (set-face-background 'child-frame-border "#a60000")
+
+;; cond settings
+(mapc #'disable-theme custom-enabled-themes)
+;; (load-theme 'modus-vivendi-tinted)
+;; (load-theme 'doom-molokai)
+;; (set-face-background 'child-frame-border "#a60000")
+
+(load-theme 'modus-operandi-tinted)
+(load-theme 'my-modus-mono)
+
 ;; Fonts
-(set-face-attribute 'default nil :font "GoMono Nerd Font-20")
-(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-20")
+(set-face-attribute 'default nil :font "GoMono Nerd Font-23")
+(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-23")
 
 ;; Transparency
-(add-to-list 'default-frame-alist '(alpha-background . 92))
-(set-frame-parameter nil 'alpha-background 92)
+(add-to-list 'default-frame-alist '(alpha-background . 100))
+(set-frame-parameter nil 'alpha-background 100)
 
 ;; Doom modeline
 (use-package all-the-icons :ensure t)

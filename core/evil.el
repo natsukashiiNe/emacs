@@ -62,3 +62,7 @@
   (("M-/" . evilnc-comment-or-uncomment-lines))
   :config
   (evilnc-default-hotkeys))
+
+
+(use-package evil-terminal-cursor-changer  
+  :init (evil-terminal-cursor-changer-activate))  

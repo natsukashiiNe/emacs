@@ -15,12 +15,12 @@
 (load-theme 'my-modus-mono)
 
 ;; Fonts
-(set-face-attribute 'default nil :font "GoMono Nerd Font-23")
-(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-23")
+(set-face-attribute 'default nil :font "GoMono Nerd Font-21")
+(set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-20")
 
 ;; Transparency
-(add-to-list 'default-frame-alist '(alpha-background . 100))
-(set-frame-parameter nil 'alpha-background 100)
+(add-to-list 'default-frame-alist '(alpha-background . 95))
+(set-frame-parameter nil 'alpha-background 92)
 
 ;; Doom modeline
 (use-package all-the-icons :ensure t)

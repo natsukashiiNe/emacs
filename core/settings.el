@@ -65,7 +65,7 @@
 ;; ----------------------------
 ;; Scrolling & Navigation
 ;; ----------------------------
-(setq scroll-margin 5
+(setq scroll-margin 2
       scroll-conservatively 101
       scroll-step 1)
 

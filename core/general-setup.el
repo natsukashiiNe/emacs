@@ -57,8 +57,8 @@
        ;;"e"   '(eyebrowse-last-window-config :which-key "eyebrowse last config")
        ;;"i"   '(eyebrowse-switch-to-window-config :which-key "eyebrowse switch config")
        ;;"w"   '(eyebrowse-rename-window-config :which-key "rename config")
-       "f"   '(:ignore t :which-key "projectile managment")
-       "f o"   '(projectile-switch-project :which-key "projectle switch project"))
+       "C-h"   '(:ignore t :which-key "projectile managment")
+       "C-h C-h"   '(projectile-switch-project :which-key "projectle switch project"))
 
 
      ;; SPC prefix
@@ -172,6 +172,8 @@
     (kbd "S-k") #'vdiff-previous-hunk))
 
 (with-eval-after-load 'magit
+  (evil-define-key 'normal magit-status-mode
+    (kbd "M-s M-s") #'magit-stage)
   (evil-define-key 'normal magit-stash-mode-map
     (kbd "e") #'vdiff-magit-dwim
     (kbd "E") #'vdiff-magit)
@@ -192,6 +194,13 @@
   (evil-define-key 'normal flycheck-mode-map
     (kbd "M-w M-f") #'consult-flycheck))
 
+(with-eval-after-load 'flyspell
+  (evil-define-key 'normal org-mode-map
+    (kbd "M-w M-f") #'consult-flyspell))
+
+(evil-define-key 'normal org-mode-map
+  (kbd "M-w i") #'consult-org-heading)
+
 (define-prefix-command 'my/meta-w-prefix)
 (keymap-global-set "M-w" 'my/meta-w-prefix)   ;; M-w now opens that map
 (keymap-set my/meta-w-prefix "M-w" #'projectile-find-file)
@@ -202,7 +211,7 @@
 
 
 (keymap-set my/meta-w-prefix "s" #'consult-lsp-file-symbols)
-(keymap-set my/meta-w-prefix "i" #'consult-imenu)
+;; (keymap-set my/meta-w-prefix "i" #'consult-imenu)
 
 
 ;; Lsp-based buffers

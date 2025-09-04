@@ -59,7 +59,7 @@
   :config
   (set-face-attribute 'quick-peek-background-face nil
                       :background nil :inherit 'default :extend t)
-   :custom 
+   :custom
    (quick-peek-add-spacer nil))
 
 

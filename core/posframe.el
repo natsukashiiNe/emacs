@@ -33,6 +33,7 @@
          (eq this-command 'consult-imenu)
          (eq this-command 'consult-outline)
          (eq this-command 'consult-flycheck)
+         (eq this-command 'consult-org-heading)
          (eq this-command 'consult-flyspell)
          )
     (shell-command "notify-send 'Hello from Emacs'")

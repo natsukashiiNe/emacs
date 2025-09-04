@@ -177,6 +177,7 @@
        "j w" '(lsp-ui-doc-toggle                 :which-key "toggle doc")
        "j t" '(lsp-find-type-definition          :which-key "[t]ype definition")
        "j c" '(consult-flymake                   :which-key "consult flymake")
+       ;; TODO redo to flycheck
        "j p" '(flymake-show-project-diagnostics  :which-key "flymake [p]roject")
        "j j" '(flymake-goto-next-error           :which-key "next error")
        "j k" '(flymake-goto-prev-error           :which-key "prev error")

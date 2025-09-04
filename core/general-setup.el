@@ -31,11 +31,45 @@
      (general-define-key
       :states  '(normal motion)
       :keymaps 'override
-      "f" #'avy-goto-line
       "s" #'avy-goto-char-2
-      "F" #'evil-avy-goto-char-in-line
       "W" #'avy-goto-word-0
       )
+
+     ;; M-c prefixed
+     (general-create-definer my-m-c-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "M-c")
+     (my-m-c-leader
+       "g" '(:ignore t :which-key "ma[g]it")
+       "gd" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
+              :which-key "v[d]iff"))
+     
+     ;; M-a prefixed
+     (general-create-definer my-m-a-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "M-a")
+     (my-m-a-leader
+       "g" '(:ignore t :which-key "ma[g]it")
+       "gd" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
+              :which-key "v[d]iff"))
+
+     ;; M-w prefixed
+     (general-create-definer my-m-w-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "M-w")
+     (my-m-w-leader
+       "W" '(winner-undo :which-key "[w]inner undo"))
+
+
+     ;; SPC prefix
+     (general-create-definer my-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "SPC"
+       :non-normal-prefix "M-SPC")
 
      
      ;; C-n prefixed
@@ -68,6 +102,8 @@
        :prefix "SPC"
        :non-normal-prefix "M-SPC")
 
+     
+
      (my-leader
        ;; “SPC f” prefix for “search” or “files”
        "f"   '(:ignore t :which-key "search / files")
@@ -80,6 +116,12 @@
        "f e" '(projectile-dired :which-key "dired in project")
        "f i" '(next-buffer     :which-key "next buffer")
        "f o" '(previous-buffer :which-key "previous buffer")
+
+       ;; avy
+       "a"   '(:ignore t :which-key "[+] avy")
+       "a l"   '(avy-copy-line :which-key "copy [l]ine")
+       "a r"   '(avy-copy-region :which-key "copy [r]egion")
+
 
        ;;"f m" '(lambda ()
        ;;         (interactive)
@@ -149,6 +191,8 @@
 
        ;; interface
        "u e" '(treemacs :which-key "treemacs")
+       "u f" '(flycheck-list-errors :which-key "treemacs")
+
        )
      )))
 

@@ -1,3 +1,10 @@
+;;; flycheck-setup.el --- Configuration for flycheck -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; Flycheck pacakges and its supportive packages
+
+;;; Code:
+
 (use-package flycheck
   :ensure t
   :init
@@ -93,3 +100,6 @@
     :fringe-bitmap 'test-fringe
     :fringe-face 'flycheck-fringe-info))
 
+
+(provide 'flycheck-setup)
+;;; flycheck-setup.el ends here

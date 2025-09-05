@@ -4,6 +4,36 @@
       (lambda () (insert prefix))
     (command-execute #'execute-extended-command)))
 
+;; Requires: perspective, projectile, magit
+(defun my/persp-open-project-with-magit (persp-name project-root)
+  "Switch to PERSP-NAME (creating it if needed), switch Projectile to PROJECT-ROOT,
+and open Magit Status there (no file prompt)."
+  (interactive "sPerspective name: \nDProject root: ")
+  (persp-mode 1)
+  (let* ((pr (file-truename (expand-file-name project-root))))
+    (unless (file-directory-p pr)
+      (user-error "Not a directory: %s" pr))
+    ;; hop (or create) the perspective first, so buffers/windows land there
+    (persp-switch persp-name)
+    ;; Make sure Projectile knows about the project so -by-name won’t complain
+    (projectile-add-known-project pr)
+    ;; Override the default action (`projectile-find-file`) just for this call
+    (let ((projectile-switch-project-action
+           (lambda ()
+             ;; Pass DIRECTORY to avoid Magit prompting for a repo
+             (magit-status pr))))
+      ;; Jump straight to the project and run the action
+      (projectile-switch-project-by-name pr))))
+
+(defun my/open-dotfiles ()
+  (interactive)
+  (my/persp-open-project-with-magit "dotfiles" "~/dotfiles"))
+
+(defun my/open-herb ()
+  (interactive)
+  (my/persp-open-project-with-magit "herb" "~/_projects/clones/herbstluftwm"))
+
+
 (use-package general
   :after evil
   :demand t
@@ -72,7 +102,7 @@
        :non-normal-prefix "M-SPC")
 
      
-     ;; C-n prefixed
+     ;; C-j prefixed
      (general-create-definer my-c-j-leader
        :states '(normal visual)
        :keymaps 'override
@@ -92,7 +122,10 @@
        ;;"i"   '(eyebrowse-switch-to-window-config :which-key "eyebrowse switch config")
        ;;"w"   '(eyebrowse-rename-window-config :which-key "rename config")
        "C-h"   '(:ignore t :which-key "projectile managment")
-       "C-h C-h"   '(projectile-switch-project :which-key "projectle switch project"))
+       "C-h C-h"   '(projectile-switch-project :which-key "projectle switch project")
+       ;; Specific projectiles:
+       "C-h D" '(my/open-dotfiles :which-key "[D]otfiles (persp+magit)")
+       "C-h H" '(my/open-herb :which-key "[H]erb (persp+magit)"))
 
 
      ;; SPC prefix
@@ -101,8 +134,6 @@
        :keymaps 'override
        :prefix "SPC"
        :non-normal-prefix "M-SPC")
-
-     
 
      (my-leader
        ;; “SPC f” prefix for “search” or “files”

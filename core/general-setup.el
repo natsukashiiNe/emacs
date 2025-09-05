@@ -248,8 +248,27 @@ and open Magit Status there (no file prompt)."
     (kbd "S-k") #'vdiff-previous-hunk))
 
 (with-eval-after-load 'magit
-  (evil-define-key 'normal magit-status-mode
-    (kbd "M-s M-s") #'magit-stage)
+  (evil-define-key 'normal magit-status-mode-map
+    (kbd "M-s M-s") #'magit-stage
+    (kbd "C-x 1") #'magit-section-show-level-1-all
+    (kbd "C-x 2") #'magit-section-show-level-2-all
+    (kbd "C-x 3") #'magit-section-show-level-3-all
+    (kbd "C-x 4") #'magit-section-show-level-4-all)
+  (evil-define-key 'normal magit-log-mode-map
+    (kbd "C-x 1") #'magit-section-show-level-1-all
+    (kbd "C-x 2") #'magit-section-show-level-2-all
+    (kbd "C-x 3") #'magit-section-show-level-3-all
+    (kbd "C-x 4") #'magit-section-show-level-4-all)
+  (evil-define-key 'normal magit-stash-mode-map
+    (kbd "C-x 1") #'magit-section-show-level-1-all
+    (kbd "C-x 2") #'magit-section-show-level-2-all
+    (kbd "C-x 3") #'magit-section-show-level-3-all
+    (kbd "C-x 4") #'magit-section-show-level-4-all)
+  (evil-define-key 'normal magit-revision-mode-map
+    (kbd "C-x 1") #'magit-section-show-level-1-all
+    (kbd "C-x 2") #'magit-section-show-level-2-all
+    (kbd "C-x 3") #'magit-section-show-level-3-all
+    (kbd "C-x 4") #'magit-section-show-level-4-all)
   (evil-define-key 'normal magit-stash-mode-map
     (kbd "e") #'vdiff-magit-dwim
     (kbd "E") #'vdiff-magit)

@@ -7,7 +7,6 @@
 (scroll-bar-mode 0)  ;; Disable visible scrollbar
 (tooltip-mode 0)     ;; Disable tooltips
 (set-fringe-mode 10) ;; Give some breathing room
-(global-display-line-numbers-mode -1) ;; remove column number (use avy instead)
 
 (setq inhibit-startup-message t) ;; Do not show startup screen
 (setq visible-bell nil) ;; No visual bell
@@ -35,6 +34,13 @@
 ;; (setq display-line-numbers-type t)           ;; Use actual lines, not visual wrapped lines
 ;; (global-display-line-numbers-mode 1)
 (show-paren-mode 1)                          ;; Highlight matching
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'visual)
+(add-hook 'visual-line-mode-hook
+          (lambda ()
+            (setq wrap-prefix
+                  (propertize "   "
+                              'face 'font-lock-comment-face))))
 
 
 
@@ -83,4 +89,3 @@
 ;; Editing & Interaction
 ;; ----------------------------
 (use-package command-log-mode)
-

@@ -40,7 +40,7 @@
 (load-config-file "themes/parameters.el")
 (load-config-file "core/evil.el")
 
-(load-config-file "core/completion/avy.el")        ;; Minibuffer Navigation
+(load-config-file "core/completion/avy.el")        ;; "jump anywhere"
 (load-config-file "core/completion/vertico.el")    ;; Minibuffer Navigation
 (load-config-file "core/completion/marginalia.el") ;; Metadata Display
 (load-config-file "core/completion/consult.el")    ;; Search & Navigation
@@ -52,27 +52,29 @@
 (load-config-file "session-manager/main.el")       ;; Perps + Projectile (remaking this)
 ;; (load-config-file "core/centaur-tabs.el")
 (load-config-file "core/vterm.el")
-;; (load-config-file "core/posframe.el")
+(load-config-file "core/posframe.el")
 (load-config-file "core/tab-bar.el")
 
 (load-config-file "org/org-settings.el")  ;; Org-mode customizations
 (load-config-file "org/org-plugins.el")   ;; Org-mode customizations
 
-;; TODO lsp configuration 
+;; TODO lsp configuration
 (load-config-file "lsp/lsp-modes.el")
 
 (load-config-file "lsp/treesitter.el")
-(load-config-file "lsp/lsp-config.el")
-(load-config-file "lsp/lsp-servers.el")
+;; (load-config-file "lsp/lsp-config.el")
+;; (load-config-file "lsp/lsp-servers.el")
+(require 'lsp-config)
+(require 'lsp-servers)
 
 ;; (load-config-file "lsp/test_lsp.el")
 (load-config-file "lsp/lsp-ui.el")
+;; TODO move to require
 (load-config-file "lsp/diagnostics.el")
-(load-config-file "lsp/treesitter.el")
 (load-config-file "core/ftree.el")         ;; why is this so bad
 
 ;; CUSTOM
-(load-config-file "core/general-setup.el")  
+(load-config-file "core/general-setup.el")
 (load-config-file "custom/elastic.el")  ;; Floating Frames Controls (TODO)
 
 ;; GUI: Apply after to the frame

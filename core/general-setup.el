@@ -4,6 +4,36 @@
       (lambda () (insert prefix))
     (command-execute #'execute-extended-command)))
 
+;; Requires: perspective, projectile, magit
+(defun my/persp-open-project-with-magit (persp-name project-root)
+  "Switch to PERSP-NAME (creating it if needed), switch Projectile to PROJECT-ROOT,
+and open Magit Status there (no file prompt)."
+  (interactive "sPerspective name: \nDProject root: ")
+  (persp-mode 1)
+  (let* ((pr (file-truename (expand-file-name project-root))))
+    (unless (file-directory-p pr)
+      (user-error "Not a directory: %s" pr))
+    ;; hop (or create) the perspective first, so buffers/windows land there
+    (persp-switch persp-name)
+    ;; Make sure Projectile knows about the project so -by-name won’t complain
+    (projectile-add-known-project pr)
+    ;; Override the default action (`projectile-find-file`) just for this call
+    (let ((projectile-switch-project-action
+           (lambda ()
+             ;; Pass DIRECTORY to avoid Magit prompting for a repo
+             (magit-status pr))))
+      ;; Jump straight to the project and run the action
+      (projectile-switch-project-by-name pr))))
+
+(defun my/open-dotfiles ()
+  (interactive)
+  (my/persp-open-project-with-magit "dotfiles" "~/dotfiles"))
+
+(defun my/open-herb ()
+  (interactive)
+  (my/persp-open-project-with-magit "herb" "~/_projects/clones/herbstluftwm"))
+
+
 (use-package general
   :after evil
   :demand t
@@ -31,14 +61,48 @@
      (general-define-key
       :states  '(normal motion)
       :keymaps 'override
-      "f" #'avy-goto-line
       "s" #'avy-goto-char-2
-      "F" #'evil-avy-goto-char-in-line
       "W" #'avy-goto-word-0
       )
 
+     ;; M-c prefixed
+     (general-create-definer my-m-c-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "M-c")
+     (my-m-c-leader
+       "g" '(:ignore t :which-key "ma[g]it")
+       "gd" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
+              :which-key "v[d]iff"))
      
-     ;; C-n prefixed
+     ;; M-a prefixed
+     (general-create-definer my-m-a-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "M-a")
+     (my-m-a-leader
+       "g" '(:ignore t :which-key "ma[g]it")
+       "gd" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
+              :which-key "v[d]iff"))
+
+     ;; M-w prefixed
+     (general-create-definer my-m-w-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "M-w")
+     (my-m-w-leader
+       "W" '(winner-undo :which-key "[w]inner undo"))
+
+
+     ;; SPC prefix
+     (general-create-definer my-leader
+       :states '(normal visual)
+       :keymaps 'override
+       :prefix "SPC"
+       :non-normal-prefix "M-SPC")
+
+     
+     ;; C-j prefixed
      (general-create-definer my-c-j-leader
        :states '(normal visual)
        :keymaps 'override
@@ -58,7 +122,10 @@
        ;;"i"   '(eyebrowse-switch-to-window-config :which-key "eyebrowse switch config")
        ;;"w"   '(eyebrowse-rename-window-config :which-key "rename config")
        "C-h"   '(:ignore t :which-key "projectile managment")
-       "C-h C-h"   '(projectile-switch-project :which-key "projectle switch project"))
+       "C-h C-h"   '(projectile-switch-project :which-key "projectle switch project")
+       ;; Specific projectiles:
+       "C-h D" '(my/open-dotfiles :which-key "[D]otfiles (persp+magit)")
+       "C-h H" '(my/open-herb :which-key "[H]erb (persp+magit)"))
 
 
      ;; SPC prefix
@@ -80,6 +147,12 @@
        "f e" '(projectile-dired :which-key "dired in project")
        "f i" '(next-buffer     :which-key "next buffer")
        "f o" '(previous-buffer :which-key "previous buffer")
+
+       ;; avy
+       "a"   '(:ignore t :which-key "[+] avy")
+       "a l"   '(avy-copy-line :which-key "copy [l]ine")
+       "a r"   '(avy-copy-region :which-key "copy [r]egion")
+
 
        ;;"f m" '(lambda ()
        ;;         (interactive)
@@ -135,6 +208,7 @@
        "j w" '(lsp-ui-doc-toggle                 :which-key "toggle doc")
        "j t" '(lsp-find-type-definition          :which-key "[t]ype definition")
        "j c" '(consult-flymake                   :which-key "consult flymake")
+       ;; TODO redo to flycheck
        "j p" '(flymake-show-project-diagnostics  :which-key "flymake [p]roject")
        "j j" '(flymake-goto-next-error           :which-key "next error")
        "j k" '(flymake-goto-prev-error           :which-key "prev error")
@@ -149,6 +223,8 @@
 
        ;; interface
        "u e" '(treemacs :which-key "treemacs")
+       "u f" '(flycheck-list-errors :which-key "treemacs")
+
        )
      )))
 

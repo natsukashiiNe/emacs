@@ -34,12 +34,12 @@
 ;; (setq display-line-numbers-type t)           ;; Use actual lines, not visual wrapped lines
 ;; (global-display-line-numbers-mode 1)
 (show-paren-mode 1)                          ;; Highlight matching
-(global-display-line-numbers-mode t)
+(global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'visual)
 (add-hook 'visual-line-mode-hook
           (lambda ()
             (setq wrap-prefix
-                  (propertize "┃ "
+                  (propertize "   "
                               'face 'font-lock-comment-face))))
 
 

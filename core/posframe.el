@@ -38,7 +38,7 @@
          )
     (shell-command "notify-send 'Hello from Emacs'")
     (vertico-posframe-mode -1)
-    (setq vertico-count 12)
+    (setq vertico-count 17)
     ))
 
 (defun my/enable-vertico-posframe ()

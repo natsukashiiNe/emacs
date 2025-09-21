@@ -3,7 +3,11 @@
   :hook (org-mode . flyspell-mode)  ;; Enable spell checking in Org mode
   :config
   (setq ispell-program-name "aspell") ;; Use Aspell
-  (setq ispell-dictionary "ru") ;; Set Russian as the default dictionary
+  (setq ispell-dictionary "en_US")
+  (setq ispell-extra-args
+        '("--sug-mode=ultra"
+          "--lang=en_US"
+          "--add-extra-dicts=/usr/lib/aspell/ru.multi"))
   (setq ispell-extra-args '("--sug-mode=ultra")) ;; Faster suggestions
   (setq flyspell-issue-message-flag nil)) ;; Prevent annoying messages
 (setq ispell-program-name "aspell") ;; Ensure Aspell is used

@@ -42,3 +42,16 @@
 (use-package treemacs-perspective
   :after treemacs perspective
   :config (treemacs-set-scope-type 'Perspectives))
+
+
+;; HOTKEYS
+(with-eval-after-load 'treemacs
+  (evil-define-key 'normal treemacs-mode-map
+    (kbd "a") #'treemacs-create-file
+    (kbd "A") #'treemacs-create-dir
+    (kbd "r") #'treemacs-rename-file
+    (kbd "x") #'treemacs-move-file
+    ;; TODO move root (backspace)
+    ;; (kbd "x") #'treemacs-move-file
+
+    ))

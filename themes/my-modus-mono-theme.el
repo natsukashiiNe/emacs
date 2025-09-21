@@ -1,3 +1,9 @@
+;;; my-modus-mono-them.el --- Monochrome theme -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; (Almost) monochrome theme based on the modus-operandi-tinted
+
+;;; Code:
 (deftheme my-modus-mono
   "A minimal and monochrome-inspired override for modus-operandi-tinted.")
 
@@ -15,6 +21,12 @@
 
 (defconst exu-bg-pink          "#F1D5D0")  ;; soft bg color
 
+;; DIFFERENT BGS
+(defconst exu-bg3 "#efe9dd")
+
+;; DIFFRENT FGS
+(defconst exu-fg2 "#333333")
+
 ;; DIAGNOSTICS COLOR
 (defconst exu-green-accent     "#60DC60")
 (defconst exu-green-dimmer     "#0B5E30")
@@ -30,26 +42,29 @@
 
 
 ;; First, load the base theme:
-
 (load-theme 'modus-operandi-tinted t)
 
 ;; Now override syntax and LSP faces:
-(custom-theme-set-faces
- 'my-modus-mono
-
+(custom-theme-set-faces 'my-modus-mono
+  ;; DEFAULT AND UI
  `(default ((t  (:background ,exu-bg))))
  `(hl-line ((t  (:background unspecified :extend t))))
+ `(tab-bar ((t  (:foreground ,exu-red :background ,exu-bg3 :box nil ))))
+ `(tab-bar-tab ((t  (:foreground ,exu-red :background ,exu-bg3 :box nil ))))
+ `(tab-bar-inactive ((t  (:foreground ,exu-fg2 :background ,exu-bg3 :box nil ))))
+
 
 
  `(font-lock-function-name-face ((t  (:foreground ,exu-fg :slant ,exu-italic))))
  `(font-lock-builtin-face       ((t  (:foreground ,exu-blue :slant ,exu-italic))))
-
  `(font-lock-type-face          ((t  (:foreground ,exu-fg :weight ,exu-bold))))
  `(font-lock-variable-name-face ((t  (:foreground ,exu-fg))))
  `(font-lock-keyword-face       ((t  (:foreground ,exu-red :weight ,exu-bold))))
  `(font-lock-string-face        ((t  (:foreground ,exu-red :slant ,exu-italic))))
  `(font-lock-comment-face       ((t  (:foreground ,exu-comment :slant ,exu-italic))))
  `(font-lock-constant-face      ((t  (:foreground ,exu-fg :weight ,exu-bold ))))
+ `(font-lock-number-face        ((t  (:foreground ,exu-lblue :slant ,exu-italic ))))
+
 
  ;; LSP faces
  ;; Errors, warnings, etc. can be minimal or softly highlighted

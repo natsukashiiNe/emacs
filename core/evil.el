@@ -4,6 +4,7 @@
 
 (use-package evil
   :ensure t
+  :after evil
   :init
   ;; evil-collection intregration
   (setq evil-want-integration t)
@@ -18,8 +19,20 @@
   (setq evil-cross-lines t)
 
   :config
+  ;; Make evil motions work with visual lines
+  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+  (define-key evil-motion-state-map "0" 'evil-beginning-of-visual-line)
+  (define-key evil-motion-state-map "$" 'evil-end-of-visual-line)
+  (define-key evil-motion-state-map "^" 'evil-first-non-blank-of-visual-line)
+  (define-key evil-motion-state-map "_" 'evil-first-non-blank-of-visual-line)
+  
+  ;; For visual state as well
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
   (evil-mode 1)
-  )   
+ )
 
 
 (use-package evil-escape
@@ -66,3 +79,15 @@
 
 (use-package evil-terminal-cursor-changer  
   :init (evil-terminal-cursor-changer-activate))  
+
+
+;; FOLD
+;; (use-package origami
+;;   :ensure t
+;;   :hook ((prog-mode . origami-mode))
+;;   :bind (:map evil-normal-state-map
+;;               ("za" . origami-toggle-node)
+;;               ("zc" . origami-close-node)
+;;               ("zo" . origami-open-node)
+;;               ("zr" . origami-open-all-nodes)
+;;               ("zm" . origami-close-all-nodes)))

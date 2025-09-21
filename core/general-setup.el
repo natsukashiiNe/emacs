@@ -1,3 +1,11 @@
+;;; general-setup.el --- Keymap settings -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; Defined keymaps with =General= (global overwrite)
+;; and evil-define for specific modes
+
+;;; Code:
+
 (defun my/exec-with-prefix (prefix)
   (interactive)
   (minibuffer-with-setup-hook
@@ -6,7 +14,8 @@
 
 ;; Requires: perspective, projectile, magit
 (defun my/persp-open-project-with-magit (persp-name project-root)
-  "Switch to PERSP-NAME (creating it if needed), switch Projectile to PROJECT-ROOT,
+  "Switch Perspective and Projectle.
+Switch to PERSP-NAME (creating it if needed), switch Projectile to PROJECT-ROOT
 and open Magit Status there (no file prompt)."
   (interactive "sPerspective name: \nDProject root: ")
   (persp-mode 1)
@@ -33,6 +42,10 @@ and open Magit Status there (no file prompt)."
   (interactive)
   (my/persp-open-project-with-magit "herb" "~/_projects/clones/herbstluftwm"))
 
+(defun my/open-vasiniyo ()
+  (interactive)
+  (my/persp-open-project-with-magit "vasiniyo" "~/_projects/clones/vasiniyo-chat-bot"))
+
 
 (use-package general
   :after evil
@@ -47,86 +60,57 @@ and open Magit Status there (no file prompt)."
 
      ;; UNPREFIXED
      (general-define-key
-      :states '(normal visual insert)
-      :keymaps 'override
-      "M-l" 'tab-bar-switch-to-next-tab
-      "M-h" 'tab-bar-switch-to-prev-tab
-      "C-S-h" 'evil-window-left
-      "C-S-j" 'evil-window-bottom
-      "C-S-k" 'evil-window-up
-      "C-S-l" 'evil-window-right
-      )
-
-     ;; Motioned
+     :states '(normal visual insert)
+     :keymaps 'override
+     "M-l" 'tab-bar-switch-to-next-tab
+     "M-h" 'tab-bar-switch-to-prev-tab
+     "C-M-l" 'tab-line-switch-to-next-tab
+     "C-M-h" 'tab-line-switch-to-prev-tab
+     "M-i" 'evil-switch-to-windows-last-buffer
+     "C-S-H" 'evil-window-left
+     "C-S-J" 'evil-window-bottom
+     "C-S-K" 'evil-window-up
+     "C-S-L" 'evil-window-right
+     )
      (general-define-key
-      :states  '(normal motion)
-      :keymaps 'override
-      "s" #'avy-goto-char-2
-      "W" #'avy-goto-word-0
-      )
+     :states  '(normal motion)
+     :keymaps 'override
+     "s" #'avy-goto-char-2
+     )
 
-     ;; M-c prefixed
-     (general-create-definer my-m-c-leader
+     ;; Consult-commands
+     (general-create-definer my-jump-leader
        :states '(normal visual)
        :keymaps 'override
-       :prefix "M-c")
-     (my-m-c-leader
-       "g" '(:ignore t :which-key "ma[g]it")
-       "gd" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
-              :which-key "v[d]iff"))
-     
-     ;; M-a prefixed
-     (general-create-definer my-m-a-leader
-       :states '(normal visual)
-       :keymaps 'override
-       :prefix "M-a")
-     (my-m-a-leader
-       "g" '(:ignore t :which-key "ma[g]it")
-       "gd" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
-              :which-key "v[d]iff"))
-
-     ;; M-w prefixed
-     (general-create-definer my-m-w-leader
-       :states '(normal visual)
-       :keymaps 'override
-       :prefix "M-w")
-     (my-m-w-leader
-       "W" '(winner-undo :which-key "[w]inner undo"))
-
-
-     ;; SPC prefix
-     (general-create-definer my-leader
-       :states '(normal visual)
-       :keymaps 'override
-       :prefix "SPC"
-       :non-normal-prefix "M-SPC")
-
-     
-     ;; C-j prefixed
-     (general-create-definer my-c-j-leader
-       :states '(normal visual)
-       :keymaps 'override
-       :prefix "C-j")
-     (my-c-j-leader
-       "" '(:ignore t :which-key "Navigation")
-       ;; Perspective
-       "C-j" '(persp-switch :which-key "persp-switch")
-       ;; Tabs
-       "C-o" '(tab-switch   :which-key "switch tab")
-       "i"   '(tab-bar-switch-to-recent-tab   :which-key "recent tab")
-       "e"   '(projectile-previous-project-buffer   :which-key "recent buffer")
-       "C-s" '(persp-save   :which-key "save perspective")
-       "C-e" '(persp-switch-last :which-key "switch last")
-       ;; TODO eyebrowse
-       ;;"e"   '(eyebrowse-last-window-config :which-key "eyebrowse last config")
-       ;;"i"   '(eyebrowse-switch-to-window-config :which-key "eyebrowse switch config")
-       ;;"w"   '(eyebrowse-rename-window-config :which-key "rename config")
-       "C-h"   '(:ignore t :which-key "projectile managment")
-       "C-h C-h"   '(projectile-switch-project :which-key "projectle switch project")
+       :prefix "C-f")
+     (my-jump-leader
+       ;; projects
+       "C-e"     '(persp-switch-last :which-key "persp last")
+       "o"       '(projectile-switch-project :which-key "project [o]pen")
+       "C-w"     '(:ignore t         :which-key "persp managment")
+       "C-w C-w" '(persp-switch      :which-key "persp switch")
        ;; Specific projectiles:
-       "C-h D" '(my/open-dotfiles :which-key "[D]otfiles (persp+magit)")
-       "C-h H" '(my/open-herb :which-key "[H]erb (persp+magit)"))
+       "C-w D"   '(my/open-dotfiles       :which-key "[D]otfiles (persp+magit)")
+       "C-w H"   '(my/open-herb           :which-key "[H]erb (persp+magit)")
+       "C-w V"   '(my/open-vasiniyo       :which-key "[V]asiniyo (persp+magit)")
+       
+       ;; consult multi-files
+       "C-f"     '(consult-project-buffer :which-key "buffers")
+       "F"       '(projectile-find-file   :which-key "[f]ind file")
+       "G"       '(consult-ripgrep        :which-key "r[g]")
+       "S"       '(consult-lsp-symbols    :which-key "lsp [S]ymbols")
 
+       "I"     '(consult-info             :which-key "[i]nfo")
+       ;; TODO: pre-complited infos
+       ;; TODO: docs
+
+       ;; consult in-buffer
+       "i"   '(consult-imenu               :which-key "[i]menu")
+       "l"   '(consult-outline             :which-key "out[l]ine")
+       "j"   '(evil-collection-consult-jump-list :which-key "evil [j]ump list")
+       "m"   '(evil-collection-consult-mark      :which-key "evil [m]arks")
+       "C-s" '(consult-lsp-file-symbols          :which-key "lsp file [s]yms")
+     )
 
      ;; SPC prefix
      (general-create-definer my-leader
@@ -136,46 +120,48 @@ and open Magit Status there (no file prompt)."
        :non-normal-prefix "M-SPC")
 
      (my-leader
+       ;; perspectives
+       "C-j"         '(:ignore t :which-key "[+] persp-switch")
+       "C-j C-j"     '(persp-switch :which-key "[+] persp-switch")
+       "C-j i"       '(tab-bar-switch-to-recent-tab   :which-key "recent tab")
+       "C-j e"       '(projectile-previous-project-buffer   :which-key "recent buffer")
+       "C-j C-s"     '(persp-save   :which-key "save perspective")
+       "C-j C-e"     '(persp-switch-last :which-key "switch last")
+       ;; TODO eyebrowse
+       "C-j C-h"     '(:ignore t :which-key "projectile managment")
+       "C-j C-h C-h" '(projectile-switch-project :which-key "projectle switch project")
+       ;; Specific projectiles:
+       "C-j C-h D"   '(my/open-dotfiles :which-key "[D]otfiles (persp+magit)")
+       "C-j C-h H"   '(my/open-herb :which-key "[H]erb (persp+magit)")
+       "C-j C-h V"   '(my/open-vasiniyo :which-key "[V]asiniyo (persp+magit)")
+       
        ;; “SPC f” prefix for “search” or “files”
-       "f"   '(:ignore t :which-key "search / files")
+       "f"   '(:ignore t :which-key "[+] search / files")
        "f f" '(projectile-find-file :which-key "projectile-find-file")
        "f j" '(consult-project-buffer :which-key "consult-project-buffer")
-       "f g" '(consult-grep :which-key "projectile grep")
-       "f G" '(projectile-grep :which-key "projectile grep")
+       "f J" '(pop-to-buffer :which-key "pop-to-buffer")
+       "f g" '(consult-ripgrep :which-key "consult-r[g]")
+       "f G" '(projectile-ripgrep :which-key "projectile r[g]")
        "f s" '(consult-lsp-file-symbols :which-key "lsp symbols")
        "f S" '(consult-lsp-symbols :which-key "lsp symbols")
        "f e" '(projectile-dired :which-key "dired in project")
        "f i" '(next-buffer     :which-key "next buffer")
        "f o" '(previous-buffer :which-key "previous buffer")
 
-       ;; avy
-       "a"   '(:ignore t :which-key "[+] avy")
-       "a l"   '(avy-copy-line :which-key "copy [l]ine")
-       "a r"   '(avy-copy-region :which-key "copy [r]egion")
-
-
-       ;;"f m" '(lambda ()
-       ;;         (interactive)
-       ;;         (cond
-       ;;          ((derived-mode-p 'org-mode) (call-interactively #'consult-org-heading))
-       ;;          (t (call-interactively #'consult-lsp-file-symbols)))
-       ;;         :which-key "consult [m]enu")
-       ;; 
+       ;; Buffer
+       "y"   '(avy-copy-line :which-key "avy-copy-line")
 
        ;; “SPC t” tab managment
        "t"   '(:ignore t :which-key "tabs managment")
-       "t i"   '(tab-new-to :which-key "new tab")
-       "t r"   '(tab-close :which-key "close tab")
+       "t n"   '(tab-new-to :which-key "new tab")
+       "t c"   '(tab-close :which-key "close tab")
 
        ;; "SPC g" for git
        "g"   '(:ignore t :which-key "git managment")
        "g g"   '(magit :which-key "magit")
 
-       ;; "SPC c" for consult
-
-
        ;; “SPC h” prefix for help or “completions”
-       "h"   '(:ignore t :which-key "help / completions")
+       "h"   '(:ignore t :which-key "[+] help / completions")
        "h e" '((lambda () (interactive) (my/exec-with-prefix "evil- "))
                :which-key "[e]vil commands")
        "h C" '((lambda () (interactive) (my/exec-with-prefix "evilnc- "))
@@ -196,22 +182,20 @@ and open Magit Status there (no file prompt)."
                :which-key "treemacs commands")
        "h n" '((lambda () (interactive) (my/exec-with-prefix "persp - "))
                :which-key "persp commands")
+       "h g" '(:ignore t :which-key "[+] ma[g]it")
+       "h g d" '((lambda () (interactive) (my/exec-with-prefix "vdiff-magit- "))
+              :which-key "v[d]iff")
 
-       ;; “SPC j” for LSP / Flymake
-       "j"   '(:ignore t :which-key "lsp / flymake")
-       "j h" '(lsp-clangd-find-other-file        :which-key "switch .h/.cpp")
+       ;; “SPC j” for LSP multi-file navigation
+       "j"   '(:ignore t :which-key "[+] lsp")
+       "j h" '(lsp-clangd-find-other-file        :which-key "switch .[h]pp/.cpp")
        "j l" '(lsp-find-references               :which-key "find references")
        "j r" '(lsp-rename                        :which-key "smart [r]ename")
        "j s" '(lsp-signature                     :which-key "lsp [s]ignature")
        "j d" '(lsp-find-definition               :which-key "goto definition")
-       "j m" '(lsp-find-implementation           :which-key "goto i[m]pl.")
+       "j i" '(lsp-find-implementation           :which-key "goto [i]mpl.")
        "j w" '(lsp-ui-doc-toggle                 :which-key "toggle doc")
        "j t" '(lsp-find-type-definition          :which-key "[t]ype definition")
-       "j c" '(consult-flymake                   :which-key "consult flymake")
-       ;; TODO redo to flycheck
-       "j p" '(flymake-show-project-diagnostics  :which-key "flymake [p]roject")
-       "j j" '(flymake-goto-next-error           :which-key "next error")
-       "j k" '(flymake-goto-prev-error           :which-key "prev error")
 
        ;; “SPC b” for buffer operations
        "b"   '(:ignore t :which-key "buffer")
@@ -222,19 +206,24 @@ and open Magit Status there (no file prompt)."
        "S f" '(list-faces-display :which-key "list faces")
 
        ;; interface
-       "u e" '(treemacs :which-key "treemacs")
-       "u f" '(flycheck-list-errors :which-key "treemacs")
+       "u e" '(treemacs-select-window :which-key "treemacs")
+       "u f" '(flycheck-list-errors :which-key "flycheck-list-errors")
 
        )
      )))
 
-
-
-
 ;; =============================== EVIL NORMAL KEYMAPS ===============================
 
 ;; ============================== MODE SPECIFIC KEYMAPS ==============================
-;; xref
+;; (require dash)
+;; (defmacro define-evil-keys-for-maps (state maps &rest bindings)
+;;   "Define BINDINGS for STATE in multiple MAPS.
+;; MAPS is a list of map symbols.
+;; BINDINGS are pairs of (key . command)."
+;;   =(dolist (map-sym ',maps)
+;;      (evil-define-key ',state (symbol-value map-sym)
+;;        ,@(cl-loop for (key . cmd) in bindings
+;;                   append (list =(kbd ,key) =#',cmd)))))
 
 (with-eval-after-load 'xref
   (evil-define-key 'normal xref--xref-buffer-mode-map
@@ -287,26 +276,25 @@ and open Magit Status there (no file prompt)."
 
 (with-eval-after-load 'flycheck
   (evil-define-key 'normal flycheck-mode-map
-    (kbd "M-w M-f") #'consult-flycheck))
+    (kbd "C-f C-d") #'consult-flycheck
+    (kbd "C-j") #'flycheck-next-error
+    (kbd "C-k") #'flycheck-previous-error
+    (kbd "M-j") #'compilation-next-error
+    (kbd "M-k") #'compilation-previous-error
+  ))
+
+(with-eval-after-load 'lsp-ui
+  (evil-define-key 'normal lsp-ui-mode-map
+    (kbd "C-c d d") #'lsp-ui-doc-glance
+  ))
 
 (with-eval-after-load 'flyspell
   (evil-define-key 'normal org-mode-map
-    (kbd "M-w M-f") #'consult-flyspell))
+    (kbd "C-f C-w") #'consult-flyspell))
 
 (evil-define-key 'normal org-mode-map
-  (kbd "M-w i") #'consult-org-heading)
+  (kbd "C-f i") #'consult-org-heading)
 
-(define-prefix-command 'my/meta-w-prefix)
-(keymap-global-set "M-w" 'my/meta-w-prefix)   ;; M-w now opens that map
-(keymap-set my/meta-w-prefix "M-w" #'projectile-find-file)
-(keymap-set my/meta-w-prefix "M-g" #'consult-grep)
-(keymap-set my/meta-w-prefix "M-j" #'consult-project-buffer)
-(keymap-set my/meta-w-prefix "g" #'consult-grep)
-(keymap-set my/meta-w-prefix "j" #'consult-project-buffer)
-
-
-(keymap-set my/meta-w-prefix "s" #'consult-lsp-file-symbols)
-;; (keymap-set my/meta-w-prefix "i" #'consult-imenu)
 
 
 ;; Lsp-based buffers
@@ -362,6 +350,7 @@ and open Magit Status there (no file prompt)."
 ;;(keymap-set  vterm-mode "M-C-h" 'tab-bar-switch-to-prev-tab)
 
 ;; Toggling to hook my general on it
+;; So it can use evil-functions
 (message "toggling evil")
 (evil-mode 0)
 (evil-mode 1)

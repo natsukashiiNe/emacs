@@ -11,15 +11,16 @@
 ;; (load-theme 'doom-molokai)
 ;; (set-face-background 'child-frame-border "#a60000")
 
-(load-theme 'modus-operandi-tinted)
-(load-theme 'my-modus-mono)
+;; (load-theme 'modus-operandi-tinted)
+;; (load-theme 'my-modus-mono)
+(load-theme 'my-modus-mono-dark)
 
 ;; Fonts
 (set-face-attribute 'default nil :font "GoMono Nerd Font-21")
 (set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-20")
 
 ;; Transparency
-(add-to-list 'default-frame-alist '(alpha-background . 95))
+(add-to-list 'default-frame-alist '(alpha-background . 92))
 (set-frame-parameter nil 'alpha-background 92)
 
 ;; Doom modeline

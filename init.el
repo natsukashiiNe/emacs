@@ -50,6 +50,12 @@
 
 ;; TMUX
 (load-config-file "session-manager/main.el")       ;; Perps + Projectile (remaking this)
+;; (load-config-file "session-manager/daemon-persistence.el")
+;; (load-config-file "core/frame-setup.el")
+
+;; Enable daemon persistence
+;; (when (daemonp)
+;;   (daemon-persistence-mode 1))
 ;; (load-config-file "core/centaur-tabs.el")
 (load-config-file "core/vterm.el")
 (load-config-file "core/posframe.el")

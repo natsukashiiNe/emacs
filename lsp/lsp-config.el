@@ -23,6 +23,7 @@
 
   :hook ((c-mode . lsp)
          (c++-mode . lsp)
+         (c++-ts-mode . lsp)
          (java-mode . lsp)
          (python-mode . lsp)
          (prog-mode . (lambda ()

@@ -2,6 +2,13 @@
 
 (use-package corfu
   :straight t
+  :config
+  (defun my/corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if appropriate."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (corfu-mode 1)))
+  
+  (add-hook 'minibuffer-setup-hook #'my/corfu-enable-in-minibuffer)
   :custom
   (corfu-auto t)                 ;; Enable auto-completion
   (corfu-cycle t)                ;; Enable cycling through candidates
@@ -17,3 +24,21 @@
   :after corfu
   :init
   (corfu-popupinfo-mode))
+
+(use-package cape
+  :ensure t
+  :after corfu
+  :config
+  ;; Add file completion to completion-at-point-functions
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  
+  ;; Trigger file completion after certain patterns
+  (defun my/smart-cape-file ()
+    "Provide file completion after file: links or paths."
+    (when (or (looking-back "\\[\\[file:" 7)
+              (looking-back "~/" 2)
+              (looking-back "\\./" 2)
+              (looking-back "/" 1))
+      (cape-file)))
+  
+  (add-to-list 'completion-at-point-functions #'my/smart-cape-file))

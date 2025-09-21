@@ -6,7 +6,7 @@
 (setq org-use-property-inheritance t)
 (setq org-startup-indented t)        ;; Pretty indentation
 (setq org-pretty-entities t)         ;; Display symbols (like LaTeX-style)
-(setq org-ellipsis " ▾")             ;; Make collapsible sections look better
+(setq org-ellipsis " 󰞖 ")             ;; Make collapsible sections look better
 (setq org-hide-leading-stars t)      ;; Hide extra stars in headlines
 (setq org-special-ctrl-a/e t)        ;; More predictable movement in lists
 (setq org-use-speed-commands t)      ;; Speed commands (useful for large org files)
@@ -62,3 +62,20 @@
 
 ;; LATEX
 (setq org-latex-default-figure-position "H")
+
+;; BABEL
+;; BABEL CONFIGURATION (Add this section)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (shell . t)
+   (emacs-lisp . t)
+   (latex . t)))
+
+;; (setq org-confirm-babel-evaluate nil)  ; Or use the selective function above
+(setq org-babel-python-command "python3")
+(setq org-babel-default-header-args:python
+      '((:results . "output")))
+
+
+;;;

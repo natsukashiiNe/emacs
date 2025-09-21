@@ -11,6 +11,7 @@
 - [ ] moocha
 - [ ] rssfeed
 this is the formatting on save
+
 * [ ] Migrate to Emacs
 ** [ ] CS
 ** [ ] LSP

@@ -49,6 +49,9 @@
   :custom
   (flyover-virtual-line-type 'line-no-arrow)
   (flyover-show-virtual-line t)
+  (flyover-show-virtual-line nil)
+  (flyover-line-position-offset 1)
+  (flyover-show-at-eol t)
   :custom-face
   (flyover-error   ((t (:weight normal))))
   (flyover-warning ((t (:weight normal))))

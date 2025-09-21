@@ -1,5 +1,9 @@
-;; -*- lexical-binding: t; -*-
-;;; elastic --- Floating vterm with toggle functionality
+;;; elastic.el --- Child-frames control -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; Package to control child frames and theirs content.
+
+;;; Code:
 
 (defvar elastic-vterm--frame nil
   "The floating vterm frame used by elastic-vterm.
@@ -88,3 +92,4 @@ If it doesn't exist, create one using `elastic-vterm`."
     (elastic-vterm)))
 
 (provide 'elastic)
+;;; elastic.el ends here

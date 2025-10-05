@@ -3,6 +3,10 @@
 ;;; Commentary:
 ;; Unified LSP configuration for all languages
 
+;; Disable alive-lsp before lsp-mode loads
+(with-eval-after-load 'lsp-mode
+  (setq lsp-disabled-clients '(alive-lsp)))
+
 ;;; Code:
 (use-package lsp-mode
   :ensure t
@@ -21,13 +25,18 @@
   (xref-search-program 'ripgrep)
   (xref-backend-functions '(lsp--xref-backend))
 
+  (lsp-clients-common-lisp-executable "~/.roswell/bin/cl-lsp")
+  (lsp-common-lisp-load-pathes '("/home/nane/quicklisp/"))
+
   :hook ((c-mode . lsp)
          (c++-mode . lsp)
          (c++-ts-mode . lsp)
          (java-mode . lsp)
          (python-mode . lsp)
+         ;; lisp-mode is handled in lisp-dev-setup.el
          (prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode)
+                        (unless (or (derived-mode-p 'emacs-lisp-mode)
+                                    (derived-mode-p 'lisp-mode))
                           (lsp))))))
 
 

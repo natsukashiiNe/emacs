@@ -20,8 +20,8 @@
 (set-face-attribute 'variable-pitch nil :font "GoMono Nerd Font-20")
 
 ;; Transparency
-(add-to-list 'default-frame-alist '(alpha-background . 92))
-(set-frame-parameter nil 'alpha-background 92)
+(add-to-list 'default-frame-alist '(alpha-background . 100))
+(set-frame-parameter nil 'alpha-background 100)
 
 ;; Doom modeline
 (use-package all-the-icons :ensure t)

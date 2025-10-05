@@ -68,12 +68,12 @@
   "Re-enable vertico-posframe after minibuffer exits."
   (unless vertico-posframe-mode
     (vertico-posframe-mode 1)
-    (setq vertico-count 20)
+    (setq vertico-count 12)
     ))
 
 (add-hook 'minibuffer-setup-hook #'my/disable-vertico-posframe)
 
 (add-hook 'minibuffer-exit-hook #'my/enable-vertico-posframe)
 
-(provide posframe-settings)
+(provide 'posframe-settings)
 ;;; posframe-settings.el ends here

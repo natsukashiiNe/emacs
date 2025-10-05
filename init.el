@@ -58,7 +58,7 @@
 ;;   (daemon-persistence-mode 1))
 ;; (load-config-file "core/centaur-tabs.el")
 (load-config-file "core/vterm.el")
-(load-config-file "core/posframe.el")
+(load-config-file "core/posframe-settings.el")
 (load-config-file "core/tab-bar.el")
 
 (load-config-file "org/org-settings.el")  ;; Org-mode customizations
@@ -68,10 +68,11 @@
 (load-config-file "lsp/lsp-modes.el")
 
 (load-config-file "lsp/treesitter.el")
-;; (load-config-file "lsp/lsp-config.el")
-;; (load-config-file "lsp/lsp-servers.el")
+;; Load LSP configs first
 (require 'lsp-config)
 (require 'lsp-servers)
+;; Then load Lisp dev setup (replaces sbcl-setup.el)
+(load-config-file "lsp/lisp-dev-setup.el")
 
 ;; (load-config-file "lsp/test_lsp.el")
 (load-config-file "lsp/lsp-ui.el")

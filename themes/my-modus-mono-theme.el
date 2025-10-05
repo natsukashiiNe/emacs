@@ -108,6 +108,10 @@
  `(flycheck-fringe-warning ((t (:foreground ,exu-orange-accent :background ,exu-bg-orange))))
  `(flycheck-fringe-info    ((t (:foreground ,exu-blue-light    :background ,exu-bg-orange))))
 
+ ;; --- TELEGA ------------------------------------------------------------------
+`(telega-msg-heading ((t (:background ,exu-bg :weight bold))))
+`(telega-msg-inline-forward ((t (:background ,exu-bg :slant italic))))
+
  )
 ;; --- CUSTOM FACES ------------------------------------------------------------
 (defface my-hl-line-normal

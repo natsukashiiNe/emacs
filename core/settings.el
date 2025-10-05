@@ -136,11 +136,12 @@
   ;; Which buffers are popups (modes, regexes, or predicates).
   (setq popper-reference-buffers
         '(helpful-mode                      ; *Help*, *helpful: …*
+          compilation-mode
+          embark-collect-mode
           "\\*Messages\\*"
           "\\*Warnings\\*"
           "\\*Backtrace\\*"
           "\\*Compile-Log\\*"
-          compilation-mode
           "\\*grep\\*" "\\*ripgrep\\*" occur-mode xref--xref-buffer-mode
           "\\*Flycheck errors\\*"
           (lambda (buf) (with-current-buffer buf
@@ -152,7 +153,7 @@
   ;; Let popper control display
   (setq popper-display-control t)
   (setq popper-display-function #'popper-display-popup-at-bottom)
-  (setq popper-window-height 0.25)        ; number or (lambda (buf) ...)
+  (setq popper-window-height 0.37)        ; number or (lambda (buf) ...)
   ;; Keep cycling scoped to the current project (uses project.el)
   (setq popper-group-function #'popper-group-by-project)
   :config

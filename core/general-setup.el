@@ -1,50 +1,116 @@
 ;;; general-setup.el --- Keymap settings -*- lexical-binding: t; -*-
 
+
 ;;; Commentary:
 ;; Defined keymaps with =General= (global overwrite)
 ;; and evil-define for specific modes
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'perspective)
+  (require 'projectile)
+  (require 'magit)
+  (require 'avy)
+  (require 'evil))
+
 (defun my/exec-with-prefix (prefix)
+  "Execute `execute-extended-command' with PREFIX pre-inserted in minibuffer."
   (interactive)
   (minibuffer-with-setup-hook
       (lambda () (insert prefix))
     (command-execute #'execute-extended-command)))
 
-;; Requires: perspective, projectile, magit
-(defun my/persp-open-project-with-magit (persp-name project-root)
-  "Switch Perspective and Projectle.
+
+(defun my/persp-open-project (persp-name project-root &optional mode)
+  "Switch Perspective and Projectile with different opening modes.
 Switch to PERSP-NAME (creating it if needed), switch Projectile to PROJECT-ROOT
-and open Magit Status there (no file prompt)."
+and open it with MODE.
+
+MODE can be:
+  'magit  - Open magit-status (default)
+  'Dired  - Open Dired in project root
+  'find   - Open projectile-find-file prompt
+  'shell  - Open shell in project root
+  'eshell - Open eshell in project root
+  nil     - Default to magit"
   (interactive "sPerspective name: \nDProject root: ")
   (persp-mode 1)
-  (let* ((pr (file-truename (expand-file-name project-root))))
+  (let* ((pr (file-truename (expand-file-name project-root)))
+         (mode (or mode 'magit)))
     (unless (file-directory-p pr)
       (user-error "Not a directory: %s" pr))
-    ;; hop (or create) the perspective first, so buffers/windows land there
+    
+    ;; Switch to perspective first, so buffers/windows land there
     (persp-switch persp-name)
-    ;; Make sure Projectile knows about the project so -by-name won’t complain
+    
+    ;; Make sure Projectile knows about the project
     (projectile-add-known-project pr)
-    ;; Override the default action (`projectile-find-file`) just for this call
+    
+    ;; Override the default action based on mode
     (let ((projectile-switch-project-action
-           (lambda ()
-             ;; Pass DIRECTORY to avoid Magit prompting for a repo
-             (magit-status pr))))
+           (pcase mode
+             ('magit  (lambda () (magit-status pr)))
+             ('dired  (lambda () (dired pr)))
+             ('find   (lambda () (projectile-find-file)))
+             ('shell  (lambda () (projectile-run-shell)))
+             ('eshell (lambda () (projectile-run-eshell)))
+             (_       (lambda () (magit-status pr))))))
       ;; Jump straight to the project and run the action
       (projectile-switch-project-by-name pr))))
 
-(defun my/open-dotfiles ()
-  (interactive)
-  (my/persp-open-project-with-magit "dotfiles" "~/dotfiles"))
+(defmacro my/setup-quick-projects (&rest projects)
+ "Define both the config variable and all project commands.
+Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mode."
+  `(progn
+     (defvar my/quick-open-projects ',projects
+       "Quick-open projects configuration.")
+     ,@(mapcar
+        (lambda (proj)
+          (let* ((name (plist-get proj :name))
+                 (persp (plist-get proj :persp))
+                 (path (plist-get proj :path))
+                 (mode (or (plist-get proj :mode) 'magit))
+                 (func-name (intern (format "my/open-%s" name)))
+                 (mode-desc (pcase mode
+                             ('magit "magit")
+                             ('dired "dired")
+                             ('find "find-file")
+                             ('shell "shell")
+                             ('eshell "eshell")
+                             (_ "default")))
+                 (doc (format "Open %s in a new perspective (%s)." persp mode-desc)))
+            `(defun ,func-name ()
+               ,doc
+               (interactive)
+               (my/persp-open-project ,persp ,path ',mode))))
+        projects)))
 
-(defun my/open-herb ()
-  (interactive)
-  (my/persp-open-project-with-magit "herb" "~/_projects/clones/herbstluftwm"))
-
-(defun my/open-vasiniyo ()
-  (interactive)
-  (my/persp-open-project-with-magit "vasiniyo" "~/_projects/clones/vasiniyo-chat-bot"))
+(my/setup-quick-projects
+  (:name dotfiles
+   :mode magit
+   :persp "Dotfiles"
+   :path "~/dotfiles")
+  (:name herb
+   :mode magit
+   :persp "Herb"
+   :path "~/_projects/clones/herbstluftwm")
+  (:name vasiniyo
+   :mode magit
+   :persp "Vasiniyo"
+   :path "~/_projects/clones/vasiniyo-chat-bot")
+  (:name emacs-config
+   :mode magit
+   :persp "Emacs-config"
+   :path "~/.config/emacs")
+  (:name lisp-notes
+   :mode dired
+   :persp "Lisp-notes"
+   :path "~/notes/learn/lisp")
+  (:name piechat
+   :mode dired
+   :persp "Piechat"
+   :path "~/_projects/piechat"))
 
 
 (use-package general
@@ -86,13 +152,20 @@ and open Magit Status there (no file prompt)."
      (my-jump-leader
        ;; projects
        "C-e"     '(persp-switch-last :which-key "persp last")
-       "o"       '(projectile-switch-project :which-key "project [o]pen")
-       "C-w"     '(:ignore t         :which-key "persp managment")
-       "C-w C-w" '(persp-switch      :which-key "persp switch")
+       "O"       '(projectile-switch-project :which-key "project [o]pen")
+       "C-w"     '(persp-switch      :which-key "persp switch")
        ;; Specific projectiles:
-       "C-w D"   '(my/open-dotfiles       :which-key "[D]otfiles (persp+magit)")
-       "C-w H"   '(my/open-herb           :which-key "[H]erb (persp+magit)")
-       "C-w V"   '(my/open-vasiniyo       :which-key "[V]asiniyo (persp+magit)")
+       "o"       '(:ignore t :which-key "[o]pen file")
+       "o j"     '(:ignore t :which-key "open pro[j]ect")
+       "o d"     '(:ignore t :which-key "open [d]otfile")
+       "o o"     '(:ignore t :which-key "open n[o]tes/[o]rg")
+
+       "o d d"     '(my/open-dotfiles       :which-key "[D]otfiles (persp+magit)")
+       "o d e"     '(my/open-emacs-config   :which-key "[E]macs (persp+magit)")
+       "o o l"     '(my/open-lisp-notes     :which-key "[L]isp-notes (persp+dired)")
+       "o j c"     '(my/open-piechat        :which-key "[P]iechat (persp+dired)")
+       "o j h"     '(my/open-herb           :which-key "[H]erb (persp+magit)")
+       "o j v"     '(my/open-vasiniyo       :which-key "[V]asiniyo (persp+magit)")
        
        ;; consult multi-files
        "C-f"     '(consult-project-buffer :which-key "buffers")
@@ -101,6 +174,7 @@ and open Magit Status there (no file prompt)."
        "S"       '(consult-lsp-symbols    :which-key "lsp [S]ymbols")
 
        "I"     '(consult-info             :which-key "[i]nfo")
+       "D"     '(devdocs-lookup           :which-key "[d]ocs lookup")
        ;; TODO: pre-complited infos
        ;; TODO: docs
 
@@ -155,6 +229,7 @@ and open Magit Status there (no file prompt)."
        "t"   '(:ignore t :which-key "tabs managment")
        "t n"   '(tab-new-to :which-key "new tab")
        "t c"   '(tab-close :which-key "close tab")
+       "t t"   '(other-tab-prefix :which-key "other-tab-prefix")
 
        ;; "SPC g" for git
        "g"   '(:ignore t :which-key "git managment")
@@ -283,6 +358,13 @@ and open Magit Status there (no file prompt)."
     (kbd "M-k") #'compilation-previous-error
   ))
 
+(with-eval-after-load 'flyspell
+  (evil-define-key 'normal flyspell-mode-map
+    (kbd "C-f C-d") #'consult-flyspell
+    (kbd "M-j") #'flyspell-goto-next-error
+    (kbd "M-k") #'flycheck-previous-error
+  ))
+
 (with-eval-after-load 'lsp-ui
   (evil-define-key 'normal lsp-ui-mode-map
     (kbd "C-c d d") #'lsp-ui-doc-glance
@@ -295,6 +377,11 @@ and open Magit Status there (no file prompt)."
 (evil-define-key 'normal org-mode-map
   (kbd "C-f i") #'consult-org-heading)
 
+(with-eval-after-load 'devdocs
+  (evil-define-key 'normal devdocs-mode-map
+  (kbd "n") #'devdocs-go-forward
+  (kbd "p") #'devdocs-go-back
+  ))
 
 
 ;; Lsp-based buffers
@@ -368,3 +455,6 @@ and open Magit Status there (no file prompt)."
 ;; 
 ;; (evil-define-key 'insert evil-insert-state-map
 ;;   (kbd "C-h") #'evil-delete-backward-char)
+
+(provide 'general-setup)
+;;; general-setup.el ends here

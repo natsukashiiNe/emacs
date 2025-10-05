@@ -69,8 +69,12 @@
  'org-babel-load-languages
  '((python . t)
    (shell . t)
+   (lisp . t)
    (emacs-lisp . t)
    (latex . t)))
+
+(setq org-babel-lisp-eval-fn 'sly-eval)  ; Use SLY to evaluate
+(setq org-confirm-babel-evaluate nil)
 
 ;; (setq org-confirm-babel-evaluate nil)  ; Or use the selective function above
 (setq org-babel-python-command "python3")

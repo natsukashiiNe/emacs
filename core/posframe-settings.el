@@ -9,7 +9,7 @@
   :ensure t)
 
 (use-package vertico-posframe
-  :ensure t
+  :straight t
   :after vertico
   :custom
   ;; Position handler

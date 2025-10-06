@@ -12,8 +12,8 @@
 ;; (set-face-background 'child-frame-border "#a60000")
 
 ;; (load-theme 'modus-operandi-tinted)
-;; (load-theme 'my-modus-mono)
-(load-theme 'my-modus-mono-dark)
+;; (load-theme 'my-modus-mono t)
+(load-theme 'my-modus-mono-dark t)
 
 ;; Fonts
 (set-face-attribute 'default nil :font "GoMono Nerd Font-21")

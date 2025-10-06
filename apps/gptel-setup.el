@@ -23,9 +23,7 @@
 
   ))
 
-
-(gptel-make-anthropic "CLAUDE" :stream t :key
-     '"***REMOVED***")
+(gptel-make-anthropic "CLAUDE" :stream t :key  '"")
 
 
 (with-eval-after-load 'gptel

@@ -12,7 +12,9 @@
   (require 'projectile)
   (require 'magit)
   (require 'avy)
-  (require 'evil))
+  (require 'evil)
+  (require 'use-package)
+  )
 
 (defun my/exec-with-prefix (prefix)
   "Execute `execute-extended-command' with PREFIX pre-inserted in minibuffer."
@@ -87,10 +89,18 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
         projects)))
 
 (my/setup-quick-projects
+
+ ;; Configs (dotfiles
   (:name dotfiles
    :mode magit
    :persp "Dotfiles"
    :path "~/dotfiles")
+  (:name emacs-config
+   :mode magit
+   :persp "Emacs-config"
+   :path "~/.config/emacs")
+
+  ;; Projects
   (:name herb
    :mode magit
    :persp "Herb"
@@ -99,18 +109,21 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
    :mode magit
    :persp "Vasiniyo"
    :path "~/_projects/clones/vasiniyo-chat-bot")
-  (:name emacs-config
-   :mode magit
-   :persp "Emacs-config"
-   :path "~/.config/emacs")
+  (:name piechat
+   :mode dired
+   :persp "Piechat"
+   :path "~/_projects/piechat")
+
+  ;; notes / chats
   (:name lisp-notes
    :mode dired
    :persp "Lisp-notes"
    :path "~/notes/learn/lisp")
-  (:name piechat
+  (:name notes
    :mode dired
-   :persp "Piechat"
-   :path "~/_projects/piechat"))
+   :persp "notes"
+   :path "~/notes")
+  )
 
 
 (use-package general
@@ -163,6 +176,7 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
        "o d d"     '(my/open-dotfiles       :which-key "[D]otfiles (persp+magit)")
        "o d e"     '(my/open-emacs-config   :which-key "[E]macs (persp+magit)")
        "o o l"     '(my/open-lisp-notes     :which-key "[L]isp-notes (persp+dired)")
+       "o o o"     '(my/open-notes          :which-key "[N]otes (persp+dired)")
        "o j c"     '(my/open-piechat        :which-key "[P]iechat (persp+dired)")
        "o j h"     '(my/open-herb           :which-key "[H]erb (persp+magit)")
        "o j v"     '(my/open-vasiniyo       :which-key "[V]asiniyo (persp+magit)")

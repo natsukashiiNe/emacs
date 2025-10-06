@@ -25,10 +25,10 @@
 (setq straight-built-in-pseudo-packages '(org))
 
 ;; Set up MELPA, GNU, and NonGNU package repositories
-(require 'package)
-(setq package-archives
-      '(("gnu"   . "https://elpa.gnu.org/packages/")
-        ("nongnu". "https://elpa.nongnu.org/nongnu/")
-        ("melpa" . "https://melpa.org/packages/")))
+;; (require 'package)
+;; (setq package-archives
+;;       '(("gnu"   . "https://elpa.gnu.org/packages/")
+;;         ("nongnu". "https://elpa.nongnu.org/nongnu/")
+;;         ("melpa" . "https://melpa.org/packages/")))
 
-(package-initialize)
+;; (package-initialize)

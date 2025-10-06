@@ -66,6 +66,23 @@
         '("~/.config/emacs/formatters/isort-wrapper"))
   (apheleia-global-mode +1))
 
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :hook ((go-mode . lsp-deferred)
+         (go-mode . (lambda ()
+                      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                      (add-hook 'before-save-hook #'lsp-organize-imports t t))))
+  :config
+  (setq gofmt-command "goimports"))
+
+;; Configure gopls
+(with-eval-after-load 'lsp-mode
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t)
+     ("gopls.usePlaceholders" t t))))
+
 
 ;; Java (JDT LS)
 (use-package lsp-java

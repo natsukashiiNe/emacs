@@ -33,6 +33,7 @@
          (c++-ts-mode . lsp)
          (java-mode . lsp)
          (python-mode . lsp)
+         (go-ts-mode . lsp)
          ;; lisp-mode is handled in lisp-dev-setup.el
          (prog-mode . (lambda ()
                         (unless (or (derived-mode-p 'emacs-lisp-mode)

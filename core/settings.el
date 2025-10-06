@@ -41,6 +41,14 @@
   (lambda () (setq wrap-prefix
     (propertize "   " 'face 'font-lock-comment-face))))
 
+;; Then override the turn-on function to exclude specific modes
+(defun display-line-numbers--turn-on ()
+  "Turn on line numbers, but not in excluded modes."
+  (unless (or (minibufferp)
+              (derived-mode-p 'devdocs-mode)
+              (derived-mode-p 'telega-root-mode)
+              (derived-mode-p 'telega-chat-mode))
+    (display-line-numbers-mode 1)))
 
 
 (use-package hide-mode-line
@@ -111,6 +119,55 @@
 ;; Editing & Interaction
 ;; ----------------------------
 (use-package command-log-mode)
+
+(use-package xclip
+  :ensure t
+  :config
+  (when (and (not (display-graphic-p))
+             (executable-find "xclip"))
+    (xclip-mode 1)))
+
+
+
+
+;; ----------------------------
+;; Temp files managment
+;; ----------------------------
+(use-package no-littering
+  :ensure t
+  :init
+  ;; Set directories BEFORE loading no-littering
+  ;; (optional - only if you want custom locations)
+  ;; (setq no-littering-etc-directory
+  ;;       (expand-file-name "config/" user-emacs-directory))
+  ;; (setq no-littering-var-directory
+  ;;       (expand-file-name "data/" user-emacs-directory))
+  :config
+  ;; Timestamped backups
+  (setq backup-directory-alist
+        `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+  
+  (setq backup-by-copying t)
+  (setq version-control t)
+  (setq delete-old-versions t)
+  (setq kept-new-versions 20)
+  (setq kept-old-versions 5)
+  
+  ;; Add timestamps to backup filenames
+  (defun my-timestamped-backup-file-name (file)
+    (let ((backup-dir (car (cdr (car backup-directory-alist)))))
+      (concat backup-dir
+              (file-name-nondirectory file)
+              (format-time-string ".~%Y%m%d-%H%M%S~"))))
+  
+  (setq make-backup-file-name-function 'my-timestamped-backup-file-name)
+  
+  ;; Auto-save
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  
+  (setq create-lockfiles nil)
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 ;; ----------------------------
 ;; Help enhancments

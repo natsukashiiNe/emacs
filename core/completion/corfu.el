@@ -42,3 +42,11 @@
       (cape-file)))
   
   (add-to-list 'completion-at-point-functions #'my/smart-cape-file))
+
+(use-package corfu-prescient
+  :straight t
+  :after corfu
+  :config
+  (corfu-prescient-mode 1))
+
+

@@ -7,14 +7,14 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'perspective)
-  (require 'projectile)
-  (require 'magit)
-  (require 'avy)
-  (require 'evil)
-  (require 'use-package)
-  )
+;; (eval-when-compile
+;;   (require 'perspective)
+;;   (require 'projectile)
+;;   (require 'magit)
+;;   (require 'avy)
+;;   (require 'evil)
+;;   (require 'use-package)
+;;  )
 
 (defun my/exec-with-prefix (prefix)
   "Execute `execute-extended-command' with PREFIX pre-inserted in minibuffer."
@@ -59,7 +59,8 @@ MODE can be:
              ('eshell (lambda () (projectile-run-eshell)))
              (_       (lambda () (magit-status pr))))))
       ;; Jump straight to the project and run the action
-      (projectile-switch-project-by-name pr))))
+      (projectile-switch-project-by-name pr)))
+)
 
 (defmacro my/setup-quick-projects (&rest projects)
  "Define both the config variable and all project commands.
@@ -99,6 +100,10 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
    :mode magit
    :persp "Emacs-config"
    :path "~/.config/emacs")
+  (:name nvim-config
+   :mode magit
+   :persp "nvim-config"
+   :path "~/.config/nvim")
 
   ;; Projects
   (:name herb
@@ -113,6 +118,10 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
    :mode dired
    :persp "Piechat"
    :path "~/_projects/piechat")
+  (:name pyssr
+   :mode dired
+   :persp "Piechat"
+   :path "~/.config/herbstluftwm/pyssr")
 
   ;; notes / chats
   (:name lisp-notes
@@ -175,6 +184,7 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
 
        "o d d"     '(my/open-dotfiles       :which-key "[D]otfiles (persp+magit)")
        "o d e"     '(my/open-emacs-config   :which-key "[E]macs (persp+magit)")
+       "o d n"     '(my/open-nvim-config    :which-key "[N]nvim (persp+magit)")
        "o o l"     '(my/open-lisp-notes     :which-key "[L]isp-notes (persp+dired)")
        "o o o"     '(my/open-notes          :which-key "[N]otes (persp+dired)")
        "o j c"     '(my/open-piechat        :which-key "[P]iechat (persp+dired)")
@@ -343,6 +353,11 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
     (kbd "C-x 3") #'magit-section-show-level-3-all
     (kbd "C-x 4") #'magit-section-show-level-4-all)
   (evil-define-key 'normal magit-revision-mode-map
+    (kbd "C-x 1") #'magit-section-show-level-1-all
+    (kbd "C-x 2") #'magit-section-show-level-2-all
+    (kbd "C-x 3") #'magit-section-show-level-3-all
+    (kbd "C-x 4") #'magit-section-show-level-4-all)
+  (evil-define-key 'normal magit-diff-mode-map
     (kbd "C-x 1") #'magit-section-show-level-1-all
     (kbd "C-x 2") #'magit-section-show-level-2-all
     (kbd "C-x 3") #'magit-section-show-level-3-all

@@ -14,6 +14,20 @@
 (use-package forge
   :after magit)
 
+(use-package github-review
+  :ensure t
+  :after forge
+  :config
+  ;; Use the same token as forge
+  (setq github-review-auth-login-marker 'forge)
+  
+  ;; Bind to Forge for easy access
+  (define-key forge-topic-mode-map (kbd "C-c r") 'github-review-forge-pr-at-point)
+  
+  ;; Optional: view comments inline (not just top-level)
+  (setq github-review-view-comments-in-code-lines t)
+  (setq github-review-reply-inline-comments t))
+
 (use-package vdiff
   :commands (vdiff-buffers vdiff-files vdiff-receive-changes)
   :config

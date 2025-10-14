@@ -29,11 +29,11 @@
   (lsp-common-lisp-load-pathes '("/home/nane/quicklisp/"))
 
   :hook ((c-mode . lsp)
-         (c++-mode . lsp)
          (c++-ts-mode . lsp)
-         (java-mode . lsp)
-         (python-mode . lsp)
+         (python-ts-mode . lsp)
+         (bash-ts-mode . lsp)
          (go-ts-mode . lsp)
+         (java-ts-mode . lsp)
          ;; lisp-mode is handled in lisp-dev-setup.el
          (prog-mode . (lambda ()
                         (unless (or (derived-mode-p 'emacs-lisp-mode)

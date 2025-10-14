@@ -18,7 +18,8 @@
 (setq straight-use-package-by-default t)
 
 ;; Optimize package modification checks
-(setq straight-check-for-modifications '(find-when-checking))
+(setq straight-check-for-modifications '(check-on-save find-when-checking))
+
 
 ;; Ensure built-in Org is recognized correctly
 (require 'org)

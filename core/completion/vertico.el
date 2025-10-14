@@ -36,4 +36,3 @@
   (setq vertico-count 15
         vertico-resize t))
 
-

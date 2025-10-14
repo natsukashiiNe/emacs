@@ -1,5 +1,17 @@
+;;; init.el --- Startup file -*- lexical-binding: t; -*-
 
-;; ----------------------------------------------------------------------
+;;; Commentary:
+;; Emacs init file
+
+;;; Code:
+
+;; Enable native compilation if available
+(when (and (fboundp 'native-comp-available-p)
+            (native-comp-available-p))
+    (setq native-comp-deferred-compilation t
+        native-comp-async-report-warnings-errors nil))
+
+;; ------------------------------------------------------------------------------
 (setq user-emacs-directory "~/.emacs.d/")
 (defvar my-config-dir "~/.config/emacs/"
   "Directory that contains all the .el config files.")
@@ -40,13 +52,13 @@
 (load-config-file "themes/parameters.el")
 (load-config-file "core/evil.el")
 
+(load-config-file "core/completion/orderless.el")  ;; Better Matching
 (load-config-file "core/completion/avy.el")        ;; "jump anywhere"
 (load-config-file "core/completion/vertico.el")    ;; Minibuffer Navigation
 (load-config-file "core/completion/marginalia.el") ;; Metadata Display
 (load-config-file "core/completion/consult.el")    ;; Search & Navigation
 (load-config-file "core/completion/corfu.el")      ;; Auto-Completion
 (load-config-file "core/completion/embark.el")     ;; Actions & Selection
-(load-config-file "core/completion/orderless.el")  ;; Better Matching
 
 ;; TMUX
 (load-config-file "session-manager/main.el")       ;; Perps + Projectile (remaking this)

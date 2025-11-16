@@ -132,6 +132,10 @@ Each element in PROJECTS is a plist with :name, :persp, :path, and optional :mod
    :mode dired
    :persp "notes"
    :path "~/notes")
+  (:name books
+   :mode dired
+   :persp "books"
+   :path "~/_books")
   )
 
 

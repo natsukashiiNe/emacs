@@ -20,6 +20,7 @@
        (buffer-string)))
    "\n" t))
 
+
 (defun my/get-openai-key-value (key-name)
   "Retrieve the actual OpenAI key value from the GPG-encrypted YAML file."
   (string-trim
@@ -38,3 +39,28 @@
   (let* ((keys (my/openai-key-names))
          (selected (completing-read "Choose OpenAI key: " keys nil t)))
     (my/get-openai-key-value selected)))
+
+
+;; (defun my/get-secrets ()
+;;   "Gets list of secrets via my new API"
+;;   (let* (keys (call-process nil t nil (expand-file-name "~/_scripts/pysys/secret") "list" )
+;;               selected (completing-read "Choose key: " keys nil t))
+;;     ))
+;; 
+;; (defun my/get-secrets ()
+;;   "Get list of available OpenAI key names from the GPG-encrypted secrets file."
+;;   (split-string
+;;    (with-temp-buffer
+;;      (let ((exit-code
+;;             (call-process "bash" nil t nil
+;;                           (expand-file-name "~/dotfiles/_scripts/pysys/secret")
+;;                           "list")))
+;;        (unless (eq exit-code 0)
+;;          (error "Failed to get OpenAI key list"))
+;;        (buffer-string)))
+;;    "\n" t))
+;; 
+;; (my/get-secrets)
+;; 
+;; (defun my/get-key
+;;     my/get-secrets)

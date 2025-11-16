@@ -67,7 +67,7 @@
 (custom-theme-set-faces 'my-modus-mono-dark
  `(default ((t  (:background ,exu-bg))))
   ;; DEFAULT AND UI
- `(hl-line ((t  (:background unspecified :extend t))))
+ `(hl-line ((t  (:background "#1D1D3B" :extend t))))
  `(tab-bar ((t  (:foreground ,exu-accent :background ,exu-bg3 :box nil ))))
  `(tab-bar-tab ((t  (:foreground ,exu-accent :background ,exu-bg3 :box nil ))))
  `(tab-bar-tab-inactive ((t  (:foreground ,exu-grey2 :background ,exu-bg3 :box nil ))))

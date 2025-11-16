@@ -40,6 +40,10 @@
 (add-hook 'visual-line-mode-hook
   (lambda () (setq wrap-prefix
     (propertize "   " 'face 'font-lock-comment-face))))
+(setq hl-line-range-function
+      (lambda ()
+        (cons (save-excursion (vertical-motion 0) (point))
+              (save-excursion (vertical-motion 1) (point)))))
 
 ;; Then override the turn-on function to exclude specific modes
 (defun display-line-numbers--turn-on ()

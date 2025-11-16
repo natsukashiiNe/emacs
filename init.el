@@ -102,9 +102,11 @@
 
 ;; APPS
 (load-config-file "apps/decrypt-keys.el")
+(load-config-file "apps/magit.el")
+(load-config-file "lsp/docs.el")
 
 (load-config-file "apps/telega.el")
-(load-config-file "apps/magit.el")
+(load-config-file "apps/reading-tools.el")
 
 ;; 
 
@@ -123,19 +125,15 @@
 ;; ----------------------------------------------------------------------
 ;; GUI 
 ;; ----------------------------------------------------------------------
-;; (defun my/setup-gui-frame (frame)
-;;   "Apply GUI settings after a new FRAME is created."
-;;   (with-selected-frame frame
-;;     (message "⚡ Setting up GUI frame!")
-;;     (my/setup-ui)
-;;     (my/setup-theme-parameters)
+(defun my/setup-gui-frame (frame)
+  "Apply GUI settings to daemon client frames only."
+  (when (daemonp)
+    (with-selected-frame frame
+      (when (display-graphic-p frame)
+        (message "⚡ Setting up GUI frame!")
+        (set-face-attribute 'default frame :font "GoMono Nerd Font-21")
+        (set-face-attribute 'variable-pitch frame :font "GoMono Nerd Font-20")
+        (set-frame-parameter frame 'alpha-background 100)
+        (message "⚡ Setting up GUI frame [FINISHED]!")))))
 
-
-;;     (mapc #'disable-theme custom-enabled-themes)
-;;     (load-theme 'test t)
-;;     (blink-cursor-mode 0)
-;;     (set-face-background 'child-frame-border "#FF8020"))
-;;   (message "⚡ Setting up GUI frame [FINISHED]!")
-;;   )
-
-;; (add-hook 'after-make-frame-functions #'my/setup-gui-frame)
+(add-hook 'after-make-frame-functions #'my/setup-gui-frame)

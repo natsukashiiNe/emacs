@@ -63,6 +63,22 @@
 ;; LATEX
 (setq org-latex-default-figure-position "H")
 
+(use-package plantuml-mode
+  :ensure t
+  :mode "\\.plantuml\\'"
+  :config
+  (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+  (setq plantuml-default-exec-mode 'jar)
+  (setq plantuml-output-type "txt"))  ; Default to text output
+
+;; Configure org-babel for PlantUML
+(setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+
+;; Set default to ASCII art output (no file needed)
+(setq org-babel-default-header-args:plantuml
+      '((:results . "verbatim")
+        (:cmdline . "-txt")))
+
 ;; BABEL
 ;; BABEL CONFIGURATION (Add this section)
 (org-babel-do-load-languages
@@ -71,7 +87,8 @@
    (shell . t)
    (lisp . t)
    (emacs-lisp . t)
-   (latex . t)))
+   (latex . t)
+   (plantuml . t)))
 
 (setq org-babel-lisp-eval-fn 'sly-eval)  ; Use SLY to evaluate
 (setq org-confirm-babel-evaluate nil)
@@ -81,5 +98,15 @@
 (setq org-babel-default-header-args:python
       '((:results . "output")))
 
+(defun my-org-babel-ansi-colorize ()
+  "Apply ANSI color codes to the results of the current babel block."
+  (let ((beg (save-excursion
+               (goto-char (or (org-babel-where-is-src-block-result) (point-min)))
+               (forward-line)
+               (point)))
+        (end (save-excursion
+               (goto-char (or (org-babel-where-is-src-block-result) (point-min)))
+               (org-babel-result-end))))
+    (ansi-color-apply-on-region beg end)))
 
-;;;
+(add-hook 'org-babel-after-execute-hook #'my-org-babel-ansi-colorize)

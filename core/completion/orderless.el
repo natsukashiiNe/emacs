@@ -1,11 +1,11 @@
-(use-package prescient
-  :straight t
-  :config
-  (prescient-persist-mode 1)
-  (setq prescient-filter-method '(fuzzy)
-        prescient-sort-full-matches-first t
-        ;; Configure sorting
-        prescient-sort-length-enable t))
+;; (use-package prescient
+;;   :straight t
+;;   :config
+;;   (prescient-persist-mode 1)
+;;   (setq prescient-filter-method '(fuzzy)
+;;         prescient-sort-full-matches-first t
+;;         ;; Configure sorting
+;;         prescient-sort-length-enable nil))
 
 ;; Don't use orderless as completion style - let prescient handle it
 (use-package orderless
